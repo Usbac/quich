@@ -193,10 +193,16 @@ int isFunction(const char *str)
 
 int isNumber(const char *str)
 {
+    size_t len = strlen(str);
     size_t i = 0;
 
-    for (i = 0; i < strlen(str); i++) {
+    for (i = 0; i < len; i++) {
         if (i == 0 && (str[i] == '-' || str[i] == '+')) {
+            continue;
+        }
+
+        if (i != 0 && i+1 < len && str[i] == 'e' && str[i+1] == '+') {
+            i++;
             continue;
         }
 

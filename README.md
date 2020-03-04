@@ -9,7 +9,7 @@
 <h4 align="center">Just an advanced terminal calculator.</h4>
 
 <p align="center">
-<img src="https://img.shields.io/badge/version-1.1.0-blue.svg">
+<img src="https://img.shields.io/badge/version-1.1.1-blue.svg">
 <img src="https://img.shields.io/badge/license-MIT-orange.svg">
 </p>
 
