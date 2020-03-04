@@ -101,6 +101,8 @@ int read(void)
     char *operation;
     size_t len;
 
+    printf(INIT_MSG);
+
     while (1) {
         getLine("> ", buffer, sizeof(buffer));
 
@@ -110,6 +112,7 @@ int read(void)
         strncpy_(operation, buffer, len);
 
         if (!strcmp(operation, EXIT_COMMAND)) {
+            printf(BYE_MSG);
             free(operation);
             return 0;
         }

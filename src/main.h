@@ -1,8 +1,11 @@
 #ifndef MAIN_H_
 #define MAIN_H_
 #define OPEATION_BUFFER 512
-#define VERSION_MSG "QUICH v1.0.0\n"
+#define VERSION_MSG "QUICH v1.1.0\n"
 #define EXIT_COMMAND "exit"
+#define INIT_MSG "Running "VERSION_MSG \
+    "You can enter '"EXIT_COMMAND"' at any time to exit the program...\n"
+#define BYE_MSG "Bye...\n"
 #define HELP_MSG "QUICH: Just an advanced terminal calculator\n\n" \
     "USAGE: operation [options...]\n\n" \
     "OPTIONS:\n\n" \

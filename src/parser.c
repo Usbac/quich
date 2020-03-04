@@ -127,7 +127,7 @@ void push(token_t **head, token_t **first, const token_t *node)
 double calc(void)
 {
     token_t *node = operands_first;
-    double result;
+    double result = 0.0;
 
     while (node != NULL) {
         if (isOperator(node->val) ||
@@ -140,10 +140,8 @@ double calc(void)
         node = node->next;
     }
 
-    result = strToDouble(result_head->val);
-
-    if (precision >= 0) {
-        result = round_(result, precision);
+    if (result_head != NULL) {
+        result = strToDouble(result_head->val);
     }
 
     if (result_precision >= 0) {
