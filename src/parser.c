@@ -155,18 +155,22 @@ double calc(void)
 void printInvalidTokens(void)
 {
     token_t *node = operands_first;
+    size_t invalid_quantity = 0;
 
     while (node != NULL) {
         if (!isOperator(node->val) &&
             !isFunction(node->val) &&
             !isNumber(node->val)) {
             printf(TOKEN_WARNING_MSG, node->val);
+            invalid_quantity++;
         }
 
         node = node->next;
     }
 
-    printf("\n");
+    if (invalid_quantity > 0) {
+        printf("\n");
+    }
 }
 
 

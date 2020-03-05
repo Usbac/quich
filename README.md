@@ -9,7 +9,7 @@
 <h4 align="center">Just an advanced terminal calculator.</h4>
 
 <p align="center">
-<img src="https://img.shields.io/badge/version-1.1.1-blue.svg">
+<img src="https://img.shields.io/badge/version-1.1.2-blue.svg">
 <img src="https://img.shields.io/badge/license-MIT-orange.svg">
 </p>
 
@@ -70,21 +70,23 @@ $ quich 5+3
 8
 ```
 ```console
-$ quich 5+3*(-2)
+$ quich "5+3*(-2)"
 -1
 ```
 ```console
-$ quich 5+(cos(2)-2)^2
+$ quich "5+(cos(2)-2)^2"
 10.8377655357568
 ```
 ```console
-$ quich 5+(cos(2)-2)^2 -p 2
+$ quich "5+(cos(2)-2)^2" -p 2
 10.86
 ```
 ```console
-$ quich 5!+3
+$ quich "5!+3"
 123
 ```
+
+You can enter in an 'interactive mode' calling Quich without parameters.
 
 ## Contributing
 
