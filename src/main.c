@@ -8,6 +8,8 @@
 
 int verbose = 0;
 
+int flags_quantity = 0;
+
 
 void print(char *func)
 {
@@ -52,9 +54,16 @@ int mapArgs(int argc, char *argv[])
 	int i;
 
 	for (i = 0; i < argc; i++) {
+        /* Angles in degree */
+		if (!strcmp(argv[i], "-d") || !strcmp(argv[i], "--degree")) {
+			degree = 1;
+            flags_quantity++;
+		}
+
 		/* Verbose mode */
 		if (!strcmp(argv[i], "-vvv") || !strcmp(argv[i], "--verbose")) {
             verbose = 1;
+            flags_quantity++;
 		}
 
         /* Version */
@@ -69,18 +78,20 @@ int mapArgs(int argc, char *argv[])
 			return 1;
 		}
 
-		if (i+1 > argc) {
+		if (i+1 >= argc) {
 			return 0;
 		}
 
         /* Precision */
 		if (!strcmp(argv[i], "-p") || !strcmp(argv[i], "--precision")) {
             precision = (int)strToDouble(argv[++i]);
+            flags_quantity += 2;
 		}
 
         /* Result precision */
 		if (!strcmp(argv[i], "-r") || !strcmp(argv[i], "--round")) {
             result_precision = (int)strToDouble(argv[++i]);
+            flags_quantity += 2;
 		}
 
 	}
@@ -95,9 +106,9 @@ void printHelp(void)
 }
 
 
-int read(void)
+int interactive(void)
 {
-    char buffer[OPEATION_BUFFER];
+    char buffer[OPERATION_BUFFER];
     char *operation;
     size_t len;
 
@@ -127,12 +138,12 @@ int read(void)
 
 int main(int argc, char* argv[])
 {
-    if (argc == 1) {
-        return read();
-    }
-
     if (mapArgs(argc, argv)) {
         return 0;
+    }
+
+    if (flags_quantity >= argc - 1) {
+        return interactive();
     }
 
     print(argv[1]);

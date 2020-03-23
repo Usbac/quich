@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <math.h>
 #include "tokenizer.h"
 #include "helper.h"
 
@@ -53,8 +54,7 @@ enum TOKEN_TYPE getType(char ch)
     if (ch == '(' || ch == ')' ||
         ch == '+' || ch == '-' ||
         ch == '/' || ch == '*' ||
-        ch == '^' || ch == '!' ||
-        ch == '%') {
+        ch == '^' || ch == '!') {
         return Operator;
     }
 
@@ -71,17 +71,21 @@ void addToken(const char *token)
 {
     size_t token_len;
     token_t *new = calloc(3, sizeof(token_t));
+    char *token_val;
 
     if (token == NULL ||
         !strcmp(token, "")) {
         return;
     }
 
-    token_len = strlen(token) + 1;
+    getTokenVal(&token_val, token);
+
+    token_len = strlen(token_val) + 1;
 
     new->next = NULL;
     new->val = malloc_(token_len * sizeof(char));
-    strncpy_(new->val, token, token_len);
+    strncpy_(new->val, token_val, token_len);
+    free(token_val);
 
     if (token_head == NULL) {
         token_head = new;
@@ -91,6 +95,27 @@ void addToken(const char *token)
 
     token_head->next = new;
     token_head = new;
+}
+
+
+void getTokenVal(char **dest, const char *token)
+{
+    size_t token_len = strlen(token) + 1;
+
+    if (!strcmp(token, "PI")) {
+        *dest = malloc_(BUFFER * sizeof(char));
+        snprintf(*dest, BUFFER, NUMBER_FORMAT, M_PI);
+        return;
+    }
+
+    if (!strcmp(token, "E")) {
+        *dest = malloc_(BUFFER * sizeof(char));
+        snprintf(*dest, BUFFER, NUMBER_FORMAT, M_E);
+        return;
+    }
+
+    *dest = malloc_(token_len * sizeof(char));
+    strncpy_(*dest, token, token_len);
 }
 
 
@@ -143,7 +168,7 @@ void processChar(const char *str, int i)
 int isSigned(const char *str, int i)
 {
     return (str[i] == '+' || str[i] == '-') &&
-        ((i-1 >= 0 && (int)getType(str[i-1]) == Operator && str[i-1] != ')' && str[i-1] != '!' && str[i-1] != '%') ||
+        ((i-1 >= 0 && (int)getType(str[i-1]) == Operator && str[i-1] != ')' && str[i-1] != '!') ||
         i-1 < 0);
 }
 
@@ -187,7 +212,14 @@ int isFunction(const char *str)
         !strcmp(str, "sin") || !strcmp(str, "cos") ||
         !strcmp(str, "tan") || !strcmp(str, "abs") ||
         !strcmp(str, "floor") || !strcmp(str, "ceil") ||
-        !strcmp(str, "%") || !strcmp(str, "!");
+        !strcmp(str, "round") || !strcmp(str, "!");
+}
+
+
+int isTrigonometric(const char *str)
+{
+    return !strcmp(str, "sin") || !strcmp(str, "cos") ||
+        !strcmp(str, "tan");
 }
 
 
@@ -197,11 +229,13 @@ int isNumber(const char *str)
     size_t i = 0;
 
     for (i = 0; i < len; i++) {
+        // Signed number
         if (i == 0 && (str[i] == '-' || str[i] == '+')) {
             continue;
         }
 
-        if (i != 0 && i+1 < len && str[i] == 'e' && str[i+1] == '+') {
+        // Exponent number
+        if (i != 0 && i+1 < len && str[i] == 'e' && (str[i+1] == '+' || str[i+1] == '-')) {
             i++;
             continue;
         }

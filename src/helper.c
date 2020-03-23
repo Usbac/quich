@@ -26,22 +26,13 @@ int strncpy_(char *dest, const char *src, size_t n)
 }
 
 
-double abs_(double n)
-{
-    if (n < 0) {
-        return n * -1;
-    }
-
-    return n;
-}
-
-
 double round_(double n, size_t digits)
 {
     double decimals = pow(10, digits);
     n *= decimals;
-    n = (n > floor(n) + 0.5f) ?
-        ceil(n) : floor(n);
+    n = (n >= (floor(n) + 0.5f)) ?
+        ceil(n) :
+        floor(n);
 
     return n / decimals;
 }

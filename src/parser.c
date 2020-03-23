@@ -14,6 +14,8 @@ int precision = -1;
 
 int result_precision = -1;
 
+int degree = 0;
+
 
 void infixToPostfix(void)
 {
@@ -284,20 +286,32 @@ double getResult(const char *operator, double x, double y)
         return fact((int)y);
     }
 
-    if (!strcmp(operator, "%")) {
-        return y / 100;
-    }
-
     if (!strcmp(operator, "sqrt")) {
         return sqrt(y);
     }
 
     if (!strcmp(operator, "abs")) {
-        return abs_(y);
+        return fabs(y);
     }
 
     if (!strcmp(operator, "log")) {
         return log(y);
+    }
+
+    if (!strcmp(operator, "floor")) {
+        return floor(y);
+    }
+
+    if (!strcmp(operator, "ceil")) {
+        return ceil(y);
+    }
+
+    if (!strcmp(operator, "round")) {
+        return round(y);
+    }
+
+    if (degree && isTrigonometric(operator)) {
+        y = y / 180 * M_PI;
     }
 
     if (!strcmp(operator, "sin")) {
@@ -310,14 +324,6 @@ double getResult(const char *operator, double x, double y)
 
     if (!strcmp(operator, "tan")) {
         return tan(y);
-    }
-
-    if (!strcmp(operator, "floor")) {
-        return floor(y);
-    }
-
-    if (!strcmp(operator, "ceil")) {
-        return ceil(y);
     }
 
     return 0;

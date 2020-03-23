@@ -9,13 +9,17 @@
 <h4 align="center">Just an advanced terminal calculator.</h4>
 
 <p align="center">
-<img src="https://img.shields.io/badge/version-1.1.2-blue.svg">
+<img src="https://img.shields.io/badge/version-2.0-blue.svg">
 <img src="https://img.shields.io/badge/license-MIT-orange.svg">
 </p>
 
-Quich is an useful calculator for your terminal with multiple functions and options. Written in ANSI C.
+Quich is a small, fast and useful calculator for your terminal with multiple functions and options. Written in ANSI C.
+
+You can enter in `interactive mode` calling Quich without an operation.
 
 ## Options
+
+`-d` `--degree` Manage the given angles in degrees
 
 `-h` `--help` Get help and information
 
@@ -41,17 +45,19 @@ Quich is an useful calculator for your terminal with multiple functions and opti
 
 `tan`  Tangent trigonometric function
 
+`round` Round to the nearest integer value
+
 `floor`  Round down
 
 `ceil`  Round up
 
+The constants `PI` and `E` are also available.
+
 ## Install
 
-Move to your Quich folder and run the following commands:
+Move to your Quich folder and run the following command:
 
-`make`
-
-`sudo make install`
+`make; sudo make install`
 
 Now you should be able to access to Quich running `quich` in your terminal.
 
@@ -82,11 +88,12 @@ $ quich "5+(cos(2)-2)^2" -p 2
 10.86
 ```
 ```console
-$ quich "5!+3"
-123
-```
+$ quich 5+PI -vvv
+Tokens > '5' '+' '3.14159265358979'
+Posfix > 5 3.14159265358979 +
+Result > 8.14159265358979
 
-You can enter in an 'interactive mode' calling Quich without parameters.
+```
 
 ## Contributing
 

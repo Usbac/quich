@@ -4,6 +4,11 @@
 #define ERROR_STREAM_MSG "Error: Could not read from stdin\n"
 
 /**
+ * The functions defined here are general helper functions
+ * that aren't related to any specific module of this software.
+ */
+
+/**
  * Just a safer malloc function.
  * @param size the memory to allocate.
  */
@@ -17,13 +22,6 @@ void *malloc_(size_t size);
  * @return the number of characters to copy.
  */
 int strncpy_(char *dest, const char *src, size_t n);
-
-/**
- * Returns the absolute value of the giving number.
- * @param n the number.
- * @return the absolute value of the giving number.
- */
-double abs_(double n);
 
 /**
  * Returns the number rounded to the given digits.

@@ -1,7 +1,7 @@
 #ifndef MAIN_H_
 #define MAIN_H_
-#define OPEATION_BUFFER 512
-#define VERSION_MSG "QUICH v1.1.2\n"
+#define OPERATION_BUFFER 512
+#define VERSION_MSG "QUICH v2.0\n"
 #define EXIT_COMMAND "exit"
 #define INIT_MSG "Running "VERSION_MSG \
     "You can enter '"EXIT_COMMAND"' at any time to exit the program...\n"
@@ -9,6 +9,7 @@
 #define HELP_MSG "QUICH: Just an advanced terminal calculator\n\n" \
     "USAGE: operation [options...]\n\n" \
     "OPTIONS:\n\n" \
+    "-d --degree          Manage the given angles in degrees.\n" \
     "-h --help            Show help about the software.\n" \
     "-p --precision [%%i]  The number of decimals used for the numbers.\n" \
     "-r --round [%%i]      The number of decimals to round the result.\n" \
@@ -21,6 +22,7 @@
     "sin    Sine trigonometric function.\n" \
     "cos    Cosine trigonometric function.\n" \
     "tan    Tangent trigonometric function.\n" \
+    "round  Round to the nearest integer value.\n" \
     "floor  Round down.\n" \
     "ceil   Round up.\n"
 
@@ -56,7 +58,7 @@ void printHelp(void);
  * @return 0 in case of exiting successfully
  * or 1 in case of errors/exiting abruptly.
  */
-int read(void);
+int interactive(void);
 
 /**
  * Just the Main function

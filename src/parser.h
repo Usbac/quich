@@ -1,8 +1,7 @@
 #ifndef PARSER_H_
 #define PARSER_H_
-#define BUFFER 32
-#define NUMBER_FORMAT "%.15g"
 #define TOKEN_WARNING_MSG "\nWarning: Invalid token '%s'"
+#define M_PI acos(-1)
 
 token_t *operands_first;
 token_t *operands_head;
@@ -13,6 +12,8 @@ token_t *result_head;
 extern int precision;
 
 extern int result_precision;
+
+extern int degree;
 
 /**
  * Converts the tokens linked list to a postfix notation,

@@ -1,6 +1,11 @@
 #ifndef TOKENIZER_H_
 #define TOKENIZER_H_
 
+#define BUFFER 32
+#define NUMBER_FORMAT "%.15g"
+#define M_PI acos(-1)
+#define M_E 2.71828182845904523536
+
 enum TOKEN_TYPE {
     Operand,
     Operator,
@@ -46,6 +51,14 @@ enum TOKEN_TYPE getType(char ch);
 void addToken(const char *token);
 
 /**
+ * Stores the token value into the given variable.
+ * @param dest the pointer to the variable where the token
+ * value will be stored.
+ * @param token the token string.
+ */
+void getTokenVal(char **dest, const char *token);
+
+/**
  * Process the char in the given index of the string.
  * @param str the string.
  * @param i the index.
@@ -87,6 +100,22 @@ int isOperator(const char *str);
  */
 int isFunction(const char *str);
 
+/**
+ * Returns true if the given string represents a trigonometric function,
+ * false otherwise.
+ * @param str the string.
+ * @return true if the given string represents a trigonometric function,
+ * false otherwise.
+ */
+int isTrigonometric(const char *str);
+
+/**
+ * Returns true if the given string represents a number,
+ * false otherwise.
+ * @param str the string.
+ * @return true if the given string represents a number,
+ * false otherwise.
+ */
 int isNumber(const char *str);
 
 #endif /* TOKENIZER_H_ */
