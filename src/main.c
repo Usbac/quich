@@ -22,7 +22,7 @@ void print(char *func)
 
     freeTokenize();
     printf(NUMBER_FORMAT"\n", calc());
-    printInvalidTokens();
+    printWarnings();
     freeLists();
 }
 
@@ -30,10 +30,15 @@ void print(char *func)
 void printVerbose(void)
 {
 	token_t *node = token_first;
+    int is_valid = 0;
 
 	printf("Tokens > ");
 	while (node != NULL) {
-		printf("'%s' ", node->val);
+        is_valid = isValid(node->val) ||
+            !strcmp(node->val, "(") ||
+            !strcmp(node->val, ")");
+
+		printf(is_valid ? "'%s' " : "'%s'? ", node->val);
 		node = node->next;
 	}
 

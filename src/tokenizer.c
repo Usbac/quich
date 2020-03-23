@@ -167,9 +167,16 @@ void processChar(const char *str, int i)
 
 int isSigned(const char *str, int i)
 {
-    return (str[i] == '+' || str[i] == '-') &&
-        ((i-1 >= 0 && (int)getType(str[i-1]) == Operator && str[i-1] != ')' && str[i-1] != '!') ||
-        i-1 < 0);
+    if (str[i] != '+' && str[i] != '-') {
+        return 0;
+    }
+
+    if (i-1 < 0) {
+        return 1;
+    }
+
+    return (((int)getType(str[i-1]) == Operator && str[i-1] != ')' && str[i-1] != '!') &&
+        (token_head == NULL || !isNumber(token_head->val)));
 }
 
 
@@ -246,4 +253,12 @@ int isNumber(const char *str)
     }
 
     return 1;
+}
+
+
+int isValid(const char *str)
+{
+    return isOperator(str) ||
+        isFunction(str) ||
+        isNumber(str);
 }

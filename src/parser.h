@@ -1,6 +1,7 @@
 #ifndef PARSER_H_
 #define PARSER_H_
 #define TOKEN_WARNING_MSG "\nWarning: Invalid token '%s'"
+#define ZERO_DIVISION_WARNING_MSG "\nWarning: Division by zero/undefined (result may not be correct)"
 #define M_PI acos(-1)
 
 token_t *operands_first;
@@ -14,6 +15,8 @@ extern int precision;
 extern int result_precision;
 
 extern int degree;
+
+extern int division_warning;
 
 /**
  * Converts the tokens linked list to a postfix notation,
@@ -48,9 +51,9 @@ void freeResult(void);
 double calc(void);
 
 /**
- * Prints the invalid tokens.
+ * Prints all the warnings.
  */
-void printInvalidTokens(void);
+void printWarnings(void);
 
 /**
  * Frees the operands and result list.

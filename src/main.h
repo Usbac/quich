@@ -1,7 +1,7 @@
 #ifndef MAIN_H_
 #define MAIN_H_
 #define OPERATION_BUFFER 512
-#define VERSION_MSG "QUICH v2.0\n"
+#define VERSION_MSG "QUICH v2.1\n"
 #define EXIT_COMMAND "exit"
 #define INIT_MSG "Running "VERSION_MSG \
     "You can enter '"EXIT_COMMAND"' at any time to exit the program...\n"
@@ -11,7 +11,7 @@
     "OPTIONS:\n\n" \
     "-d --degree          Manage the given angles in degrees.\n" \
     "-h --help            Show help about the software.\n" \
-    "-p --precision [%%i]  The number of decimals used for the numbers.\n" \
+    "-p --precision [%%i]  The number of decimals used for the internal numbers.\n" \
     "-r --round [%%i]      The number of decimals to round the result.\n" \
     "-vvv --verbose       Display the result with details.\n" \
     "-v --version         Show the version.\n\n" \
@@ -24,7 +24,8 @@
     "tan    Tangent trigonometric function.\n" \
     "round  Round to the nearest integer value.\n" \
     "floor  Round down.\n" \
-    "ceil   Round up.\n"
+    "ceil   Round up.\n\n" \
+    "Constants 'PI' and 'E' are available.\n"
 
 
 /**

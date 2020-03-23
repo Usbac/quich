@@ -9,7 +9,7 @@
 <h4 align="center">Just an advanced terminal calculator.</h4>
 
 <p align="center">
-<img src="https://img.shields.io/badge/version-2.0-blue.svg">
+<img src="https://img.shields.io/badge/version-2.1-blue.svg">
 <img src="https://img.shields.io/badge/license-MIT-orange.svg">
 </p>
 
@@ -23,7 +23,7 @@ You can enter in `interactive mode` calling Quich without an operation.
 
 `-h` `--help` Get help and information
 
-`-p` `--precision` The number of decimals to be used for the numbers
+`-p` `--precision` The number of decimals to be used for the internal numbers
 
 `-r` `--round` The number of decimals to round the result
 
@@ -33,23 +33,25 @@ You can enter in `interactive mode` calling Quich without an operation.
 
 ## Functions
 
-`sqrt` Square root
+Syntax: `func_name(operand)`
 
-`abs`  Absolute value (positive)
+* `sqrt` Square root
 
-`log`  Natural logarithm
+* `abs` Absolute value (positive)
 
-`sin`  Sine trigonometric function
+* `log` Natural logarithm
 
-`cos`  Cosine trigonometric function
+* `sin` Sine trigonometric function
 
-`tan`  Tangent trigonometric function
+* `cos` Cosine trigonometric function
 
-`round` Round to the nearest integer value
+* `tan` Tangent trigonometric function
 
-`floor`  Round down
+* `round` Round to the nearest integer value
 
-`ceil`  Round up
+* `floor` Round down
+
+* `ceil` Round up
 
 The constants `PI` and `E` are also available.
 

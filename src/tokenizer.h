@@ -118,4 +118,13 @@ int isTrigonometric(const char *str);
  */
 int isNumber(const char *str);
 
+/**
+ * Returns true if the given string is a valid value
+ * (function, operator or number), false otherwise.
+ * @param str the string.
+ * @return Returns true if the given value is a valid value,
+ * false otherwise.
+ */
+int isValid(const char *str);
+
 #endif /* TOKENIZER_H_ */

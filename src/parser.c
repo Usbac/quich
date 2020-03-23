@@ -16,6 +16,8 @@ int result_precision = -1;
 
 int degree = 0;
 
+int division_warning = 0;
+
 
 void infixToPostfix(void)
 {
@@ -25,6 +27,7 @@ void infixToPostfix(void)
     operators_head = NULL;
     operators_first = NULL;
     result_head = NULL;
+    division_warning = 0;
 
     while (node != NULL) {
         if (!strcmp(node->val, "(")) {
@@ -154,23 +157,28 @@ double calc(void)
 }
 
 
-void printInvalidTokens(void)
+void printWarnings(void)
 {
     token_t *node = operands_first;
-    size_t invalid_quantity = 0;
+    size_t warnings_quantity = 0;
 
     while (node != NULL) {
-        if (!isOperator(node->val) &&
-            !isFunction(node->val) &&
-            !isNumber(node->val)) {
+        if (!isValid(node->val) &&
+            strcmp(node->val, "(") &&
+            strcmp(node->val, ")")) {
             printf(TOKEN_WARNING_MSG, node->val);
-            invalid_quantity++;
+            warnings_quantity++;
         }
 
         node = node->next;
     }
 
-    if (invalid_quantity > 0) {
+    if (division_warning) {
+        printf(ZERO_DIVISION_WARNING_MSG);
+        warnings_quantity++;
+    }
+
+    if (warnings_quantity > 0) {
         printf("\n");
     }
 }
@@ -275,6 +283,11 @@ double getResult(const char *operator, double x, double y)
     }
 
     if (!strcmp(operator, "/")) {
+        if (y == 0) {
+            division_warning = 1;
+            return 0;
+        }
+
         return x / y;
     }
 
