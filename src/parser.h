@@ -1,7 +1,9 @@
 #ifndef PARSER_H_
 #define PARSER_H_
 #define TOKEN_WARNING_MSG "\nWarning: Invalid token '%s'"
-#define ZERO_DIVISION_WARNING_MSG "\nWarning: Division by zero/undefined (result may not be correct)"
+#define ZERO_DIVISION_WARNING_MSG "\nWarning: Division by zero/undefined."
+#define TRIGONOMETRIC_WARNING_MSG "\nWarning: Invalid trigonometric value."
+#define INACCURATE_RESULT_MSG "\nResult may not be correct!\n"
 #define M_PI acos(-1)
 
 token_t *operands_first;

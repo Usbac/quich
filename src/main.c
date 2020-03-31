@@ -10,6 +10,8 @@ int verbose = 0;
 
 int flags_quantity = 0;
 
+int interactive_mode = 0;
+
 
 void print(char *func)
 {
@@ -68,6 +70,12 @@ int mapArgs(int argc, char *argv[])
 		/* Verbose mode */
 		if (!strcmp(argv[i], "-vvv") || !strcmp(argv[i], "--verbose")) {
             verbose = 1;
+            flags_quantity++;
+		}
+
+        /* Interactive */
+		if (!strcmp(argv[i], "-i") || !strcmp(argv[i], "--interactive")) {
+			interactive_mode = 1;
             flags_quantity++;
 		}
 
@@ -147,7 +155,7 @@ int main(int argc, char* argv[])
         return 0;
     }
 
-    if (flags_quantity >= argc - 1) {
+    if (interactive_mode || flags_quantity >= argc - 1) {
         return interactive();
     }
 

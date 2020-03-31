@@ -76,8 +76,8 @@ void getLine(const char *str, char *buffer, size_t size)
     }
 
     if (fgets(buffer, size, stdin) == NULL) {
-        printf(ERROR_MEM_MSG);
-        exit(-1);
+        printf("\r");
+        exit(0);
     }
 
     len = strlen(buffer);

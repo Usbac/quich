@@ -217,16 +217,19 @@ int isFunction(const char *str)
 {
     return !strcmp(str, "sqrt") || !strcmp(str, "log") ||
         !strcmp(str, "sin") || !strcmp(str, "cos") ||
-        !strcmp(str, "tan") || !strcmp(str, "abs") ||
+        !strcmp(str, "tan") || !strcmp(str, "asin") ||
+        !strcmp(str, "acos") || !strcmp(str, "atan") ||
         !strcmp(str, "floor") || !strcmp(str, "ceil") ||
-        !strcmp(str, "round") || !strcmp(str, "!");
+        !strcmp(str, "round") || !strcmp(str, "abs") ||
+        !strcmp(str, "!");
 }
 
 
 int isTrigonometric(const char *str)
 {
-    return !strcmp(str, "sin") || !strcmp(str, "cos") ||
-        !strcmp(str, "tan");
+    return
+        !strcmp(str, "sin") || !strcmp(str, "cos") || !strcmp(str, "tan") ||
+        !strcmp(str, "asin") || !strcmp(str, "acos") || !strcmp(str, "atan");
 }
 
 

@@ -18,6 +18,8 @@ int degree = 0;
 
 int division_warning = 0;
 
+int trigonometric_warning = 0;
+
 
 void infixToPostfix(void)
 {
@@ -28,6 +30,7 @@ void infixToPostfix(void)
     operators_first = NULL;
     result_head = NULL;
     division_warning = 0;
+    trigonometric_warning = 0;
 
     while (node != NULL) {
         if (!strcmp(node->val, "(")) {
@@ -178,8 +181,13 @@ void printWarnings(void)
         warnings_quantity++;
     }
 
+    if (trigonometric_warning) {
+        printf(TRIGONOMETRIC_WARNING_MSG);
+        warnings_quantity++;
+    }
+
     if (warnings_quantity > 0) {
-        printf("\n");
+        printf(INACCURATE_RESULT_MSG);
     }
 }
 
@@ -337,6 +345,26 @@ double getResult(const char *operator, double x, double y)
 
     if (!strcmp(operator, "tan")) {
         return tan(y);
+    }
+
+    if ((!strcmp(operator, "asin") ||
+        !strcmp(operator, "acos") ||
+        !strcmp(operator, "atan")) &&
+        (y < -1 || y > 1)) {
+        trigonometric_warning = 1;
+        return 0;
+    }
+
+    if (!strcmp(operator, "asin")) {
+        return asin(y);
+    }
+
+    if (!strcmp(operator, "acos")) {
+        return acos(y);
+    }
+
+    if (!strcmp(operator, "atan")) {
+        return atan(y);
     }
 
     return 0;
