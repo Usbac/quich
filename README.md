@@ -1,6 +1,6 @@
 <h1 align="center">
     <br>
-    <img src="https://usbac.com.ve/images/Quich_logo.svg" width=100>
+    <img src="https://usbac.com.ve/images/Quich_logo2.svg" width=100>
     <br>
     Quich
     <br>
