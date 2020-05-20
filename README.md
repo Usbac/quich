@@ -1,6 +1,6 @@
 <h1 align="center">
     <br>
-    <img src="https://usbac.com.ve/images/Quich_logo.svg" width=100>
+    <img src="https://usbac.com.ve/images/Quich_logo2.svg" width=100>
     <br>
     Quich
     <br>
@@ -14,7 +14,7 @@
 <img src="https://img.shields.io/badge/license-MIT-orange.svg">
 </p>
 
-Quich is a small, fast and useful calculator for your terminal with multiple functions and options. Written in ANSI C.
+Quich is a small, easy to use, fast and useful calculator for your terminal with multiple functions and options. Written in ANSI C.
 
 You can enter in `interactive mode` calling Quich without an operation.
 
@@ -99,6 +99,6 @@ Result > 8.14159265358979
 
 ## Contributing
 
-Any contribution or support to this project in the form of a pull request or message will be highly appreciated.
+Any contribution or support to this project in the form of a pull request or message will be highly appreciated. ❤️
 
-This project is open to changes so don't be shy :)
+This project is open to changes so don't be shy. :)
