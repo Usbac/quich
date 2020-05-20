@@ -87,3 +87,16 @@ void getLine(const char *str, char *buffer, size_t size)
 
     while (getchar() != '\n');
 }
+
+
+void appendChar(char **str, const char ch)
+{
+    size_t length = strlen(*str) + 1;
+    char *tmp = malloc_(length * sizeof(char));
+    strncpy_(tmp, *str, length);
+
+    *str = realloc(*str, length + 1 * sizeof(char));
+    *str[0] = '\0';
+    snprintf(*str, length + 2, "%s%c", tmp, ch);
+    free(tmp);
+}

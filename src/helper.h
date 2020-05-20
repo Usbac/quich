@@ -53,6 +53,13 @@ long int fact(long int n);
  */
 void getLine(const char *str, char *buffer, size_t size);
 
+/**
+ * Appends a char to the given string
+ * @param str the string.
+ * @param ch the char to append to the string.
+ */
+void appendChar(char **str, const char ch);
+
 #if defined(_WIN32) || defined(WIN32)
 /**
  * Reference to the snprintf function of the stdio library.

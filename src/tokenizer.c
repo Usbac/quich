@@ -121,9 +121,6 @@ void getTokenVal(char **dest, const char *token)
 
 void processChar(const char *str, int i)
 {
-    size_t token_len;
-    char *tmp;
-
     if (str[i] == ' ') {
         return;
     }
@@ -153,15 +150,7 @@ void processChar(const char *str, int i)
         return;
     }
 
-    token_len = strlen(current_token) + 1;
-    tmp = malloc_(token_len * sizeof(char));
-    strncpy_(tmp, current_token, token_len);
-
-    current_token = realloc(current_token, token_len + 1 * sizeof(char));
-    current_token[0] = '\0';
-    snprintf(current_token, strlen(tmp) + 2, "%s%c", tmp, str[i]);
-
-    free(tmp);
+    appendChar(&current_token, str[i]);
 }
 
 
@@ -215,13 +204,11 @@ int isOperator(const char *str)
 
 int isFunction(const char *str)
 {
-    return !strcmp(str, "sqrt") || !strcmp(str, "log") ||
-        !strcmp(str, "sin") || !strcmp(str, "cos") ||
-        !strcmp(str, "tan") || !strcmp(str, "asin") ||
-        !strcmp(str, "acos") || !strcmp(str, "atan") ||
+    return isTrigonometric(str) ||
+        (!strcmp(str, "sqrt") || !strcmp(str, "log") ||
         !strcmp(str, "floor") || !strcmp(str, "ceil") ||
         !strcmp(str, "round") || !strcmp(str, "abs") ||
-        !strcmp(str, "!");
+        !strcmp(str, "!"));
 }
 
 
