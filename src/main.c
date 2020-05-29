@@ -18,9 +18,9 @@ void print(char *func)
     tokenize(func);
     infixToPostfix();
 
-	if (verbose) {
-		printVerbose();
-	}
+    if (verbose) {
+        printVerbose();
+    }
 
     freeTokenize();
     printf(NUMBER_FORMAT"\n", calc());
@@ -31,85 +31,86 @@ void print(char *func)
 
 void printVerbose(void)
 {
-	token_t *node = token_first;
+    token_t *node = token_first;
     int is_valid = 0;
 
-	printf("Tokens > ");
-	while (node != NULL) {
+    printf("Tokens > ");
+    while (node != NULL) {
         is_valid = isValid(node->val) ||
             !strcmp(node->val, "(") ||
             !strcmp(node->val, ")");
 
-		printf(is_valid ? "'%s' " : "'%s'? ", node->val);
-		node = node->next;
-	}
+        printf(is_valid ? "'%s' " : "'%s'? ", node->val);
+        node = node->next;
+    }
 
-	node = operands_first;
+    node = operands_first;
 
-	printf("\nPosfix > ");
-	while (node != NULL) {
-		printf("%s ", node->val);
-		node = node->next;
-	}
+    printf("\nPosfix > ");
+    while (node != NULL) {
+        printf("%s ", node->val);
+        node = node->next;
+    }
 
-	printf("\nResult > ");
+    printf("\nResult > ");
 }
 
 
 int mapArgs(int argc, char *argv[])
 {
-	int i;
+    int i;
 
-	for (i = 0; i < argc; i++) {
+    for (i = 0; i < argc; i++) {
         /* Angles in degree */
-		if (!strcmp(argv[i], "-d") || !strcmp(argv[i], "--degree")) {
-			degree = 1;
+        if (!strcmp(argv[i], "-d") || !strcmp(argv[i], "--degree")) {
+            degree = 1;
             flags_quantity++;
-		}
+        }
 
-		/* Verbose mode */
-		if (!strcmp(argv[i], "-vvv") || !strcmp(argv[i], "--verbose")) {
+        /* Verbose mode */
+        if (!strcmp(argv[i], "-vvv") || !strcmp(argv[i], "--verbose")) {
             verbose = 1;
             flags_quantity++;
-		}
+        }
 
         /* Interactive */
-		if (!strcmp(argv[i], "-i") || !strcmp(argv[i], "--interactive")) {
-			interactive_mode = 1;
+        if (!strcmp(argv[i], "-i") || !strcmp(argv[i], "--interactive")) {
+            interactive_mode = 1;
             flags_quantity++;
-		}
+        }
 
         /* Version */
-		if (!strcmp(argv[i], "-v") || !strcmp(argv[i], "--version")) {
+        if (!strcmp(argv[i], "-v") || !strcmp(argv[i], "--version")) {
             printf(VERSION_MSG);
             return 1;
-		}
+        }
 
-		/* Help */
-		if (!strcmp(argv[i], "-h") || !strcmp(argv[i], "--help")) {
-			printHelp();
-			return 1;
-		}
+        /* Help */
+        if (!strcmp(argv[i], "-h") || !strcmp(argv[i], "--help")) {
+            printHelp();
+            return 1;
+        }
 
-		if (i+1 >= argc) {
-			return 0;
-		}
+        //The flags below work with values
+        if (i+1 >= argc) {
+            return 0;
+        }
 
         /* Precision */
-		if (!strcmp(argv[i], "-p") || !strcmp(argv[i], "--precision")) {
+        if (!strcmp(argv[i], "-p") || !strcmp(argv[i], "--precision")) {
             precision = (int)strToDouble(argv[++i]);
             flags_quantity += 2;
-		}
+        }
 
         /* Result precision */
-		if (!strcmp(argv[i], "-r") || !strcmp(argv[i], "--round")) {
+        if (!strcmp(argv[i], "-r") || !strcmp(argv[i], "--round")) {
             result_precision = (int)strToDouble(argv[++i]);
             flags_quantity += 2;
-		}
+        }
 
-	}
+    }
 
-	return 0;
+    return 0;
 }
 
 
