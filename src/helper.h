@@ -60,6 +60,15 @@ void getLine(const char *str, char *buffer, size_t size);
  */
 void appendChar(char **str, const char ch);
 
+/**
+ * Returns 1 if the given string is empty,
+ * 0 otherwise.
+ * @param str the string
+ * @return 1 if the given string is empty,
+ * 0 otherwise.
+ */
+int isEmpty(const char *str);
+
 #if defined(_WIN32) || defined(WIN32)
 /**
  * Reference to the snprintf function of the stdio library.

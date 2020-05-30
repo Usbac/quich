@@ -100,3 +100,9 @@ void appendChar(char **str, const char ch)
     snprintf(*str, length + 2, "%s%c", tmp, ch);
     free(tmp);
 }
+
+
+int isEmpty(const char *str)
+{
+    return !strcmp(str, "");
+}

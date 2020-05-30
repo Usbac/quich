@@ -73,8 +73,7 @@ void addToken(const char *token)
     token_t *new = calloc(3, sizeof(token_t));
     char *token_val;
 
-    if (token == NULL ||
-        !strcmp(token, "")) {
+    if (token == NULL || isEmpty(token)) {
         return;
     }
 

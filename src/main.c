@@ -7,9 +7,7 @@
 #include "parser.h"
 
 int verbose = 0;
-
 int flags_quantity = 0;
-
 int interactive_mode = 0;
 
 

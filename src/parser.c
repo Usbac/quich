@@ -11,13 +11,9 @@ token_t *operators_first, *operators_head;
 token_t *result_head;
 
 int precision = -1;
-
 int result_precision = -1;
-
 int degree = 0;
-
 int division_warning = 0;
-
 int trigonometric_warning = 0;
 
 
@@ -110,7 +106,7 @@ void push(token_t **head, token_t **first, const token_t *node)
     size_t value_len = strlen(node->val) + 1;
     token_t *new = calloc(3, sizeof(token_t));
 
-    if (node == NULL || !strcmp(node->val, "")) {
+    if (node == NULL || isEmpty(node->val)) {
         return;
     }
 

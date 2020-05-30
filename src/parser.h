@@ -13,11 +13,8 @@ token_t *operators_head;
 token_t *result_head;
 
 extern int precision;
-
 extern int result_precision;
-
 extern int degree;
-
 extern int division_warning;
 
 /**
