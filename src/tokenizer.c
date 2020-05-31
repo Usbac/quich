@@ -120,7 +120,7 @@ void getTokenVal(char **dest, const char *token)
 
 void processChar(const char *str, int i)
 {
-    if (str[i] == ' ') {
+    if (str[i] == ' ' || str[i] == ',') {
         return;
     }
 
@@ -219,6 +219,14 @@ int isTrigonometric(const char *str)
 }
 
 
+int isDataUnit(const char *str)
+{
+    return
+        !strcmp(str, "mb") || !strcmp(str, "gb") ||
+        !strcmp(str, "tb") || !strcmp(str, "pb");
+}
+
+
 int isNumber(const char *str)
 {
     size_t len = strlen(str);
@@ -249,5 +257,6 @@ int isValid(const char *str)
 {
     return isOperator(str) ||
         isFunction(str) ||
-        isNumber(str);
+        isNumber(str) ||
+        isDataUnit(str);
 }

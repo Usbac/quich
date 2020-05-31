@@ -135,7 +135,8 @@ double calc(void)
 
     while (node != NULL) {
         if (isOperator(node->val) ||
-            isFunction(node->val)) {
+            isFunction(node->val) ||
+            isDataUnit(node->val)) {
             pushResult(node);
         } else {
             push(&result_head, NULL, node);
@@ -223,7 +224,8 @@ void pushResult(token_t *node)
 
     y = popNumber(&result_head);
 
-    if (!isFunction(node->val)) {
+    if (!isFunction(node->val) &&
+        !isDataUnit(node->val)) {
         x = popNumber(&result_head);
     }
 
@@ -325,6 +327,22 @@ double getResult(const char *operator, double x, double y)
 
     if (!strcmp(operator, "round")) {
         return round(y);
+    }
+
+    if (!strcmp(operator, "mb")) {
+        return y * ONE_MB;
+    }
+
+    if (!strcmp(operator, "gb")) {
+        return y * ONE_GB;
+    }
+
+    if (!strcmp(operator, "tb")) {
+        return y * ONE_TB;
+    }
+
+    if (!strcmp(operator, "pb")) {
+        return y * ONE_PT;
     }
 
     if (degree && isTrigonometric(operator)) {

@@ -1,7 +1,7 @@
 #ifndef MAIN_H_
 #define MAIN_H_
 #define OPERATION_BUFFER 512
-#define VERSION_MSG "QUICH v2.2\n"
+#define VERSION_MSG "QUICH v2.3\n"
 #define EXIT_COMMAND "exit"
 #define INIT_MSG "Running "VERSION_MSG \
     "You can enter '"EXIT_COMMAND"' at any time to exit the program...\n"
@@ -29,7 +29,9 @@
     "round  Round to the nearest integer value.\n" \
     "floor  Round down.\n" \
     "ceil   Round up.\n\n" \
-    "Constants 'PI' and 'E' are available.\n"
+    "AVAILABLE:\n\n" \
+    "Constants 'PI' and 'E'.\n" \
+    "Units of measurement for data storage mb, gb, tb and pt (returned in kb).\n\n"
 
 
 /**

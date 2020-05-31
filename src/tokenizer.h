@@ -110,6 +110,17 @@ int isFunction(const char *str);
 int isTrigonometric(const char *str);
 
 /**
+ * Returns true if the given string represents an
+ * unit of measurement for data storage (megabyte to petabyte),
+ * false otherwise.
+ * @param str the string.
+ * @return true if the given string represents an
+ * unit of measurement for data storage,
+ * false otherwise.
+ */
+int isDataUnit(const char *str);
+
+/**
  * Returns true if the given string represents a number,
  * false otherwise.
  * @param str the string.

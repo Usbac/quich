@@ -10,13 +10,13 @@
 
 <p align="center">
 <img src="https://img.shields.io/badge/stability-stable-green.svg">
-<img src="https://img.shields.io/badge/version-2.2-blue.svg">
+<img src="https://img.shields.io/badge/version-2.3-blue.svg">
 <img src="https://img.shields.io/badge/license-MIT-orange.svg">
 </p>
 
-Quich is a small, easy to use, fast and useful calculator for your terminal with multiple functions and options. Written in ANSI C.
+Quich is a small, easy to use, fast and useful calculator for your terminal with multiple functions and options. Written in [ANSI C](wikipedia.org/wiki/ANSI_C).
 
-You can enter in `interactive mode` calling Quich without an operation.
+You can enter in `interactive mode` by calling Quich without an operation.
 
 ## Options
 
@@ -36,7 +36,7 @@ You can enter in `interactive mode` calling Quich without an operation.
 
 ## Functions
 
-Syntax: `func_name(operand)`
+Syntax: `func(operand)`
 
 * `sqrt` Square root
 
@@ -54,7 +54,11 @@ Syntax: `func_name(operand)`
 
 * `ceil` Round up
 
-The constants `PI` and `E` are also available.
+### Available
+
+The constants `PI` and `E`.
+
+The units of measurement for data storage `mb`, `gb`, `tb` and `pt` (they return the result in kb).
 
 ## Install
 
@@ -89,6 +93,10 @@ $ quich "5+(cos(2)-2)^2"
 ```console
 $ quich "5+(cos(2)-2)^2" -p 2
 10.86
+```
+```console
+$ quich 1gb+1mb
+1049600
 ```
 ```console
 $ quich 5+PI -vvv

@@ -5,6 +5,11 @@
 #define TRIGONOMETRIC_WARNING_MSG "\nWarning: Invalid trigonometric value."
 #define INACCURATE_RESULT_MSG "\nResult may not be correct!\n"
 #define M_PI acos(-1)
+/* Units of measurement for data storage (in kb) */
+#define ONE_MB 1024
+#define ONE_GB 1024 * 1024
+#define ONE_TB 1024 * 1024 * 1024
+#define ONE_PT 1024 * 1024 * 1024 * 1024
 
 token_t *operands_first;
 token_t *operands_head;

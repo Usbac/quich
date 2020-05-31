@@ -61,11 +61,11 @@ void getLine(const char *str, char *buffer, size_t size);
 void appendChar(char **str, const char ch);
 
 /**
- * Returns 1 if the given string is empty,
- * 0 otherwise.
+ * Returns true if the given string is empty,
+ * false otherwise.
  * @param str the string
- * @return 1 if the given string is empty,
- * 0 otherwise.
+ * @return true if the given string is empty,
+ * false otherwise.
  */
 int isEmpty(const char *str);
 
