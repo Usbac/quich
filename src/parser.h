@@ -11,12 +11,11 @@
 #define ONE_TB 1024 * 1024 * 1024
 #define ONE_PT 1024 * 1024 * 1024 * 1024
 
-token_t *operands_first;
-token_t *operands_head;
-token_t *operators_first;
-token_t *operators_head;
-token_t *result_head;
-
+extern token_t *operands_first;
+extern token_t *operands_head;
+extern token_t *operators_first;
+extern token_t *operators_head;
+extern token_t *result_head;
 extern int precision;
 extern int result_precision;
 extern int degree;

@@ -21,9 +21,8 @@ typedef struct token_struct {
 
 extern token_t *token_head;
 extern token_t *token_first;
-
-char *current_token;
-enum TOKEN_TYPE current_type;
+extern char *current_token;
+extern enum TOKEN_TYPE current_type;
 
 /**
  * Creates the token list based on the given string
