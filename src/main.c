@@ -11,7 +11,7 @@ int flags_quantity = 0;
 int interactive_mode = 0;
 
 
-void print(char *func)
+void printResult(char *func)
 {
     tokenize(func);
     infixToPostfix();
@@ -32,6 +32,7 @@ void printVerbose(void)
     token_t *node = token_first;
     int is_valid = 0;
 
+    /* Tokens */
     printf("Tokens > ");
     while (node != NULL) {
         is_valid = isValid(node->val) ||
@@ -44,6 +45,7 @@ void printVerbose(void)
 
     node = operands_first;
 
+    /* Postfix operation */
     printf("\nPosfix > ");
     while (node != NULL) {
         printf("%s ", node->val);
@@ -120,30 +122,36 @@ void printHelp(void)
 
 int interactive(void)
 {
+    int result;
+    printf(INIT_MSG);
+
+    while (result = processLine());
+
+    return result;
+}
+
+
+int processLine(void)
+{
     char buffer[OPERATION_BUFFER];
     char *operation;
     size_t len;
 
-    printf(INIT_MSG);
+    getLine("> ", buffer, sizeof(buffer));
 
-    while (1) {
-        getLine("> ", buffer, sizeof(buffer));
+    len = strlen(buffer);
+    operation = malloc(len + 1 * sizeof(char));
+    memset(operation, 0, len + 1);
+    strncpy_(operation, buffer, len);
 
-        len = strlen(buffer);
-        operation = malloc(len + 1 * sizeof(char));
-        memset(operation, 0, len + 1);
-        strncpy_(operation, buffer, len);
-
-        if (!strcmp(operation, EXIT_COMMAND)) {
-            printf(BYE_MSG);
-            free(operation);
-            return 0;
-        }
-
-        print(operation);
+    if (!strcmp(operation, EXIT_COMMAND)) {
+        printf(BYE_MSG);
         free(operation);
+        return 0;
     }
 
+    printResult(operation);
+    free(operation);
     return 1;
 }
 
@@ -158,6 +166,6 @@ int main(int argc, char* argv[])
         return interactive();
     }
 
-    print(argv[1]);
+    printResult(argv[1]);
     return 0;
 }

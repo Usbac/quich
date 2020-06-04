@@ -38,7 +38,7 @@
  * Prints the result of the given infix function.
  * @param str the infix function.
  */
-void print(char *func);
+void printResult(char *func);
 
 /**
  * Prints the details of the given function.
@@ -49,8 +49,8 @@ void printVerbose(void);
  * Map all the arguments.
  * @param argc the number of arguments.
  * @param argv the arguments array.
- * @return 1 if the normal program flow
- * must be stopped after this function, 0 otherwise.
+ * @return true if the normal program flow
+ * must be stopped after this function, false otherwise.
  */
 int mapArgs(int argc, char *argv[]);
 
@@ -62,10 +62,18 @@ void printHelp(void);
 /**
  * Reads operations constantly from the stdin
  * until the 'exit' word is typed.
- * @return 0 in case of exiting successfully
- * or 1 in case of errors/exiting abruptly.
+ * @return false in case of exiting successfully
+ * or true in case of errors/exiting abruptly.
  */
 int interactive(void);
+
+/**
+ * Reads a single operation from the stdin
+ * and prints its result
+ * @return false in case of exiting successfully
+ * or true in case of errors/exiting abruptly.
+ */
+int processLine(void);
 
 /**
  * Just the Main function

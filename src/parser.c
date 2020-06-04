@@ -193,7 +193,7 @@ void freeLists(void)
 {
     token_t *node, *tmp;
 
-    /* free operands list */
+    /* operands list */
     node = operands_first;
     while (node != NULL) {
         tmp = node;
@@ -202,7 +202,7 @@ void freeLists(void)
         free(tmp);
     }
 
-    /* free result */
+    /* result */
     node = result_head;
     while (node != NULL) {
         tmp = node;
