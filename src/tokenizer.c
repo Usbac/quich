@@ -33,8 +33,7 @@ void tokenize(const char *func)
 
 void freeTokenize(void)
 {
-    token_t *node = token_first,
-        *tmp;
+    token_t *tmp, *node = token_first;
 
     while (node != NULL) {
         tmp = node;

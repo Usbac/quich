@@ -28,6 +28,12 @@ extern int division_warning;
 void infixToPostfix(void);
 
 /**
+ * Resets the main variables like the warnings
+ * and linked lists.
+ */
+void resetVariables(void);
+
+/**
  * Pops one operator from the operators list and pushes it
  * into the operands list.
  */

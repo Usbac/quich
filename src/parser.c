@@ -20,13 +20,6 @@ int trigonometric_warning = 0;
 void infixToPostfix(void)
 {
     token_t *node = token_first, *tmp;
-    operands_first = NULL;
-    operands_head = NULL;
-    operators_head = NULL;
-    operators_first = NULL;
-    result_head = NULL;
-    division_warning = 0;
-    trigonometric_warning = 0;
 
     while (node != NULL) {
         if (!strcmp(node->val, "(")) {
@@ -60,6 +53,18 @@ void infixToPostfix(void)
     while (operators_head != NULL) {
         operatorToOperand();
     }
+}
+
+
+void resetVariables(void)
+{
+    operands_first = NULL;
+    operands_head = NULL;
+    operators_head = NULL;
+    operators_first = NULL;
+    result_head = NULL;
+    division_warning = 0;
+    trigonometric_warning = 0;
 }
 
 
@@ -216,7 +221,6 @@ void freeLists(void)
 void pushResult(token_t *node)
 {
     double result, x = 0, y = 0;
-    size_t len;
 
     if (result_head == NULL) {
         return;

@@ -14,6 +14,7 @@ int interactive_mode = 0;
 void printResult(char *func)
 {
     tokenize(func);
+    resetVariables();
     infixToPostfix();
 
     if (verbose) {
