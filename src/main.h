@@ -1,7 +1,7 @@
 #ifndef MAIN_H_
 #define MAIN_H_
 #define OPERATION_BUFFER 512
-#define VERSION_MSG "QUICH v2.3\n"
+#define VERSION_MSG "QUICH v2.4\n"
 #define EXIT_COMMAND "exit"
 #define INIT_MSG "Running "VERSION_MSG \
     "You can enter '"EXIT_COMMAND"' at any time to exit the program...\n"
@@ -14,6 +14,7 @@
     "-i --interactive     Force interactive mode.\n" \
     "-p --precision [%%i]  The number of decimals used for the internal numbers.\n" \
     "-r --round [%%i]      The number of decimals to round the result.\n" \
+    "-t --thousands       Display the result with thousands separators.\n" \
     "-vvv --verbose       Display the result with details.\n" \
     "-v --version         Show the version.\n\n" \
     "FUNCTIONS:\n\n" \

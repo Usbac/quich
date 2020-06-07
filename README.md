@@ -10,7 +10,7 @@
 
 <p align="center">
 <img src="https://img.shields.io/badge/stability-stable-green.svg">
-<img src="https://img.shields.io/badge/version-2.3-blue.svg">
+<img src="https://img.shields.io/badge/version-2.4-blue.svg">
 <img src="https://img.shields.io/badge/license-MIT-orange.svg">
 </p>
 
@@ -29,6 +29,8 @@ You can enter in `interactive mode` by calling Quich without an operation.
 `-p` `--precision` The number of decimals to be used for the internal numbers
 
 `-r` `--round` The number of decimals to round the result
+
+`-t` `--thousands` Display the result with thousands separators
 
 `-vvv` `--verbose` Display the result with details
 
@@ -93,6 +95,10 @@ $ quich "5+(cos(2)-2)^2"
 ```console
 $ quich "5+(cos(2)-2)^2" -p 2
 10.86
+```
+```console
+$ quich 1234567+1 -t
+1,234,568
 ```
 ```console
 $ quich 1gb+1mb

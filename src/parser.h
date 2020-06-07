@@ -54,7 +54,7 @@ void freeResult(void);
 
 /**
  * Evaluates the postfix operation in the operands list
- * and pushes the result in the result stack.
+ * and returns its result.
  * @return the result of the postfix operation.
  */
 double calc(void);

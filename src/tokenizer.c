@@ -128,7 +128,7 @@ void processChar(const char *str, int i)
     }
 
     /* Add token */
-    if (((int)getType(str[i]) != (int)current_type || current_type == Operator)) {
+    if ((int)getType(str[i]) != (int)current_type || current_type == Operator) {
         addToken(current_token);
 
         free(current_token);
@@ -162,8 +162,8 @@ int isSigned(const char *str, int i)
         return 1;
     }
 
-    return (((int)getType(str[i-1]) == Operator && str[i-1] != ')' && str[i-1] != '!') &&
-        (token_head == NULL || !isNumber(token_head->val)));
+    return ((int)getType(str[i-1]) == Operator && str[i-1] != ')' && str[i-1] != '!') &&
+        (token_head == NULL || !isNumber(token_head->val));
 }
 
 

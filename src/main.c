@@ -9,10 +9,13 @@
 int verbose = 0;
 int flags_quantity = 0;
 int interactive_mode = 0;
+int thousands_separator = 0;
 
 
 void printResult(char *func)
 {
+    char *result = malloc_(BUFFER * sizeof(char));
+
     tokenize(func);
     resetVariables();
     infixToPostfix();
@@ -22,9 +25,16 @@ void printResult(char *func)
     }
 
     freeTokenize();
-    printf(NUMBER_FORMAT"\n", calc());
+    snprintf(result, BUFFER, NUMBER_FORMAT, calc());
+
+    if (thousands_separator) {
+        addThousandsSep(result);
+    }
+
+    printf("%s\n", result);
     printWarnings();
     freeLists();
+    free(result);
 }
 
 
@@ -90,6 +100,12 @@ int mapArgs(int argc, char *argv[])
         if (!strcmp(argv[i], "-h") || !strcmp(argv[i], "--help")) {
             printHelp();
             return 1;
+        }
+
+        /* Thousands separator */
+        if (!strcmp(argv[i], "-t") || !strcmp(argv[i], "--thousands")) {
+            thousands_separator = 1;
+            flags_quantity++;
         }
 
         //The flags below work with values

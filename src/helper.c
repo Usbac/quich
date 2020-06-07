@@ -53,6 +53,55 @@ double strToDouble(char *str)
 }
 
 
+void addThousandsSep(char *str)
+{
+    int i, dot_index, char_n = 0;
+    int length = strlen(str);
+    int new_length = length;
+    char *dot, *tmp;
+
+    strReverse(&str);
+
+    dot_index = ((dot = strchr(str, '.')) != NULL) ?
+        (dot - str) + 1 :
+        0;
+
+    tmp = malloc_(1 * sizeof(char));
+    tmp[0] = '\0';
+
+    for (i = 0; i <= length; i++) {
+        if (i > dot_index) {
+            char_n++;
+        }
+
+        if (i < length && char_n > 0 && char_n % 3 == 0) {
+            appendChar(&tmp, ',');
+            new_length++;
+        }
+
+        appendChar(&tmp, str[i]);
+    }
+
+    strReverse(&tmp);
+    strncpy_(str, tmp, new_length + 1);
+    free(tmp);
+}
+
+
+void strReverse(char **str)
+{
+    char *p1 = *str;
+    char tmp;
+    char *p2 = *str + strlen(*str) - 1;
+
+    while (p1 < p2) {
+        tmp = *p1;
+        *p1++ = *p2;
+        *p2-- = tmp;
+    }
+}
+
+
 long int fact(long int n)
 {
     long int next;

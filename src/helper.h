@@ -39,6 +39,19 @@ double round_(double n, size_t digits);
 double strToDouble(char *str);
 
 /**
+ * Adds thousands separators to the given
+ * string.
+ * @param str the string.
+ */
+void addThousandsSep(char *str);
+
+/**
+ * Reverses the given string.
+ * @param str the string.
+ */
+void strReverse(char **str);
+
+/**
  * Returns the factorial of the giving number.
  * @param n the number.
  * @return the factorial of the giving number.
