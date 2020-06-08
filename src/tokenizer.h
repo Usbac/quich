@@ -5,6 +5,7 @@
 #define NUMBER_FORMAT "%.15g"
 #define M_PI acos(-1)
 #define M_E 2.71828182845904523536
+#define G 9.80665
 
 enum TOKEN_TYPE {
     Operand,
@@ -39,7 +40,7 @@ void freeTokenize(void);
 /**
  * Returns the type of the given char.
  * @param ch the char.
- * @return
+ * @return the type of the given char.
  */
 enum TOKEN_TYPE getType(char ch);
 

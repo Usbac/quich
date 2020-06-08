@@ -10,11 +10,13 @@ int verbose = 0;
 int flags_quantity = 0;
 int interactive_mode = 0;
 int thousands_separator = 0;
+char *format = NULL;
 
 
 void printResult(char *func)
 {
     char *result = malloc_(BUFFER * sizeof(char));
+    int defined_format = format != NULL && !isEmpty(format);
 
     tokenize(func);
     resetVariables();
@@ -25,7 +27,7 @@ void printResult(char *func)
     }
 
     freeTokenize();
-    snprintf(result, BUFFER, NUMBER_FORMAT, calc());
+    snprintf(result, BUFFER, defined_format ? format : NUMBER_FORMAT, calc());
 
     if (thousands_separator) {
         addThousandsSep(result);
@@ -111,6 +113,12 @@ int mapArgs(int argc, char *argv[])
         //The flags below work with values
         if (i+1 >= argc) {
             return 0;
+        }
+
+        /* Result format */
+        if (!strcmp(argv[i], "-f") || !strcmp(argv[i], "--format")) {
+            format = argv[++i];
+            flags_quantity += 2;
         }
 
         /* Precision */

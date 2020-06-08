@@ -1,7 +1,7 @@
 #ifndef MAIN_H_
 #define MAIN_H_
 #define OPERATION_BUFFER 512
-#define VERSION_MSG "QUICH v2.4\n"
+#define VERSION_MSG "QUICH v2.5\n"
 #define EXIT_COMMAND "exit"
 #define INIT_MSG "Running "VERSION_MSG \
     "You can enter '"EXIT_COMMAND"' at any time to exit the program...\n"
@@ -10,6 +10,7 @@
     "USAGE: operation [options...]\n\n" \
     "OPTIONS:\n\n" \
     "-d --degree          Manage the given angles in degrees.\n" \
+    "-f --format [%%s]     The format to display the result.\n" \
     "-h --help            Show help about the software.\n" \
     "-i --interactive     Force interactive mode.\n" \
     "-p --precision [%%i]  The number of decimals used for the internal numbers.\n" \
@@ -27,17 +28,18 @@
     "asin   Arc sine trigonometric function.\n" \
     "acos   Arc cosine trigonometric function.\n" \
     "atan   Arc tangent trigonometric function.\n" \
+    "rand   Random number between 0 and 1.\n" \
     "round  Round to the nearest integer value.\n" \
     "floor  Round down.\n" \
     "ceil   Round up.\n\n" \
     "AVAILABLE:\n\n" \
-    "Constants 'PI' and 'E'.\n" \
-    "Units of measurement for data storage mb, gb, tb and pt (returned in kb).\n\n"
+    "Constants 'PI' (3.14...), 'E' (2.71...) and 'G' (earth gravity / 9.80...).\n" \
+    "Units of measurement for data storage 'mb', 'gb', 'tb' and 'pt' (returned in kb).\n\n"
 
 
 /**
  * Prints the result of the given infix function.
- * @param str the infix function.
+ * @param func the infix function.
  */
 void printResult(char *func);
 

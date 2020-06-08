@@ -85,6 +85,12 @@ void addToken(const char *token)
     strncpy_(new->val, token_val, token_len);
     free(token_val);
 
+    /* Put zero between two adjacent parentheses */
+    if (token_head != NULL && !strcmp(token_head->val, "(") &&
+        !strcmp(token, ")")) {
+        addToken("0");
+    }
+
     if (token_head == NULL) {
         token_head = new;
         token_first = token_head;
@@ -109,6 +115,12 @@ void getTokenVal(char **dest, const char *token)
     if (!strcmp(token, "E")) {
         *dest = malloc_(BUFFER * sizeof(char));
         snprintf(*dest, BUFFER, NUMBER_FORMAT, M_E);
+        return;
+    }
+
+    if (!strcmp(token, "G")) {
+        *dest = malloc_(BUFFER * sizeof(char));
+        snprintf(*dest, BUFFER, NUMBER_FORMAT, G);
         return;
     }
 
@@ -206,7 +218,7 @@ int isFunction(const char *str)
         (!strcmp(str, "sqrt") || !strcmp(str, "log") ||
         !strcmp(str, "floor") || !strcmp(str, "ceil") ||
         !strcmp(str, "round") || !strcmp(str, "abs") ||
-        !strcmp(str, "!"));
+        !strcmp(str, "rand") || !strcmp(str, "!"));
 }
 
 

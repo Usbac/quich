@@ -16,8 +16,8 @@ void *malloc_(size_t size);
 
 /**
  * Just a safer strncpy function.
+ * @param dest the destination string.
  * @param src the source string.
- * @param ori the original string.
  * @param n the number of characters to copy
  * @return the number of characters to copy.
  */

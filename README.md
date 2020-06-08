@@ -10,7 +10,7 @@
 
 <p align="center">
 <img src="https://img.shields.io/badge/stability-stable-green.svg">
-<img src="https://img.shields.io/badge/version-2.4-blue.svg">
+<img src="https://img.shields.io/badge/version-2.5-blue.svg">
 <img src="https://img.shields.io/badge/license-MIT-orange.svg">
 </p>
 
@@ -21,6 +21,8 @@ You can enter in `interactive mode` by calling Quich without an operation.
 ## Options
 
 `-d` `--degree` Manage the given angles in degrees
+
+`-f` `--format` The format to display the result.
 
 `-h` `--help` Get help and information
 
@@ -49,6 +51,8 @@ Syntax: `func(operand)`
 * `sin`, `cos`, `tan` Sine, Cosine and Tangent trigonometric functions
 
 * `asin`, `acos`, `atan` Arc sine, Arc cosine and Arc tangent trigonometric functions
+
+* `rand` Random number between 0 and 1.
 
 * `round` Round to the nearest integer value
 
@@ -85,10 +89,6 @@ $ quich 5+3
 8
 ```
 ```console
-$ quich "5+3*(-2)"
--1
-```
-```console
 $ quich "5+(cos(2)-2)^2"
 10.8377655357568
 ```
@@ -103,6 +103,10 @@ $ quich 1234567+1 -t
 ```console
 $ quich 1gb+1mb
 1049600
+```
+```console
+$ quich 12345 -f '%.1g'
+1e+04
 ```
 ```console
 $ quich 5+PI -vvv

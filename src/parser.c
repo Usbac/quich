@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <time.h>
 #include "helper.h"
 #include "tokenizer.h"
 #include "parser.h"
@@ -331,6 +332,11 @@ double getResult(const char *operator, double x, double y)
 
     if (!strcmp(operator, "round")) {
         return round(y);
+    }
+
+    if (!strcmp(operator, "rand")) {
+        srand(time(NULL));
+        return (double) abs(rand() * 100) / RAND_MAX;
     }
 
     if (!strcmp(operator, "mb")) {
