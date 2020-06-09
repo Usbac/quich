@@ -30,7 +30,7 @@ double round_(double n, size_t digits)
 {
     double decimals = pow(10, digits);
     n *= decimals;
-    n = (n >= (floor(n) + 0.5f)) ?
+    n = (n >= floor(n) + 0.5f) ?
         ceil(n) :
         floor(n);
 
@@ -60,45 +60,30 @@ void addThousandsSep(char *str)
     int new_length = length;
     char *dot, *tmp;
 
-    strReverse(&str);
+    dot = strchr(str, '.');
 
-    dot_index = ((dot = strchr(str, '.')) != NULL) ?
-        (dot - str) + 1 :
-        0;
+    if (dot != NULL) {
+        dot_index = dot - str;
+        tmp = malloc_(length - dot_index * sizeof(char));
+        memcpy(tmp, str + dot_index, length - dot_index);
+    } else {
+        dot_index = length;
+        tmp = malloc_(1);
+        tmp[0] = '\0';
+    }
 
-    tmp = malloc_(1 * sizeof(char));
-    tmp[0] = '\0';
-
-    for (i = 0; i <= length; i++) {
-        if (i > dot_index) {
-            char_n++;
-        }
-
-        if (i < length && char_n > 0 && char_n % 3 == 0) {
-            appendChar(&tmp, ',');
+    for (i = dot_index - 1; i >= 0; i--) {
+        if (i >= 0 && char_n > 0 && char_n % 3 == 0) {
+            addChar(&tmp, ',', 1);
             new_length++;
         }
 
-        appendChar(&tmp, str[i]);
+        addChar(&tmp, str[i], 1);
+        char_n++;
     }
 
-    strReverse(&tmp);
     strncpy_(str, tmp, new_length + 1);
     free(tmp);
-}
-
-
-void strReverse(char **str)
-{
-    char *p1 = *str;
-    char tmp;
-    char *p2 = *str + strlen(*str) - 1;
-
-    while (p1 < p2) {
-        tmp = *p1;
-        *p1++ = *p2;
-        *p2-- = tmp;
-    }
 }
 
 
@@ -138,7 +123,7 @@ void getLine(const char *str, char *buffer, size_t size)
 }
 
 
-void appendChar(char **str, const char ch)
+void addChar(char **str, const char ch, int begin)
 {
     size_t length = strlen(*str) + 1;
     char *tmp = malloc_(length * sizeof(char));
@@ -146,7 +131,13 @@ void appendChar(char **str, const char ch)
 
     *str = realloc(*str, length + 1 * sizeof(char));
     *str[0] = '\0';
-    snprintf(*str, length + 2, "%s%c", tmp, ch);
+
+    if (begin) {
+        snprintf(*str, length + 2, "%c%s", ch, tmp);
+    } else {
+        snprintf(*str, length + 2, "%s%c", tmp, ch);
+    }
+
     free(tmp);
 }
 

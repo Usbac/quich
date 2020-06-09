@@ -160,7 +160,7 @@ void processChar(const char *str, int i)
         return;
     }
 
-    appendChar(&current_token, str[i]);
+    addChar(&current_token, str[i], 0);
 }
 
 

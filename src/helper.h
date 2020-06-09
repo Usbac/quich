@@ -46,12 +46,6 @@ double strToDouble(char *str);
 void addThousandsSep(char *str);
 
 /**
- * Reverses the given string.
- * @param str the string.
- */
-void strReverse(char **str);
-
-/**
  * Returns the factorial of the giving number.
  * @param n the number.
  * @return the factorial of the giving number.
@@ -67,11 +61,13 @@ long int fact(long int n);
 void getLine(const char *str, char *buffer, size_t size);
 
 /**
- * Appends a char to the given string
+ * Adds a char to the given string
  * @param str the string.
  * @param ch the char to append to the string.
+ * @param begin true for adding to the beginning, false
+ * for adding to the end.
  */
-void appendChar(char **str, const char ch);
+void addChar(char **str, const char ch, int begin);
 
 /**
  * Returns true if the given string is empty,
