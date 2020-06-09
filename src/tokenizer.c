@@ -27,20 +27,21 @@ void tokenize(list *list, const char *func)
 
 void freeList(list *list)
 {
-    token_t *tmp, *node = list->first;
+    token_t *node;
 
-    while (node != NULL) {
-        tmp = node;
-        node = node->next;
-        free(tmp->val);
-        free(tmp);
+    while ((node = list->first) != NULL) {
+        list->first = list->first->next;
+        free(node->val);
+        free(node);
     }
+
+    free(list);
 }
 
 
 void initList(list **list)
 {
-    (*list) = malloc_(sizeof(list));
+    (*list) = malloc_(sizeof(struct list_struct));
     (*list)->last = NULL;
     (*list)->first = NULL;
 }
