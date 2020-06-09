@@ -14,11 +14,13 @@
 <img src="https://img.shields.io/badge/license-MIT-orange.svg">
 </p>
 
-Quich is a small, easy to use, fast and useful calculator for your terminal with multiple functions and options. Written in [ANSI C](wikipedia.org/wiki/ANSI_C).
+Quich is a small, easy to use, fast and useful calculator for your terminal with numerous features. Written in [ANSI C](wikipedia.org/wiki/ANSI_C).
 
 You can enter in `interactive mode` by calling Quich without an operation.
 
-## Options
+## Usage
+
+### Options
 
 `-d` `--degree` Manage the given angles in degrees
 
@@ -38,7 +40,7 @@ You can enter in `interactive mode` by calling Quich without an operation.
 
 `-v` `--version` Show the application version
 
-## Functions
+### Functions
 
 Syntax: `func(operand)`
 
@@ -62,7 +64,7 @@ Syntax: `func(operand)`
 
 ### Available
 
-The constants `PI` and `E`.
+Constants `PI`, `E` and `G` (earth gravity).
 
 The units of measurement for data storage `mb`, `gb`, `tb` and `pt` (they return the result in kb).
 
@@ -72,7 +74,7 @@ Move to your Quich folder and run the following command:
 
 `make; sudo make install`
 
-Now you should be able to access to Quich running `quich` in your terminal.
+Now you should be able to access Quich by running `quich` in your terminal.
 
 ### Naming
 
@@ -120,3 +122,7 @@ Result > 8.14159265358979
 Any contribution or support to this project in the form of a pull request or message will be highly appreciated. ❤️
 
 This project is open to changes so don't be shy. :)
+
+## License
+
+Quich is open-source software licensed under the [MIT license](https://github.com/Usbac/quich/blob/master/LICENSE).
