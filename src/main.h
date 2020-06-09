@@ -2,6 +2,7 @@
 #define MAIN_H_
 #define OPERATION_BUFFER 512
 #define VERSION_MSG "QUICH v2.5\n"
+#define INPUT_LINE "> "
 #define EXIT_COMMAND "exit"
 #define INIT_MSG "Running "VERSION_MSG \
     "You can enter '"EXIT_COMMAND"' at any time to exit the program...\n"
@@ -72,14 +73,14 @@ int interactive(void);
 
 /**
  * Reads a single operation from the stdin
- * and prints its result
+ * and prints its result.
  * @return false in case of exiting successfully
  * or true in case of errors/exiting abruptly.
  */
 int processLine(void);
 
 /**
- * Just the Main function
+ * Just the Main function.
  */
 int main(int argc, char* argv[]);
 

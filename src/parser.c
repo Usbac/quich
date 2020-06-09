@@ -7,10 +7,6 @@
 #include "tokenizer.h"
 #include "parser.h"
 
-token_t *operands_first, *operands_head;
-token_t *operators_first, *operators_head;
-token_t *result_head;
-
 int precision = -1;
 int result_precision = -1;
 int degree = 0;
@@ -18,96 +14,94 @@ int division_warning = 0;
 int trigonometric_warning = 0;
 
 
-void infixToPostfix(void)
+void infixToPostfix(list *tokens, list *operands, list *operators)
 {
-    token_t *node = token_first, *tmp;
+    token_t *node = tokens->first, *tmp;
+
+    division_warning = 0;
+    trigonometric_warning = 0;
 
     while (node != NULL) {
         if (!strcmp(node->val, "(")) {
-            push(&operators_head, &operators_first, node);
+            push(&operators, node);
         } else if (!strcmp(node->val, ")")) {
-            while (operators_head != NULL && strcmp(operators_head->val, "(")) {
-                operatorToOperand();
+            while (operators->last != NULL && strcmp(operators->last->val, "(")) {
+                moveToken(&operands, &operators);
             }
 
-            if (operators_head != NULL && !strcmp(operators_head->val, "(")) {
-                tmp = operators_head;
-                operators_head = operators_head->prev;
+            if (operators->last != NULL && !strcmp(operators->last->val, "(")) {
+                tmp = operators->last;
+                operators->last = operators->last->prev;
                 free(tmp->val);
                 free(tmp);
             }
         } else if (isFunction(node->val)) {
-            push(&operators_head, &operators_first, node);
+            push(&operators, node);
         } else if (isOperator(node->val)) {
-            while (operators_head != NULL && getPrec(node->val) >= getPrec(operators_head->val)) {
-                operatorToOperand();
+            while (hasHigherEqualPrec(node, operators->last)) {
+                moveToken(&operands, &operators);
             }
 
-            push(&operators_head, &operators_first, node);
+            push(&operators, node);
         } else {
-            push(&operands_head, &operands_first, node);
+            push(&operands, node);
         }
 
         node = node->next;
     }
 
-    while (operators_head != NULL) {
-        operatorToOperand();
+    while (operators->last != NULL) {
+        moveToken(&operands, &operators);
     }
 }
 
 
-void resetVariables(void)
+int hasHigherEqualPrec(token_t *first, token_t *second)
 {
-    operands_first = NULL;
-    operands_head = NULL;
-    operators_head = NULL;
-    operators_first = NULL;
-    result_head = NULL;
-    division_warning = 0;
-    trigonometric_warning = 0;
+    return first != NULL && second != NULL && 
+        getPrec(first->val) >= getPrec(second->val);
 }
 
 
-void operatorToOperand(void)
+void moveToken(list **dest, list **src)
 {
-    size_t value_len = strlen(operators_head->val) + 1;
+    size_t value_len = strlen((*src)->last->val) + 1;
     token_t *cpy, *tmp;
 
-    if (!strcmp(operators_head->val, "(")) {
-        tmp = operators_head;
-        operators_head = operators_head->prev;
+    if (!strcmp((*src)->last->val, "(")) {
+        tmp = (*src)->last;
+        (*src)->last = (*src)->last->prev;
         free(tmp->val);
         free(tmp);
     }
 
     cpy = calloc(3, sizeof(token_t));
-    cpy->prev = operands_head;
+    cpy->prev = (*dest)->last;
     cpy->next = NULL;
     cpy->val = malloc_(value_len * sizeof(char));
-    strncpy_(cpy->val, operators_head->val, value_len);
+    strncpy_(cpy->val, (*src)->last->val, value_len);
 
-    if (operands_head != NULL) {
-        operands_head->next = cpy;
+    if ((*dest)->last != NULL) {
+        (*dest)->last->next = cpy;
     } else {
-        operands_first = cpy;
+        (*dest)->first = cpy;
     }
 
-    operands_head = cpy;
-    tmp = operators_head;
-    operators_head = operators_head->prev;
+    (*dest)->last = cpy;
+    tmp = (*src)->last;
+    (*src)->last = (*src)->last->prev;
     free(tmp->val);
     free(tmp);
 
-    if (operators_head != NULL) {
-        operators_head->next = NULL;
+    if ((*src)->last != NULL) {
+        (*src)->last->next = NULL;
     } else {
-        operators_first = NULL;
+        (*src)->first = NULL;
     }
 }
 
 
-void push(token_t **head, token_t **first, const token_t *node)
+void push(list **list, const token_t *node)
 {
     size_t value_len = strlen(node->val) + 1;
     token_t *new = calloc(3, sizeof(token_t));
@@ -121,51 +115,55 @@ void push(token_t **head, token_t **first, const token_t *node)
     new->val = malloc_(value_len);
     strncpy_(new->val, node->val, value_len);
 
-    if ((*head) == NULL) {
-        (*head) = new;
-        if (first != NULL) {
-            (*first) = new;
-        }
+    if ((*list)->last == NULL) {
+        (*list)->last = new;
+        (*list)->first = new;
     } else {
-        (*head)->next = new;
-        new->prev = (*head);
-        (*head) = new;
+        (*list)->last->next = new;
+        new->prev = (*list)->last;
+        (*list)->last = new;
     }
 }
 
 
-double calc(void)
+double calc(list *postfix)
 {
-    token_t *node = operands_first;
+    list *result_list;
+    token_t *node = postfix->first;
     double result = 0.0;
 
+    initList(&result_list);
+    
     while (node != NULL) {
         if (isOperator(node->val) ||
             isFunction(node->val) ||
             isDataUnit(node->val)) {
-            pushResult(node);
+            pushResult(result_list, node);
         } else {
-            push(&result_head, NULL, node);
+            push(&result_list, node);
         }
 
         node = node->next;
+
     }
 
-    if (result_head != NULL) {
-        result = strToDouble(result_head->val);
+    if (result_list != NULL && result_list->last != NULL) {
+        result = strToDouble(result_list->last->val);
     }
 
     if (result_precision >= 0) {
         result = round_(result, result_precision);
     }
 
+    freeList(result_list);
+
     return result;
 }
 
 
-void printWarnings(void)
+void printWarnings(list *list)
 {
-    token_t *node = operands_first;
+    token_t *node = list->first;
     size_t warnings_quantity = 0;
 
     while (node != NULL) {
@@ -195,43 +193,19 @@ void printWarnings(void)
 }
 
 
-void freeLists(void)
-{
-    token_t *node, *tmp;
-
-    /* operands list */
-    node = operands_first;
-    while (node != NULL) {
-        tmp = node;
-        node = node->next;
-        free(tmp->val);
-        free(tmp);
-    }
-
-    /* result */
-    node = result_head;
-    while (node != NULL) {
-        tmp = node;
-        node = node->prev;
-        free(tmp->val);
-        free(tmp);
-    }
-}
-
-
-void pushResult(token_t *node)
+void pushResult(list *list, token_t *node)
 {
     double result, x = 0, y = 0;
 
-    if (result_head == NULL) {
+    if (list == NULL || list->last == NULL) {
         return;
     }
 
-    y = popNumber(&result_head);
+    y = popNumber(list);
 
     if (!isFunction(node->val) &&
         !isDataUnit(node->val)) {
-        x = popNumber(&result_head);
+        x = popNumber(list);
     }
 
     if (precision >= 0) {
@@ -249,27 +223,27 @@ void pushResult(token_t *node)
     node->val = malloc_(BUFFER * sizeof(char));
     snprintf(node->val, BUFFER, NUMBER_FORMAT, result);
 
-    push(&result_head, NULL, node);
+    push(&list, node);
 }
 
 
-double popNumber(token_t **head)
+double popNumber(list *list)
 {
     token_t *tmp;
     size_t len;
     char *str;
     double result;
 
-    if ((*head) == NULL) {
+    if (list->last == NULL) {
         return 0;
     }
 
-    len = strlen((*head)->val) + 1;
+    len = strlen(list->last->val) + 1;
 
     str = malloc_(len * sizeof(char));
-    strncpy_(str, (*head)->val, len);
-    tmp = (*head);
-    (*head) = (*head)->prev;
+    strncpy_(str, list->last->val, len);
+    tmp = list->last;
+    list->last = list->last->prev;
     free(tmp->val);
     free(tmp);
 

@@ -5,35 +5,29 @@
 #include "tokenizer.h"
 #include "helper.h"
 
-token_t *token_head, *token_first;
-
 char *current_token;
 enum TOKEN_TYPE current_type;
 
 
-void tokenize(const char *func)
+void tokenize(list *list, const char *func)
 {
     size_t i;
 
-    token_head = NULL;
-    token_first = NULL;
-    current_token = NULL;
     current_type = None;
-
     current_token = malloc_(1 * sizeof(char));
     current_token[0] = '\0';
 
     for (i = 0; i <= strlen(func); i++) {
-        processChar(func, i);
+        processChar(list, func, i);
     }
 
     free(current_token);
 }
 
 
-void freeTokenize(void)
+void freeList(list *list)
 {
-    token_t *tmp, *node = token_first;
+    token_t *tmp, *node = list->first;
 
     while (node != NULL) {
         tmp = node;
@@ -41,6 +35,14 @@ void freeTokenize(void)
         free(tmp->val);
         free(tmp);
     }
+}
+
+
+void initList(list **list)
+{
+    (*list) = malloc_(sizeof(list));
+    (*list)->last = NULL;
+    (*list)->first = NULL;
 }
 
 
@@ -66,7 +68,7 @@ enum TOKEN_TYPE getType(char ch)
 }
 
 
-void addToken(const char *token)
+void addToken(list *list, const char *token)
 {
     size_t token_len;
     token_t *new = calloc(3, sizeof(token_t));
@@ -86,19 +88,19 @@ void addToken(const char *token)
     free(token_val);
 
     /* Put zero between two adjacent parentheses */
-    if (token_head != NULL && !strcmp(token_head->val, "(") &&
+    if (list->last != NULL && !strcmp(list->last->val, "(") &&
         !strcmp(token, ")")) {
-        addToken("0");
+        addToken(list, "0");
     }
 
-    if (token_head == NULL) {
-        token_head = new;
-        token_first = token_head;
+    if (list->last == NULL) {
+        list->last = new;
+        list->first = list->last;
         return;
     }
 
-    token_head->next = new;
-    token_head = new;
+    list->last->next = new;
+    list->last = new;
 }
 
 
@@ -129,9 +131,9 @@ void getTokenVal(char **dest, const char *token)
 }
 
 
-void processChar(const char *str, int i)
+void processChar(list *list, const char *str, int i)
 {
-    if (str[i] == ' ' || str[i] == ',') {
+    if (isIgnorableChar(str[i])) {
         return;
     }
 
@@ -141,7 +143,7 @@ void processChar(const char *str, int i)
 
     /* Add token */
     if ((int)getType(str[i]) != (int)current_type || current_type == Operator) {
-        addToken(current_token);
+        addToken(list, current_token);
 
         free(current_token);
         current_token = malloc_(1 * sizeof(char));
@@ -150,7 +152,7 @@ void processChar(const char *str, int i)
     }
 
     /* Allow signed numbers */
-    if (isSigned(str, i)) {
+    if (isSigned(list, str, i)) {
         current_type = Operand;
         free(current_token);
         current_token = malloc_(2 * sizeof(char));
@@ -164,7 +166,13 @@ void processChar(const char *str, int i)
 }
 
 
-int isSigned(const char *str, int i)
+int isIgnorableChar(char ch)
+{
+    return ch == ' ' || ch == ',';
+}
+
+
+int isSigned(list *list, const char *str, int i)
 {
     if (str[i] != '+' && str[i] != '-') {
         return 0;
@@ -175,7 +183,7 @@ int isSigned(const char *str, int i)
     }
 
     return ((int)getType(str[i-1]) == Operator && str[i-1] != ')' && str[i-1] != '!') &&
-        (token_head == NULL || !isNumber(token_head->val));
+        (list->last == NULL || !isNumber(list->last->val));
 }
 
 

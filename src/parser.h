@@ -11,11 +11,6 @@
 #define ONE_TB 1024 * 1024 * 1024
 #define ONE_PT 1024 * 1024 * 1024 * 1024
 
-extern token_t *operands_first;
-extern token_t *operands_head;
-extern token_t *operators_first;
-extern token_t *operators_head;
-extern token_t *result_head;
 extern int precision;
 extern int result_precision;
 extern int degree;
@@ -25,7 +20,15 @@ extern int division_warning;
  * Converts the tokens linked list to a postfix notation,
  * storing it in the operands list.
  */
-void infixToPostfix(void);
+void infixToPostfix(list *tokens, list *operands, list *operators);
+
+/**
+ * Returns true if the first token has a higher or equal
+ * precedence than the second, false otherwise.
+ * @param first the first token.
+ * @param second the second token.
+ */
+int hasHigherEqualPrec(token_t *first, token_t *second);
 
 /**
  * Resets the main variables like the warnings
@@ -34,18 +37,19 @@ void infixToPostfix(void);
 void resetVariables(void);
 
 /**
- * Pops one operator from the operators list and pushes it
- * into the operands list.
+ * Pops one token from one list and pushes it into
+ * the other.
+ * @param dest the destination list
+ * @param src the source list
  */
-void operatorToOperand(void);
+void moveToken(list **dest, list **src);
 
 /**
- * Push one token into the giving list.
- * @param head the pointer to the list head.
- * @param first the pointer to the list first element.
+ * Pushes one token into the giving list.
+ * @param list the list.
  * @param node the token to push.
  */
-void push(token_t **head, token_t **first, const token_t *node);
+void push(list **list, const token_t *node);
 
 /**
  * Frees all the result stack.
@@ -53,34 +57,31 @@ void push(token_t **head, token_t **first, const token_t *node);
 void freeResult(void);
 
 /**
- * Evaluates the postfix operation in the operands list
- * and returns its result.
- * @return the result of the postfix operation.
+ * Evaluates the given postfix operation and returns its result.
+ * @param postfix the list.
+ * @return the result of the operation.
  */
-double calc(void);
+double calc(list *postfix);
 
 /**
  * Prints all the warnings.
+ * @param list the list.
  */
-void printWarnings(void);
+void printWarnings(list *list);
 
 /**
- * Frees the operands and result list.
- */
-void freeLists(void);
-
-/**
- * Pushes the result of a node into the result stack.
+ * Pushes the result of a node into the given list.
+ * @param list the list.
  * @param node the node.
  */
-void pushResult(token_t *node);
+void pushResult(list *list, token_t *node);
 
 /**
  * Pops one node from the giving list and returns its value
  * as a double.
- * @param head the pointer to the list head.
+ * @param list the list.
  */
-double popNumber(token_t **head);
+double popNumber(list *list);
 
 /**
  * Returns the result of the operation.

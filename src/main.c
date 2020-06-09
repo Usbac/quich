@@ -1,48 +1,54 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "main.h"
 #include "helper.h"
 #include "tokenizer.h"
 #include "parser.h"
+#include "main.h"
 
 int verbose = 0;
 int flags_quantity = 0;
 int interactive_mode = 0;
 int thousands_separator = 0;
 char *format = NULL;
+list *tokens, *operands, *operators;
 
 
 void printResult(char *func)
 {
     char *result = malloc_(BUFFER * sizeof(char));
+    result[0] = '\0';
     int defined_format = format != NULL && !isEmpty(format);
 
-    tokenize(func);
-    resetVariables();
-    infixToPostfix();
+    initList(&tokens);
+    initList(&operands);
+    initList(&operators);
+
+    tokenize(tokens, func);
+    infixToPostfix(tokens, operands, operators);
 
     if (verbose) {
         printVerbose();
     }
 
-    freeTokenize();
-    snprintf(result, BUFFER, defined_format ? format : NUMBER_FORMAT, calc());
+    snprintf(result, BUFFER, defined_format ? format : NUMBER_FORMAT, calc(operands));
 
     if (thousands_separator) {
         addThousandsSep(result);
     }
 
     printf("%s\n", result);
-    printWarnings();
-    freeLists();
+    printWarnings(operands);
+    freeList(tokens);
+    freeList(operands);
+    freeList(operators);
     free(result);
 }
 
 
 void printVerbose(void)
 {
-    token_t *node = token_first;
+    token_t *node = tokens->first;
     int is_valid = 0;
 
     /* Tokens */
@@ -56,7 +62,7 @@ void printVerbose(void)
         node = node->next;
     }
 
-    node = operands_first;
+    node = operands->first;
 
     /* Postfix operation */
     printf("\nPosfix > ");
@@ -149,7 +155,6 @@ int interactive(void)
 {
     int result;
     printf(INIT_MSG);
-
     while (result = processLine());
 
     return result;
@@ -162,7 +167,7 @@ int processLine(void)
     char *operation;
     size_t len;
 
-    getLine("> ", buffer, sizeof(buffer));
+    getLine(INPUT_LINE, buffer, sizeof(buffer));
 
     len = strlen(buffer);
     operation = malloc(len + 1 * sizeof(char));

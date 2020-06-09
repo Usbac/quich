@@ -20,22 +20,33 @@ typedef struct token_struct {
     struct token_struct *next;
 } token_t;
 
-extern token_t *token_head;
-extern token_t *token_first;
+typedef struct list_struct {
+    struct token_struct *first;
+    struct token_struct *last;
+} list;
+
 extern char *current_token;
 extern enum TOKEN_TYPE current_type;
 
 /**
- * Creates the token list based on the given string
+ * Creates a list based on the given string
  * with infix notation.
+ * @param list the list.
  * @param func the infix function.
  */
-void tokenize(const char *func);
+void tokenize(list *list, const char *func);
 
 /**
- * Frees the token list.
+ * Frees the given list.
+ * @param list the list.
  */
-void freeTokenize(void);
+void freeList(list *list);
+
+/**
+ * Initializes the given list.
+ * @param list the list.
+ */
+void initList(list **list);
 
 /**
  * Returns the type of the given char.
@@ -45,10 +56,11 @@ void freeTokenize(void);
 enum TOKEN_TYPE getType(char ch);
 
 /**
- * Adds a token to the token list.
+ * Adds a token to the given list.
+ * @param list the list.
  * @param token the token string.
  */
-void addToken(const char *token);
+void addToken(list *list, const char *token);
 
 /**
  * Stores the token value into the given variable.
@@ -60,20 +72,30 @@ void getTokenVal(char **dest, const char *token);
 
 /**
  * Process the char in the given index of the string.
+ * @param list the list.
  * @param str the string.
  * @param i the index.
  */
-void processChar(const char *str, int i);
+void processChar(list *list, const char *str, int i);
+
+/**
+ * Returns true if the given char is ignorable for
+ * the operation, false otherwise.
+ * @return true if the given char is ignorable,
+ * false otherwise.
+ */
+int isIgnorableChar(char ch);
 
 /**
  * Returns true if the given index represents a negative or positive
  * symbol for a number, false otherwise.
+ * @param list the list.
  * @param str the string.
  * @param i the index.
  * @return true if the given index represents a negative or positive
  * symbol for a number, false otherwise.
  */
-int isSigned(const char *str, int i);
+int isSigned(list *list, const char *str, int i);
 
 /**
  * Returns the precedence of the given operator.
