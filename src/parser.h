@@ -17,79 +17,34 @@ extern int degree;
 extern int division_warning;
 
 /**
- * Converts the tokens linked list to a postfix notation,
- * storing it in the operands list.
+ * Adds a variable.
+ * @param key the variable key.
+ * @param val the variable value.
  */
-void infixToPostfix(list *tokens, list *operands, list *operators);
+void addVariable(const char *key, const char *val);
 
 /**
- * Returns true if the first token has a higher or equal
- * precedence than the second, false otherwise.
- * @param first the first token.
- * @param second the second token.
+ * Returns the result of the given infix operation.
+ * @param func the infix function.
+ * @param tokens the tokens list.
+ * @param operands the operands list.
+ * @param operators the operators list.
+ * @return the result of the given function.
  */
-int hasHigherEqualPrec(token_t *first, token_t *second);
-
-/**
- * Resets the main variables like the warnings
- * and linked lists.
- */
-void resetVariables(void);
-
-/**
- * Pops one token from one list and pushes it into
- * the other.
- * @param dest the destination list
- * @param src the source list
- */
-void moveToken(list **dest, list **src);
-
-/**
- * Pushes one token into the giving list.
- * @param list the list.
- * @param node the token to push.
- */
-void push(list **list, const token_t *node);
-
-/**
- * Frees all the result stack.
- */
-void freeResult(void);
-
-/**
- * Evaluates the given postfix operation and returns its result.
- * @param postfix the list.
- * @return the result of the operation.
- */
-double calc(list *postfix);
+char *getResult(const char *func,
+                struct list *tokens,
+                struct list *operands,
+                struct list *operators);
 
 /**
  * Prints all the warnings.
  * @param list the list.
  */
-void printWarnings(list *list);
+void printWarnings(const struct list *list);
 
 /**
- * Pushes the result of a node into the given list.
- * @param list the list.
- * @param node the node.
+ * Frees the variable list.
  */
-void pushResult(list *list, token_t *node);
-
-/**
- * Pops one node from the giving list and returns its value
- * as a double.
- * @param list the list.
- */
-double popNumber(list *list);
-
-/**
- * Returns the result of the operation.
- * @param operator the operator.
- * @param x the first value.
- * @param y the second value.
- * @return the result of the operation.
- */
-double getResult(const char *operator, double x, double y);
+void freeVariables(void);
 
 #endif /* PARSER_H_ */

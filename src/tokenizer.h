@@ -3,30 +3,35 @@
 
 #define BUFFER 32
 #define NUMBER_FORMAT "%.15g"
-#define M_PI acos(-1)
-#define M_E 2.71828182845904523536
-#define G 9.80665
 
 enum TOKEN_TYPE {
     Operand,
     Operator,
     Word,
+    Equal,
     None
 };
 
-typedef struct token_struct {
-    char *val;
-    struct token_struct *prev;
-    struct token_struct *next;
-} token_t;
+struct token {
+    char *value;
+    struct token *prev;
+    struct token *next;
+};
 
-typedef struct list_struct {
-    struct token_struct *first;
-    struct token_struct *last;
+struct list {
+    struct token *first;
+    struct token *last;
 } list;
+
+struct variable {
+    char *key;
+    char *value;
+    struct variable *next;
+};
 
 extern char *current_token;
 extern enum TOKEN_TYPE current_type;
+extern struct variable *variables_first;
 
 /**
  * Creates a list based on the given string
@@ -34,68 +39,19 @@ extern enum TOKEN_TYPE current_type;
  * @param list the list.
  * @param func the infix function.
  */
-void tokenize(list *list, const char *func);
+void tokenize(struct list *list, const char *func);
 
 /**
  * Frees the given list.
  * @param list the list.
  */
-void freeList(list *list);
+void freeList(struct list *list);
 
 /**
  * Initializes the given list.
  * @param list the list.
  */
-void initList(list **list);
-
-/**
- * Returns the type of the given char.
- * @param ch the char.
- * @return the type of the given char.
- */
-enum TOKEN_TYPE getType(char ch);
-
-/**
- * Adds a token to the given list.
- * @param list the list.
- * @param token the token string.
- */
-void addToken(list *list, const char *token);
-
-/**
- * Stores the token value into the given variable.
- * @param dest the pointer to the variable where the token
- * value will be stored.
- * @param token the token string.
- */
-void getTokenVal(char **dest, const char *token);
-
-/**
- * Process the char in the given index of the string.
- * @param list the list.
- * @param str the string.
- * @param i the index.
- */
-void processChar(list *list, const char *str, int i);
-
-/**
- * Returns true if the given char is ignorable for
- * the operation, false otherwise.
- * @return true if the given char is ignorable,
- * false otherwise.
- */
-int isIgnorableChar(char ch);
-
-/**
- * Returns true if the given index represents a negative or positive
- * symbol for a number, false otherwise.
- * @param list the list.
- * @param str the string.
- * @param i the index.
- * @return true if the given index represents a negative or positive
- * symbol for a number, false otherwise.
- */
-int isSigned(list *list, const char *str, int i);
+void initList(struct list **list);
 
 /**
  * Returns the precedence of the given operator.
@@ -159,5 +115,14 @@ int isNumber(const char *str);
  * false otherwise.
  */
 int isValid(const char *str);
+
+/**
+ * Returns true if the given string is an existing variable,
+ * false otherwise.
+ * @param str the string.
+ * @return Returns true if the given string is an existing variable,
+ * false otherwise.
+ */
+int isVariable(const char *str);
 
 #endif /* TOKENIZER_H_ */

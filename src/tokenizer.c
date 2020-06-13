@@ -1,53 +1,26 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <math.h>
-#include "tokenizer.h"
 #include "helper.h"
+#include "tokenizer.h"
 
+/**
+ * Current token being used
+ */
 char *current_token;
+
+/**
+ * Type of the current token being used
+ */
 enum TOKEN_TYPE current_type;
 
-
-void tokenize(list *list, const char *func)
-{
-    size_t i;
-
-    current_type = None;
-    current_token = malloc_(1 * sizeof(char));
-    current_token[0] = '\0';
-
-    for (i = 0; i <= strlen(func); i++) {
-        processChar(list, func, i);
-    }
-
-    free(current_token);
-}
+/**
+ * Pointer to the variables list
+ */
+struct variable *variables_first;
 
 
-void freeList(list *list)
-{
-    token_t *node;
-
-    while ((node = list->first) != NULL) {
-        list->first = list->first->next;
-        free(node->val);
-        free(node);
-    }
-
-    free(list);
-}
-
-
-void initList(list **list)
-{
-    (*list) = malloc_(sizeof(struct list_struct));
-    (*list)->last = NULL;
-    (*list)->first = NULL;
-}
-
-
-enum TOKEN_TYPE getType(char ch)
+static enum TOKEN_TYPE getType(const char ch)
 {
     if ((ch >= '0' && ch <= '9') || ch == '.') {
         return Operand;
@@ -60,22 +33,57 @@ enum TOKEN_TYPE getType(char ch)
         return Operator;
     }
 
-    if ((ch>='a' && ch<='z') ||
-        (ch>='A' && ch<='Z')) {
+    if ((ch >= 'a' && ch <= 'z') ||
+        (ch >= 'A' && ch <= 'Z')) {
         return Word;
+    }
+
+    if (ch == '=') {
+        return Equal;
     }
 
     return None;
 }
 
 
-void addToken(list *list, const char *token)
+static int isIgnorableChar(const char ch)
+{
+    return ch == ' ' || ch == ',';
+}
+
+
+static int isSigned(struct list *list, const char *str, const int i)
+{
+    if (str[i] != '+' && str[i] != '-') {
+        return 0;
+    }
+
+    if (i-1 < 0) {
+        return 1;
+    }
+
+    return
+        ((int)getType(str[i-1]) == Operator && str[i-1] != ')' && str[i-1] != '!') &&
+        (list->last == NULL || !isNumber(list->last->value));
+}
+
+
+static void getTokenVal(char **dest, const char *token)
+{
+    size_t token_len = strlen(token) + 1;
+
+    *dest = malloc_(token_len * sizeof(char));
+    strncpy_(*dest, token, token_len);
+}
+
+
+static void addToken(struct list *list, const char *token)
 {
     size_t token_len;
-    token_t *new = calloc(3, sizeof(token_t));
+    struct token *new = calloc(3, sizeof(struct token));
     char *token_val;
 
-    if (token == NULL || isEmpty(token)) {
+    if (isEmpty(token)) {
         return;
     }
 
@@ -84,12 +92,12 @@ void addToken(list *list, const char *token)
     token_len = strlen(token_val) + 1;
 
     new->next = NULL;
-    new->val = malloc_(token_len * sizeof(char));
-    strncpy_(new->val, token_val, token_len);
+    new->value = malloc_(token_len * sizeof(char));
+    strncpy_(new->value, token_val, token_len);
     free(token_val);
 
     /* Put zero between two adjacent parentheses */
-    if (list->last != NULL && !strcmp(list->last->val, "(") &&
+    if (list->last != NULL && !strcmp(list->last->value, "(") &&
         !strcmp(token, ")")) {
         addToken(list, "0");
     }
@@ -105,34 +113,9 @@ void addToken(list *list, const char *token)
 }
 
 
-void getTokenVal(char **dest, const char *token)
-{
-    size_t token_len = strlen(token) + 1;
-
-    if (!strcmp(token, "PI")) {
-        *dest = malloc_(BUFFER * sizeof(char));
-        snprintf(*dest, BUFFER, NUMBER_FORMAT, M_PI);
-        return;
-    }
-
-    if (!strcmp(token, "E")) {
-        *dest = malloc_(BUFFER * sizeof(char));
-        snprintf(*dest, BUFFER, NUMBER_FORMAT, M_E);
-        return;
-    }
-
-    if (!strcmp(token, "G")) {
-        *dest = malloc_(BUFFER * sizeof(char));
-        snprintf(*dest, BUFFER, NUMBER_FORMAT, G);
-        return;
-    }
-
-    *dest = malloc_(token_len * sizeof(char));
-    strncpy_(*dest, token, token_len);
-}
-
-
-void processChar(list *list, const char *str, int i)
+static void processChar(struct list *list,
+                        const char *str,
+                        const int i)
 {
     if (isIgnorableChar(str[i])) {
         return;
@@ -143,7 +126,8 @@ void processChar(list *list, const char *str, int i)
     }
 
     /* Add token */
-    if ((int)getType(str[i]) != (int)current_type || current_type == Operator) {
+    if (getType(str[i]) != current_type ||
+        current_type == Operator) {
         addToken(list, current_token);
 
         free(current_token);
@@ -167,29 +151,50 @@ void processChar(list *list, const char *str, int i)
 }
 
 
-int isIgnorableChar(char ch)
+void tokenize(struct list *list, const char *func)
 {
-    return ch == ' ' || ch == ',';
+    size_t i;
+
+    current_type = None;
+    current_token = malloc_(1 * sizeof(char));
+    current_token[0] = '\0';
+
+    for (i = 0; i <= strlen(func); i++) {
+        processChar(list, func, i);
+    }
+
+    free(current_token);
 }
 
 
-int isSigned(list *list, const char *str, int i)
+void freeList(struct list *list)
 {
-    if (str[i] != '+' && str[i] != '-') {
-        return 0;
+    struct token *node;
+
+    while ((node = list->first) != NULL) {
+        list->first = list->first->next;
+        free(node->value);
+        free(node);
     }
 
-    if (i-1 < 0) {
-        return 1;
-    }
+    free(list);
+}
 
-    return ((int)getType(str[i-1]) == Operator && str[i-1] != ')' && str[i-1] != '!') &&
-        (list->last == NULL || !isNumber(list->last->val));
+
+void initList(struct list **list)
+{
+    (*list) = malloc_(sizeof(struct list));
+    (*list)->last = NULL;
+    (*list)->first = NULL;
 }
 
 
 int getPrec(const char *str)
 {
+    if (!strcmp(str, "=")) {
+        return 5;
+    }
+
     if (!strcmp(str, "(") ||
         !strcmp(str, ")")) {
         return 4;
@@ -217,7 +222,7 @@ int isOperator(const char *str)
 {
     return !strcmp(str, "+") || !strcmp(str, "-") ||
         !strcmp(str, "*") || !strcmp(str, "/") ||
-        !strcmp(str, "^");
+        !strcmp(str, "^") || !strcmp(str, "=");
 }
 
 
@@ -234,8 +239,9 @@ int isFunction(const char *str)
 int isTrigonometric(const char *str)
 {
     return
-        !strcmp(str, "sin") || !strcmp(str, "cos") || !strcmp(str, "tan") ||
-        !strcmp(str, "asin") || !strcmp(str, "acos") || !strcmp(str, "atan");
+        !strcmp(str, "sin") || !strcmp(str, "cos") ||
+        !strcmp(str, "tan") || !strcmp(str, "asin") ||
+        !strcmp(str, "acos") || !strcmp(str, "atan");
 }
 
 
@@ -259,7 +265,8 @@ int isNumber(const char *str)
         }
 
         // Exponent number
-        if (i != 0 && i+1 < len && str[i] == 'e' && (str[i+1] == '+' || str[i+1] == '-')) {
+        if (i != 0 && i+1 < len && str[i] == 'e' &&
+            (str[i+1] == '+' || str[i+1] == '-')) {
             i++;
             continue;
         }
@@ -278,5 +285,26 @@ int isValid(const char *str)
     return isOperator(str) ||
         isFunction(str) ||
         isNumber(str) ||
-        isDataUnit(str);
+        isDataUnit(str) ||
+        isVariable(str);
+}
+
+
+int isVariable(const char *str)
+{
+    if (variables_first == NULL || str == NULL) {
+        return 0;
+    }
+
+    struct variable *node = variables_first;
+
+    while (node != NULL) {
+        if (!strcmp(str, node->key)) {
+            return 1;
+        }
+
+        node = node->next;
+    }
+
+    return 0;
 }

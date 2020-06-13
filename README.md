@@ -10,7 +10,7 @@
 
 <p align="center">
 <img src="https://img.shields.io/badge/stability-stable-green.svg">
-<img src="https://img.shields.io/badge/version-2.5-blue.svg">
+<img src="https://img.shields.io/badge/version-2.6-blue.svg">
 <img src="https://img.shields.io/badge/license-MIT-orange.svg">
 </p>
 
@@ -62,9 +62,15 @@ Syntax: `func(operand)`
 
 * `ceil` Round up
 
+### Variables
+
+For defining a variable just write an equal operator between its name and value. Like this `a=4+20`.
+
+_Variables work by reference, meaning that if `a` is equal to `b`, changing the value of `b` will also change the value of `a`._
+
 ### Available
 
-Constants `PI`, `E` and `G` (earth gravity).
+Values `PI`, `E` and `G` (earth gravity).
 
 The units of measurement for data storage `mb`, `gb`, `tb` and `pt` (they return the result in kb).
 
@@ -89,6 +95,10 @@ Now you will be able to access Quich with the `calc` command.
 ```console
 $ quich 5+3
 8
+```
+```console
+$ quich "a=20;a+1"
+21
 ```
 ```console
 $ quich "5+(cos(2)-2)^2"

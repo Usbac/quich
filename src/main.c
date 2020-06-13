@@ -1,64 +1,51 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <math.h>
 #include "helper.h"
 #include "tokenizer.h"
 #include "parser.h"
 #include "main.h"
 
+/**
+ * Verbose mode or not.
+ */
 int verbose = 0;
+
+/**
+ * Number of flags used.
+ */
 int flags_quantity = 0;
+
+/**
+ * Interactive mode or not.
+ */
 int interactive_mode = 0;
+
+/**
+ * Using thousands separator or not.
+ */
 int thousands_separator = 0;
+
+/**
+ * Format to display the results.
+ */
 char *format = NULL;
-list *tokens, *operands, *operators;
 
 
-void printResult(char *func)
+static void printVerbose(struct list *tokens, struct list *operands)
 {
-    char *result = malloc_(BUFFER * sizeof(char));
-    result[0] = '\0';
-    int defined_format = format != NULL && !isEmpty(format);
-
-    initList(&tokens);
-    initList(&operands);
-    initList(&operators);
-
-    tokenize(tokens, func);
-    infixToPostfix(tokens, operands, operators);
-
-    if (verbose) {
-        printVerbose();
-    }
-
-    snprintf(result, BUFFER, defined_format ? format : NUMBER_FORMAT, calc(operands));
-
-    if (thousands_separator) {
-        addThousandsSep(result);
-    }
-
-    printf("%s\n", result);
-    printWarnings(operands);
-    freeList(tokens);
-    freeList(operands);
-    freeList(operators);
-    free(result);
-}
-
-
-void printVerbose(void)
-{
-    token_t *node = tokens->first;
+    struct token *node = tokens->first;
     int is_valid = 0;
 
     /* Tokens */
     printf("Tokens > ");
     while (node != NULL) {
-        is_valid = isValid(node->val) ||
-            !strcmp(node->val, "(") ||
-            !strcmp(node->val, ")");
+        is_valid = isValid(node->value) ||
+            !strcmp(node->value, "(") ||
+            !strcmp(node->value, ")");
 
-        printf(is_valid ? "'%s' " : "'%s'? ", node->val);
+        printf(is_valid ? "'%s' " : "'%s'? ", node->value);
         node = node->next;
     }
 
@@ -67,7 +54,7 @@ void printVerbose(void)
     /* Postfix operation */
     printf("\nPosfix > ");
     while (node != NULL) {
-        printf("%s ", node->val);
+        printf("%s ", node->value);
         node = node->next;
     }
 
@@ -75,7 +62,65 @@ void printVerbose(void)
 }
 
 
-int mapArgs(int argc, char *argv[])
+static void printResult(char *func)
+{
+    struct list *tokens, *operands, *operators;
+    char *result;
+
+    initList(&tokens);
+    initList(&operands);
+    initList(&operators);
+
+    result = getResult(func, tokens, operands, operators);
+
+    if (!isEmpty(format)) {
+        snprintf(result, BUFFER, format, strToDouble(result));
+    }
+
+    if (verbose) {
+        printVerbose(tokens, operands);
+    }
+
+    if (thousands_separator) {
+        addThousandsSep(result);
+    }
+
+    if (result != NULL) {
+        printf("%s\n", result);
+        free(result);
+    } else if (verbose) {
+        printf(DEFINITION_MSG);
+    }
+
+    printWarnings(operands);
+    freeList(tokens);
+    freeList(operands);
+    freeList(operators);
+}
+
+
+static void printAll(char *func)
+{
+    char *statement = strtok(func, STATEMENT_SEPARATOR);
+
+    while (statement != NULL) {
+        printResult(statement);
+        statement = strtok(NULL, STATEMENT_SEPARATOR);
+
+        if (statement != NULL && verbose) {
+            printf("\n");
+        }
+    }
+}
+
+
+static void printHelp(void)
+{
+    printf(HELP_MSG);
+}
+
+
+static int mapArgs(int argc, char *argv[])
 {
     int i;
 
@@ -145,23 +190,7 @@ int mapArgs(int argc, char *argv[])
 }
 
 
-void printHelp(void)
-{
-    printf(HELP_MSG);
-}
-
-
-int interactive(void)
-{
-    int result;
-    printf(INIT_MSG);
-    while (result = processLine());
-
-    return result;
-}
-
-
-int processLine(void)
+static int processLine(void)
 {
     char buffer[OPERATION_BUFFER];
     char *operation;
@@ -174,15 +203,48 @@ int processLine(void)
     memset(operation, 0, len + 1);
     strncpy_(operation, buffer, len);
 
+    if (!strcmp(operation, CLEAR_COMMAND)) {
+        clearScreen();
+        return 1;
+    }
+
     if (!strcmp(operation, EXIT_COMMAND)) {
         printf(BYE_MSG);
         free(operation);
         return 0;
     }
 
-    printResult(operation);
+    printAll(operation);
     free(operation);
     return 1;
+}
+
+
+static int interactive(void)
+{
+    int result;
+    printf(INIT_MSG);
+    while (result = processLine());
+    freeVariables();
+
+    return result;
+}
+
+
+static void addValue(const char *key, double value)
+{
+    char *aux = malloc_(BUFFER * sizeof(char));
+    snprintf(aux, BUFFER, NUMBER_FORMAT, value);
+    addVariable(key, aux);
+    free(aux);
+}
+
+
+static void addPredefinedValues()
+{
+    addValue("PI", M_PI);
+    addValue("E", M_E);
+    addValue("G", G);
 }
 
 
@@ -192,10 +254,13 @@ int main(int argc, char* argv[])
         return 0;
     }
 
+    addPredefinedValues();
     if (interactive_mode || flags_quantity >= argc - 1) {
         return interactive();
     }
 
-    printResult(argv[1]);
+    printAll(argv[1]);
+    freeVariables();
+
     return 0;
 }

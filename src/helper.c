@@ -5,7 +5,7 @@
 #include "helper.h"
 
 
-void *malloc_(size_t size)
+void *malloc_(const size_t size)
 {
     void *alloc_mem = malloc(size);
 
@@ -18,7 +18,7 @@ void *malloc_(size_t size)
 }
 
 
-int strncpy_(char *dest, const char *src, size_t n)
+int strncpy_(char *dest, const char *src, const size_t n)
 {
     snprintf(dest, n, "%s", src);
 
@@ -26,7 +26,7 @@ int strncpy_(char *dest, const char *src, size_t n)
 }
 
 
-double round_(double n, size_t digits)
+double round_(double n, const size_t digits)
 {
     double decimals = pow(10, digits);
     n *= decimals;
@@ -38,16 +38,11 @@ double round_(double n, size_t digits)
 }
 
 
-double strToDouble(char *str)
+double strToDouble(const char *str)
 {
-    size_t len;
-    int factorial = 0;
-
     if (str == NULL) {
         return 0.0;
     }
-
-    len = strlen(str) - 1;
 
     return strtod(str, NULL);
 }
@@ -56,19 +51,25 @@ double strToDouble(char *str)
 void addThousandsSep(char *str)
 {
     int i, dot_index, char_n = 0;
-    int length = strlen(str);
-    int new_length = length;
-    char *dot, *tmp;
+    int length;
+    int new_length;
+    char *dot, *tmp = NULL;
 
+    if (str == NULL) {
+        return;
+    }
+
+    length = strlen(str);
+    new_length = length;
     dot = strchr(str, '.');
 
     if (dot != NULL) {
         dot_index = dot - str;
-        tmp = malloc_(length - dot_index * sizeof(char));
-        memcpy(tmp, str + dot_index, length - dot_index);
+        tmp = malloc_(length - dot_index + 1 * sizeof(char));
+        strncpy_(tmp, str + dot_index, length - dot_index + 1);
     } else {
         dot_index = length;
-        tmp = malloc_(1);
+        tmp = malloc_(1 * sizeof(char));
         tmp[0] = '\0';
     }
 
@@ -126,10 +127,11 @@ void getLine(const char *str, char *buffer, size_t size)
 void addChar(char **str, const char ch, int begin)
 {
     size_t length = strlen(*str) + 1;
-    char *tmp = malloc_(length * sizeof(char));
+    char *tmp = malloc_(length + 1 * sizeof(char));
     strncpy_(tmp, *str, length);
 
-    *str = realloc(*str, length + 1 * sizeof(char));
+    free(*str);
+    *str = malloc_(length + 1 * sizeof(char));
     *str[0] = '\0';
 
     if (begin) {
@@ -144,5 +146,17 @@ void addChar(char **str, const char ch, int begin)
 
 int isEmpty(const char *str)
 {
-    return !strcmp(str, "");
+    return str == NULL || !strcmp(str, "");
+}
+
+
+void clearScreen()
+{
+    #if defined(__linux__) || defined(__unix__) || defined(__APPLE__)
+        system("clear");
+    #endif
+
+    #if defined(_WIN32) || defined(_WIN64)
+        system("cls");
+    #endif
 }

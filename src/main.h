@@ -1,11 +1,15 @@
 #ifndef MAIN_H_
 #define MAIN_H_
 #define OPERATION_BUFFER 512
-#define VERSION_MSG "QUICH v2.5\n"
+#define VERSION_MSG "QUICH v2.6\n"
 #define INPUT_LINE "> "
+#define DEFINITION_MSG "(definition)\n"
+#define STATEMENT_SEPARATOR ";"
+#define CLEAR_COMMAND "clear"
 #define EXIT_COMMAND "exit"
 #define INIT_MSG "Running "VERSION_MSG \
-    "You can enter '"EXIT_COMMAND"' at any time to exit the program...\n"
+    "Type '"CLEAR_COMMAND"' to clear the screen. \n" \
+    "Type '"EXIT_COMMAND"' to exit the program.\n"
 #define BYE_MSG "Bye...\n"
 #define HELP_MSG "QUICH: Just an advanced terminal calculator\n\n" \
     "USAGE: operation [options...]\n\n" \
@@ -37,51 +41,9 @@
     "Constants 'PI' (3.14...), 'E' (2.71...) and 'G' (earth gravity / 9.80...).\n" \
     "Units of measurement for data storage 'mb', 'gb', 'tb' and 'pt' (returned in kb).\n\n"
 
-
-/**
- * Prints the result of the given infix function.
- * @param func the infix function.
- */
-void printResult(char *func);
-
-/**
- * Prints the details of the given function.
- */
-void printVerbose(void);
-
-/**
- * Map all the arguments.
- * @param argc the number of arguments.
- * @param argv the arguments array.
- * @return true if the normal program flow
- * must be stopped after this function, false otherwise.
- */
-int mapArgs(int argc, char *argv[]);
-
-/**
- * Display the help message.
- */
-void printHelp(void);
-
-/**
- * Reads operations constantly from the stdin
- * until the 'exit' word is typed.
- * @return false in case of exiting successfully
- * or true in case of errors/exiting abruptly.
- */
-int interactive(void);
-
-/**
- * Reads a single operation from the stdin
- * and prints its result.
- * @return false in case of exiting successfully
- * or true in case of errors/exiting abruptly.
- */
-int processLine(void);
-
-/**
- * Just the Main function.
- */
-int main(int argc, char* argv[]);
+/* Math values */
+#define M_PI acos(-1)
+#define M_E 2.71828182845904523536
+#define G 9.80665
 
 #endif /* MAIN_H_ */
