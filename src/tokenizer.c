@@ -259,12 +259,12 @@ int isNumber(const char *str)
     size_t i = 0;
 
     for (i = 0; i < len; i++) {
-        // Signed number
+        /* Signed number */
         if (i == 0 && (str[i] == '-' || str[i] == '+')) {
             continue;
         }
 
-        // Exponent number
+        /* Exponent number */
         if (i != 0 && i+1 < len && str[i] == 'e' &&
             (str[i+1] == '+' || str[i+1] == '-')) {
             i++;

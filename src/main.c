@@ -161,7 +161,7 @@ static int mapArgs(int argc, char *argv[])
             flags_quantity++;
         }
 
-        //The flags below work with values
+        /* The flags below work with values */
         if (i+1 >= argc) {
             return 0;
         }
@@ -224,7 +224,7 @@ static int interactive(void)
 {
     int result;
     printf(INIT_MSG);
-    while (result = processLine());
+    while ((result = processLine()));
     freeVariables();
 
     return result;
@@ -240,7 +240,7 @@ static void addValue(const char *key, double value)
 }
 
 
-static void addPredefinedValues()
+static void addPredefinedValues(void)
 {
     addValue("PI", M_PI);
     addValue("E", M_E);

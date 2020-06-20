@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-lm -std=c99 -pedantic
+CFLAGS=-lm -std=c99 -pedantic -Wall -Wextra -Wmissing-prototypes -Wstrict-prototypes -Wold-style-definition
 PREFIX=/usr/local
 ifndef NAME
     NAME=quich

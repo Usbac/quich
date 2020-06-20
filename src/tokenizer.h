@@ -21,7 +21,7 @@ struct token {
 struct list {
     struct token *first;
     struct token *last;
-} list;
+};
 
 struct variable {
     char *key;

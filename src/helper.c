@@ -150,7 +150,7 @@ int isEmpty(const char *str)
 }
 
 
-void clearScreen()
+void clearScreen(void)
 {
     #if defined(__linux__) || defined(__unix__) || defined(__APPLE__)
         system("clear");
