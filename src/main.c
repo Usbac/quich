@@ -33,7 +33,7 @@ int thousands_separator = 0;
 char *format = NULL;
 
 
-static void printVerbose(struct list *tokens, struct list *operands)
+static void printVerbose(struct list *tokens, struct list *output)
 {
     struct token *node = tokens->first;
     int is_valid = 0;
@@ -49,7 +49,7 @@ static void printVerbose(struct list *tokens, struct list *operands)
         node = node->next;
     }
 
-    node = operands->first;
+    node = output->first;
 
     /* Postfix operation */
     printf("\nPosfix > ");
@@ -64,21 +64,21 @@ static void printVerbose(struct list *tokens, struct list *operands)
 
 static void printResult(char *func)
 {
-    struct list *tokens, *operands, *operators;
+    struct list *tokens, *output, *operators;
     char *result;
 
     initList(&tokens);
-    initList(&operands);
+    initList(&output);
     initList(&operators);
 
-    result = getResult(func, tokens, operands, operators);
+    result = getResult(func, tokens, output, operators);
 
     if (!isEmpty(format)) {
         snprintf(result, BUFFER, format, strToDouble(result));
     }
 
     if (verbose) {
-        printVerbose(tokens, operands);
+        printVerbose(tokens, output);
     }
 
     if (thousands_separator) {
@@ -92,9 +92,9 @@ static void printResult(char *func)
         printf(DEFINITION_MSG);
     }
 
-    printWarnings(operands);
+    printWarnings(output);
     freeList(tokens);
-    freeList(operands);
+    freeList(output);
     freeList(operators);
 }
 

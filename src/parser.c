@@ -102,13 +102,13 @@ static void moveToken(struct list **dest, struct list **src)
 }
 
 
-static void migrateUntilParenthesis(struct list *operands,
+static void migrateUntilParenthesis(struct list *output,
                                     struct list *operators)
 {
     struct token *tmp;
 
     while (operators->last != NULL && strcmp(operators->last->value, "(")) {
-        moveToken(&operands, &operators);
+        moveToken(&output, &operators);
     }
 
     if (operators->last != NULL && !strcmp(operators->last->value, "(")) {
@@ -128,7 +128,7 @@ static int hasHigherEqualPrec(struct token *first, struct token *second)
 
 
 static void infixToPostfix(struct list *tokens,
-                           struct list *operands,
+                           struct list *output,
                            struct list *operators)
 {
     struct token *node = tokens->first;
@@ -140,24 +140,24 @@ static void infixToPostfix(struct list *tokens,
         if (!strcmp(node->value, "(")) {
             push(&operators, node);
         } else if (!strcmp(node->value, ")")) {
-            migrateUntilParenthesis(operands, operators);
+            migrateUntilParenthesis(output, operators);
         } else if (isFunction(node->value)) {
             push(&operators, node);
         } else if (isOperator(node->value)) {
             while (hasHigherEqualPrec(node, operators->last)) {
-                moveToken(&operands, &operators);
+                moveToken(&output, &operators);
             }
 
             push(&operators, node);
         } else {
-            push(&operands, node);
+            push(&output, node);
         }
 
         node = node->next;
     }
 
     while (operators->last != NULL) {
-        moveToken(&operands, &operators);
+        moveToken(&output, &operators);
     }
 }
 
@@ -165,24 +165,24 @@ static void infixToPostfix(struct list *tokens,
 static double getVariableValue(const char *key)
 {
     struct variable *node = variables_first;
-    struct list *tokens, *operands, *operators;
+    struct list *tokens, *output, *operators;
     char *result;
     double result_number;
 
     initList(&tokens);
-    initList(&operands);
+    initList(&output);
     initList(&operators);
 
     while (node != NULL) {
         if (!strcmp(key, node->key)) {
-            result = getResult(node->value, tokens, operands, operators);
+            result = getResult(node->value, tokens, output, operators);
         }
 
         node = node->next;
     }
 
     freeList(tokens);
-    freeList(operands);
+    freeList(output);
     freeList(operators);
 
     result_number = strToDouble(result);
@@ -465,7 +465,7 @@ void addVariable(const char *key, const char *val)
 
 char *getResult(const char *func,
                 struct list *tokens,
-                struct list *operands,
+                struct list *output,
                 struct list *operators)
 {
     char *result = malloc_(BUFFER * sizeof(char));
@@ -473,8 +473,8 @@ char *getResult(const char *func,
     variable_defined = 0;
 
     tokenize(tokens, func);
-    infixToPostfix(tokens, operands, operators);
-    snprintf(result, BUFFER, NUMBER_FORMAT, getPostfixResult(operands));
+    infixToPostfix(tokens, output, operators);
+    snprintf(result, BUFFER, NUMBER_FORMAT, getPostfixResult(output));
 
     if (variable_defined) {
         free(result);
