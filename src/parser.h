@@ -28,13 +28,11 @@ void addVariable(const char *key, const char *val);
  * @param func the infix function.
  * @param tokens the tokens list.
  * @param output the output list.
- * @param operators the operators list.
  * @return the result of the given function.
  */
 char *getResult(const char *func,
                 struct list *tokens,
-                struct list *output,
-                struct list *operators);
+                struct list *output);
 
 /**
  * Prints all the warnings.

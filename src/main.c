@@ -64,14 +64,13 @@ static void printVerbose(struct list *tokens, struct list *output)
 
 static void printResult(char *func)
 {
-    struct list *tokens, *output, *operators;
+    struct list *tokens, *output;
     char *result;
 
     initList(&tokens);
     initList(&output);
-    initList(&operators);
 
-    result = getResult(func, tokens, output, operators);
+    result = getResult(func, tokens, output);
 
     if (!isEmpty(format)) {
         snprintf(result, BUFFER, format, strToDouble(result));
@@ -95,7 +94,6 @@ static void printResult(char *func)
     printWarnings(output);
     freeList(tokens);
     freeList(output);
-    freeList(operators);
 }
 
 

@@ -165,17 +165,16 @@ static void infixToPostfix(struct list *tokens,
 static double getVariableValue(const char *key)
 {
     struct variable *node = variables_first;
-    struct list *tokens, *output, *operators;
+    struct list *tokens, *output;
     char *result;
     double result_number;
 
     initList(&tokens);
     initList(&output);
-    initList(&operators);
 
     while (node != NULL) {
         if (!strcmp(key, node->key)) {
-            result = getResult(node->value, tokens, output, operators);
+            result = getResult(node->value, tokens, output);
         }
 
         node = node->next;
@@ -183,7 +182,6 @@ static double getVariableValue(const char *key)
 
     freeList(tokens);
     freeList(output);
-    freeList(operators);
 
     result_number = strToDouble(result);
     free(result);
@@ -465,16 +463,18 @@ void addVariable(const char *key, const char *val)
 
 char *getResult(const char *func,
                 struct list *tokens,
-                struct list *output,
-                struct list *operators)
+                struct list *output)
 {
+    struct list *operators;
     char *result = malloc_(BUFFER * sizeof(char));
     result[0] = '\0';
     variable_defined = 0;
+    initList(&operators);
 
     tokenize(tokens, func);
     infixToPostfix(tokens, output, operators);
     snprintf(result, BUFFER, NUMBER_FORMAT, getPostfixResult(output));
+    freeList(operators);
 
     if (variable_defined) {
         free(result);
