@@ -14,7 +14,7 @@
 <img src="https://img.shields.io/badge/license-MIT-orange.svg">
 </p>
 
-Quich is a small, easy to use, fast and useful calculator for your terminal with numerous features. Written in [ANSI C](wikipedia.org/wiki/ANSI_C).
+Quich is a small, easy to use, fast and useful calculator for your terminal with numerous features. Written in [ANSI C](https://en.wikipedia.org/wiki/ANSI_C).
 
 You can enter in `interactive mode` by calling Quich without an operation.
 
