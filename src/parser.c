@@ -198,9 +198,9 @@ static double getValue(const char *str)
 }
 
 
-static double getOperationResult(const char *operator,
-                                 const char *a,
-                                 const char *b)
+static double getOpResult(const char *operator,
+                          const char *a,
+                          const char *b)
 {
     double x = 0, y = 0;
 
@@ -372,7 +372,7 @@ static void pushResult(struct list *list, const struct token *node)
         x = pop(list);
     }
 
-    result = getOperationResult(node->value, x, y);
+    result = getOpResult(node->value, x, y);
     if (precision >= 0) {
         result = round_(result, precision);
     }
@@ -426,6 +426,20 @@ static double getPostfixResult(const struct list *postfix)
 }
 
 
+static void replaceVariable(const char *key, const char *val)
+{
+    struct variable *node = variables_first;
+
+    while (node != NULL) {
+        if (!strcmp(key, node->key)) {
+            strncpy_(node->value, val, strlen(val) + 1);
+        }
+
+        node = node->next;
+    }
+}
+
+
 void addVariable(const char *key, const char *val)
 {
     struct variable *node;
@@ -435,18 +449,8 @@ void addVariable(const char *key, const char *val)
         return;
     }
 
-    /* Replace value for an existing variable */
     if (isVariable(key)) {
-        node = variables_first;
-
-        while (node != NULL) {
-            if (!strcmp(key, node->key)) {
-                strncpy_(node->value, val, strlen(val) + 1);
-            }
-
-            node = node->next;
-        }
-
+        replaceVariable(key, val);
         return;
     }
 

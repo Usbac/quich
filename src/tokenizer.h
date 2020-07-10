@@ -8,7 +8,6 @@ enum TOKEN_TYPE {
     Operand,
     Operator,
     Word,
-    Equal,
     None
 };
 

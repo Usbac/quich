@@ -29,17 +29,14 @@ static enum TOKEN_TYPE getType(const char ch)
     if (ch == '(' || ch == ')' ||
         ch == '+' || ch == '-' ||
         ch == '/' || ch == '*' ||
-        ch == '^' || ch == '!') {
+        ch == '^' || ch == '!' ||
+        ch == '=') {
         return Operator;
     }
 
     if ((ch >= 'a' && ch <= 'z') ||
         (ch >= 'A' && ch <= 'Z')) {
         return Word;
-    }
-
-    if (ch == '=') {
-        return Equal;
     }
 
     return None;
