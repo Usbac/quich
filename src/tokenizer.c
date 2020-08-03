@@ -282,7 +282,9 @@ bool isValid(const char *str)
         isFunction(str) ||
         isNumber(str) ||
         isDataUnit(str) ||
-        isVariable(str);
+        isVariable(str) ||
+        !strcmp(str, "(") ||
+        !strcmp(str, ")");
 }
 
 

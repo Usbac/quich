@@ -496,9 +496,7 @@ void printWarnings(const struct list *list)
     size_t warnings_quantity = 0;
 
     while (node != NULL) {
-        if (!isValid(node->value) &&
-            strcmp(node->value, "(") &&
-            strcmp(node->value, ")")) {
+        if (!isValid(node->value)) {
             printf(TOKEN_WARNING_MSG, node->value);
             warnings_quantity++;
         }

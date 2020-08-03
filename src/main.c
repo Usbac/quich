@@ -37,16 +37,11 @@ char *format = NULL;
 static void printVerbose(struct list *tokens, struct list *output)
 {
     struct token *node = tokens->first;
-    int is_valid = 0;
 
     /* Tokens */
     printf("Tokens > ");
     while (node != NULL) {
-        is_valid = isValid(node->value) ||
-            !strcmp(node->value, "(") ||
-            !strcmp(node->value, ")");
-
-        printf(is_valid ? "'%s' " : "'%s'? ", node->value);
+        printf(isValid(node->value) ? "'%s' " : "'%s'? ", node->value);
         node = node->next;
     }
 
