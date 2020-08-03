@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <stdbool.h>
 #include <string.h>
 #include <stdlib.h>
 #include "helper.h"
@@ -43,13 +43,13 @@ static enum TOKEN_TYPE getType(const char ch)
 }
 
 
-static int isIgnorableChar(const char ch)
+static bool isIgnorableChar(const char ch)
 {
     return ch == ' ' || ch == ',';
 }
 
 
-static int isSigned(struct list *list, const char *str, const int i)
+static bool isSigned(struct list *list, const char *str, const int i)
 {
     if (str[i] != '+' && str[i] != '-') {
         return 0;
@@ -102,11 +102,10 @@ static void addToken(struct list *list, const char *token)
     if (list->last == NULL) {
         list->last = new;
         list->first = list->last;
-        return;
+    } else {
+        list->last->next = new;
+        list->last = new;
     }
-
-    list->last->next = new;
-    list->last = new;
 }
 
 
@@ -215,7 +214,7 @@ int getPrec(const char *str)
 }
 
 
-int isOperator(const char *str)
+bool isOperator(const char *str)
 {
     return !strcmp(str, "+") || !strcmp(str, "-") ||
         !strcmp(str, "*") || !strcmp(str, "/") ||
@@ -223,7 +222,7 @@ int isOperator(const char *str)
 }
 
 
-int isFunction(const char *str)
+bool isFunction(const char *str)
 {
     return isTrigonometric(str) ||
         (!strcmp(str, "sqrt") || !strcmp(str, "log") ||
@@ -233,7 +232,7 @@ int isFunction(const char *str)
 }
 
 
-int isTrigonometric(const char *str)
+bool isTrigonometric(const char *str)
 {
     return
         !strcmp(str, "sin") || !strcmp(str, "cos") ||
@@ -242,7 +241,7 @@ int isTrigonometric(const char *str)
 }
 
 
-int isDataUnit(const char *str)
+bool isDataUnit(const char *str)
 {
     return
         !strcmp(str, "mb") || !strcmp(str, "gb") ||
@@ -250,10 +249,10 @@ int isDataUnit(const char *str)
 }
 
 
-int isNumber(const char *str)
+bool isNumber(const char *str)
 {
     size_t len = strlen(str);
-    size_t i = 0;
+    size_t i;
 
     for (i = 0; i < len; i++) {
         /* Signed number */
@@ -277,7 +276,7 @@ int isNumber(const char *str)
 }
 
 
-int isValid(const char *str)
+bool isValid(const char *str)
 {
     return isOperator(str) ||
         isFunction(str) ||
@@ -287,7 +286,7 @@ int isValid(const char *str)
 }
 
 
-int isVariable(const char *str)
+bool isVariable(const char *str)
 {
     if (variables_first == NULL || str == NULL) {
         return 0;

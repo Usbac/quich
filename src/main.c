@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <math.h>
 #include "helper.h"
 #include "tokenizer.h"
@@ -10,7 +11,7 @@
 /**
  * Verbose mode or not.
  */
-int verbose = 0;
+bool verbose = false;
 
 /**
  * Number of flags used.
@@ -20,12 +21,12 @@ int flags_quantity = 0;
 /**
  * Interactive mode or not.
  */
-int interactive_mode = 0;
+bool interactive_mode = false;
 
 /**
  * Using thousands separator or not.
  */
-int thousands_separator = 0;
+bool thousands_separator = false;
 
 /**
  * Format to display the results.
@@ -125,19 +126,19 @@ static int mapArgs(int argc, char *argv[])
     for (i = 0; i < argc; i++) {
         /* Angles in degree */
         if (!strcmp(argv[i], "-d") || !strcmp(argv[i], "--degree")) {
-            degree = 1;
+            degree = true;
             flags_quantity++;
         }
 
         /* Verbose mode */
         if (!strcmp(argv[i], "-vvv") || !strcmp(argv[i], "--verbose")) {
-            verbose = 1;
+            verbose = true;
             flags_quantity++;
         }
 
         /* Interactive */
         if (!strcmp(argv[i], "-i") || !strcmp(argv[i], "--interactive")) {
-            interactive_mode = 1;
+            interactive_mode = true;
             flags_quantity++;
         }
 
@@ -155,7 +156,7 @@ static int mapArgs(int argc, char *argv[])
 
         /* Thousands separator */
         if (!strcmp(argv[i], "-t") || !strcmp(argv[i], "--thousands")) {
-            thousands_separator = 1;
+            thousands_separator = true;
             flags_quantity++;
         }
 

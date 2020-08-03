@@ -1,6 +1,8 @@
 #ifndef TOKENIZER_H_
 #define TOKENIZER_H_
 
+#include <stdbool.h>
+
 #define BUFFER 32
 #define NUMBER_FORMAT "%.15g"
 
@@ -66,7 +68,7 @@ int getPrec(const char *str);
  * @return true if the given string represents an operator,
  * false otherwise.
  */
-int isOperator(const char *str);
+bool isOperator(const char *str);
 
 /**
  * Returns true if the given string represents a function,
@@ -75,7 +77,7 @@ int isOperator(const char *str);
  * @return true if the given string represents a function,
  * false otherwise.
  */
-int isFunction(const char *str);
+bool isFunction(const char *str);
 
 /**
  * Returns true if the given string represents a trigonometric function,
@@ -84,7 +86,7 @@ int isFunction(const char *str);
  * @return true if the given string represents a trigonometric function,
  * false otherwise.
  */
-int isTrigonometric(const char *str);
+bool isTrigonometric(const char *str);
 
 /**
  * Returns true if the given string represents an
@@ -95,7 +97,7 @@ int isTrigonometric(const char *str);
  * unit of measurement for data storage,
  * false otherwise.
  */
-int isDataUnit(const char *str);
+bool isDataUnit(const char *str);
 
 /**
  * Returns true if the given string represents a number,
@@ -104,7 +106,7 @@ int isDataUnit(const char *str);
  * @return true if the given string represents a number,
  * false otherwise.
  */
-int isNumber(const char *str);
+bool isNumber(const char *str);
 
 /**
  * Returns true if the given string is a valid value
@@ -113,7 +115,7 @@ int isNumber(const char *str);
  * @return Returns true if the given value is a valid value,
  * false otherwise.
  */
-int isValid(const char *str);
+bool isValid(const char *str);
 
 /**
  * Returns true if the given string is an existing variable,
@@ -122,6 +124,6 @@ int isValid(const char *str);
  * @return Returns true if the given string is an existing variable,
  * false otherwise.
  */
-int isVariable(const char *str);
+bool isVariable(const char *str);
 
 #endif /* TOKENIZER_H_ */

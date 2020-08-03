@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include <math.h>
 #include <time.h>
 #include "helper.h"
@@ -20,18 +21,18 @@ int result_precision = -1;
 /**
  * Manage angles in degree or not.
  */
-int degree = 0;
+bool degree = false;
 
 /**
  * Warning about division by zero.
  */
-int division_warning = 0;
+bool division_warning = false;
 
 /**
  * Warning about an invalid value for
  * a trigonometric function.
  */
-int trigonometric_warning = 0;
+bool trigonometric_warning = false;
 
 /**
  * The current operation is defining a variable or not.
@@ -133,8 +134,8 @@ static void infixToPostfix(struct list *tokens,
 {
     struct token *node = tokens->first;
 
-    division_warning = 0;
-    trigonometric_warning = 0;
+    division_warning = false;
+    trigonometric_warning = false;
 
     while (node != NULL) {
         if (!strcmp(node->value, "(")) {
@@ -232,7 +233,7 @@ static double getOpResult(const char *operator,
 
     if (!strcmp(operator, "/")) {
         if (y == 0) {
-            division_warning = 1;
+            division_warning = true;
             return 0;
         }
 
@@ -312,7 +313,7 @@ static double getOpResult(const char *operator,
         !strcmp(operator, "acos") ||
         !strcmp(operator, "atan")) &&
         (y < -1 || y > 1)) {
-        trigonometric_warning = 1;
+        trigonometric_warning = true;
         return 0;
     }
 

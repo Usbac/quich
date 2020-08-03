@@ -1,0 +1,12 @@
+cmake_minimum_required(VERSION 3.9)
+project(quich)
+
+set(CMAKE_CXX_STANDARD 11)
+
+add_executable(quich
+        src/tokenizer.c src/tokenizer.h
+        src/parser.c src/parser.h
+        src/helper.c src/helper.h
+        src/main.c src/main.h)
+
+target_link_libraries(quich m)

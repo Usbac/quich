@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 #include <math.h>
 #include "helper.h"
 
@@ -144,7 +145,7 @@ void addChar(char **str, const char ch, int begin)
 }
 
 
-int isEmpty(const char *str)
+bool isEmpty(const char *str)
 {
     return str == NULL || !strcmp(str, "");
 }

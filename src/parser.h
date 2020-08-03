@@ -13,8 +13,8 @@
 
 extern int precision;
 extern int result_precision;
-extern int degree;
-extern int division_warning;
+extern bool degree;
+extern bool division_warning;
 
 /**
  * Adds a variable.

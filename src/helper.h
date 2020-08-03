@@ -1,7 +1,8 @@
 #ifndef HELPER_H_
 #define HELPER_H_
 #define ERROR_MEM_MSG "Error: Could not allocate memory\n"
-#define ERROR_STREAM_MSG "Error: Could not read from stdin\n"
+
+#include <stdbool.h>
 
 /**
  * The functions defined here are general helper functions
@@ -76,7 +77,7 @@ void addChar(char **str, const char ch, int begin);
  * @return true if the given string is empty,
  * false otherwise.
  */
-int isEmpty(const char *str);
+bool isEmpty(const char *str);
 
 /**
  * Calls the function to clear the screen.
