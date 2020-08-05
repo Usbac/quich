@@ -52,39 +52,39 @@ double strToDouble(const char *str)
 void addThousandsSep(char *str)
 {
     int i, dot_index, char_n = 0;
-    int length;
-    int new_length;
+    size_t len;
+    size_t new_len;
     char *dot, *tmp = NULL;
 
     if (str == NULL) {
         return;
     }
 
-    length = strlen(str);
-    new_length = length;
+    len = strlen(str);
+    new_len = len;
     dot = strchr(str, '.');
 
     if (dot != NULL) {
         dot_index = dot - str;
-        tmp = malloc_(length - dot_index + 1 * sizeof(char));
-        strncpy_(tmp, str + dot_index, length - dot_index + 1);
+        tmp = malloc_(len - dot_index + 1);
+        strncpy_(tmp, str + dot_index, len - dot_index + 1);
     } else {
-        dot_index = length;
-        tmp = malloc_(1 * sizeof(char));
+        dot_index = len;
+        tmp = malloc_(1);
         tmp[0] = '\0';
     }
 
     for (i = dot_index - 1; i >= 0; i--) {
         if (i >= 0 && char_n > 0 && char_n % 3 == 0) {
             addChar(&tmp, ',', 1);
-            new_length++;
+            new_len++;
         }
 
         addChar(&tmp, str[i], 1);
         char_n++;
     }
 
-    strncpy_(str, tmp, new_length + 1);
+    strncpy_(str, tmp, new_len + 1);
     free(tmp);
 }
 
@@ -127,18 +127,18 @@ void getLine(const char *str, char *buffer, size_t size)
 
 void addChar(char **str, const char ch, int begin)
 {
-    size_t length = strlen(*str) + 1;
-    char *tmp = malloc_(length + 1 * sizeof(char));
-    strncpy_(tmp, *str, length);
+    size_t len = strlen(*str) + 1;
+    char *tmp = malloc_(len + 1);
+    strncpy_(tmp, *str, len);
 
     free(*str);
-    *str = malloc_(length + 1 * sizeof(char));
+    *str = malloc_(len + 1);
     *str[0] = '\0';
 
     if (begin) {
-        snprintf(*str, length + 2, "%c%s", ch, tmp);
+        snprintf(*str, len + 2, "%c%s", ch, tmp);
     } else {
-        snprintf(*str, length + 2, "%s%c", tmp, ch);
+        snprintf(*str, len + 2, "%s%c", tmp, ch);
     }
 
     free(tmp);

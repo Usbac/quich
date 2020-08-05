@@ -1,7 +1,7 @@
 #ifndef MAIN_H_
 #define MAIN_H_
 #define OPERATION_BUFFER 512
-#define VERSION_MSG "QUICH v2.6.1\n"
+#define VERSION_MSG "QUICH v2.6.2\n"
 #define INPUT_LINE "> "
 #define DEFINITION_MSG "(definition)\n"
 #define STATEMENT_SEPARATOR ";"

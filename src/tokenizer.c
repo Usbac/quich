@@ -69,15 +69,28 @@ static void getTokenVal(char **dest, const char *token)
 {
     size_t token_len = strlen(token) + 1;
 
-    *dest = malloc_(token_len * sizeof(char));
+    *dest = malloc_(token_len);
     strncpy_(*dest, token, token_len);
+}
+
+
+static void prependList(struct list *list, struct token *node)
+{
+    if (list->last == NULL) {
+        list->last = node;
+        list->first = list->last;
+        return;
+    }
+
+    list->last->next = node;
+    list->last = node;
 }
 
 
 static void addToken(struct list *list, const char *token)
 {
-    size_t token_len;
-    struct token *new = calloc(3, sizeof(struct token));
+    size_t len;
+    struct token *new;
     char *token_val;
 
     if (isEmpty(token)) {
@@ -86,26 +99,21 @@ static void addToken(struct list *list, const char *token)
 
     getTokenVal(&token_val, token);
 
-    token_len = strlen(token_val) + 1;
+    len = strlen(token_val) + 1;
 
+    new = calloc(3, sizeof(struct token));
     new->next = NULL;
-    new->value = malloc_(token_len * sizeof(char));
-    strncpy_(new->value, token_val, token_len);
+    new->value = malloc_(len);
+    strncpy_(new->value, token_val, len);
     free(token_val);
 
-    /* Put zero between two adjacent parentheses */
+    /* Set zero as argument if no argument is provided */
     if (list->last != NULL && !strcmp(list->last->value, "(") &&
         !strcmp(token, ")")) {
         addToken(list, "0");
     }
 
-    if (list->last == NULL) {
-        list->last = new;
-        list->first = list->last;
-    } else {
-        list->last->next = new;
-        list->last = new;
-    }
+    prependList(list, new);
 }
 
 
@@ -127,7 +135,7 @@ static void processChar(struct list *list,
         addToken(list, current_token);
 
         free(current_token);
-        current_token = malloc_(1 * sizeof(char));
+        current_token = malloc_(1);
         current_token[0] = '\0';
         current_type = getType(str[i]);
     }
@@ -136,7 +144,7 @@ static void processChar(struct list *list,
     if (isSigned(list, str, i)) {
         current_type = Operand;
         free(current_token);
-        current_token = malloc_(2 * sizeof(char));
+        current_token = malloc_(2);
         current_token[0] = str[i];
         current_token[1] = '\0';
 
@@ -152,7 +160,7 @@ void tokenize(struct list *list, const char *func)
     size_t i;
 
     current_type = None;
-    current_token = malloc_(1 * sizeof(char));
+    current_token = malloc_(1);
     current_token[0] = '\0';
 
     for (i = 0; i <= strlen(func); i++) {

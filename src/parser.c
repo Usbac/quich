@@ -80,7 +80,7 @@ static void moveToken(struct list **dest, struct list **src)
     cpy = calloc(3, sizeof(struct token));
     cpy->prev = (*dest)->last;
     cpy->next = NULL;
-    cpy->value = malloc_(value_len * sizeof(char));
+    cpy->value = malloc_(value_len);
     strncpy_(cpy->value, (*src)->last->value, value_len);
 
     if ((*dest)->last != NULL) {
@@ -167,7 +167,7 @@ static double getVariableValue(const char *key)
 {
     struct variable *node = variables_first;
     struct list *tokens, *output;
-    char *result;
+    char *result = NULL;
     double result_number;
 
     initList(&tokens);
@@ -176,6 +176,7 @@ static double getVariableValue(const char *key)
     while (node != NULL) {
         if (!strcmp(key, node->key)) {
             result = getResult(node->value, tokens, output);
+            break;
         }
 
         node = node->next;
@@ -345,7 +346,7 @@ static char *pop(struct list *list)
 
     len = strlen(list->last->value) + 1;
 
-    str = malloc_(len * sizeof(char));
+    str = malloc_(len);
     strncpy_(str, list->last->value, len);
     tmp = list->last;
     list->last = list->last->prev;
@@ -379,7 +380,7 @@ static void pushResult(struct list *list, const struct token *node)
     }
 
     new = malloc_(sizeof(struct token));
-    new->value = malloc_(BUFFER * sizeof(char));
+    new->value = malloc_(BUFFER);
     snprintf(new->value, BUFFER, NUMBER_FORMAT, result);
 
     push(&list, new);
@@ -456,8 +457,8 @@ void addVariable(const char *key, const char *val)
     }
 
     node = malloc_(sizeof(struct variable));
-    node->key = malloc_(BUFFER * sizeof(char));
-    node->value = malloc_(BUFFER * sizeof(char));
+    node->key = malloc_(BUFFER);
+    node->value = malloc_(BUFFER);
     strncpy_(node->key, key, strlen(key) + 1);
     strncpy_(node->value, val, strlen(val) + 1);
 
@@ -471,7 +472,7 @@ char *getResult(const char *func,
                 struct list *output)
 {
     struct list *operators;
-    char *result = malloc_(BUFFER * sizeof(char));
+    char *result = malloc_(BUFFER);
     result[0] = '\0';
     variable_defined = 0;
     initList(&operators);

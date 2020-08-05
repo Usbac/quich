@@ -193,7 +193,7 @@ static int processLine(void)
     getLine(INPUT_LINE, buffer, sizeof(buffer));
 
     len = strlen(buffer);
-    operation = malloc(len + 1 * sizeof(char));
+    operation = malloc(len + 1);
     memset(operation, 0, len + 1);
     strncpy_(operation, buffer, len);
 
@@ -227,7 +227,7 @@ static int interactive(void)
 
 static void addValue(const char *key, double value)
 {
-    char *aux = malloc_(BUFFER * sizeof(char));
+    char *aux = malloc_(BUFFER);
     snprintf(aux, BUFFER, NUMBER_FORMAT, value);
     addVariable(key, aux);
     free(aux);
