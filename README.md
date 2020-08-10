@@ -131,7 +131,7 @@ Result > 8.14159265358979
 
 Any contribution or support to this project in the form of a pull request or message will be highly appreciated. ❤️
 
-This project is open to changes so don't be shy. :)
+You can read more about it [right here](CONTRIBUTING.md). Don't be shy :)
 
 ## License
 
