@@ -4,7 +4,7 @@ project(quich)
 set(CMAKE_CXX_STANDARD 11)
 
 add_executable(quich
-        src/tokenizer.c src/tokenizer.h
+        src/lexer.c src/lexer.h
         src/parser.c src/parser.h
         src/helper.c src/helper.h
         src/main.c src/main.h)

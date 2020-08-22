@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <math.h>
 #include "helper.h"
-#include "tokenizer.h"
+#include "lexer.h"
 #include "parser.h"
 #include "main.h"
 

@@ -41,9 +41,4 @@
     "Constants 'PI' (3.14...), 'E' (2.71...) and 'G' (earth gravity / 9.80...).\n" \
     "Units of measurement for data storage 'mb', 'gb', 'tb' and 'pt' (returned in kb).\n\n"
 
-/* Math values */
-#define M_PI acos(-1)
-#define M_E 2.71828182845904523536
-#define G 9.80665
-
 #endif /* MAIN_H_ */

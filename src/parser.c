@@ -5,7 +5,7 @@
 #include <math.h>
 #include <time.h>
 #include "helper.h"
-#include "tokenizer.h"
+#include "lexer.h"
 #include "parser.h"
 
 /**

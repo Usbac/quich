@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "helper.h"
-#include "tokenizer.h"
+#include "lexer.h"
 
 /**
  * Current token being used
@@ -43,7 +43,7 @@ static enum TOKEN_TYPE getType(const char ch)
 }
 
 
-static bool isIgnorableChar(const char ch)
+static bool isIgnorableC(const char ch)
 {
     return ch == ' ' || ch == ',';
 }
@@ -121,7 +121,7 @@ static void processChar(struct list *list,
                         const char *str,
                         const int i)
 {
-    if (isIgnorableChar(str[i])) {
+    if (isIgnorableC(str[i])) {
         return;
     }
 

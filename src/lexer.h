@@ -1,5 +1,5 @@
-#ifndef TOKENIZER_H_
-#define TOKENIZER_H_
+#ifndef LEXER_H_
+#define LEXER_H_
 
 #include <stdbool.h>
 
@@ -56,6 +56,7 @@ void initList(struct list **list);
 
 /**
  * Returns the precedence of the given operator.
+ * Operators with a lower precedence are evaluated first.
  * @param str the operator.
  * @return the precedence of the given operator.
  */
@@ -126,4 +127,4 @@ bool isValid(const char *str);
  */
 bool isVariable(const char *str);
 
-#endif /* TOKENIZER_H_ */
+#endif /* LEXER_H_ */
