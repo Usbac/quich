@@ -94,11 +94,7 @@ Now you will be able to access Quich with the `calc` command.
 
 You can download the bundles too.
 
-<img src="https://img.icons8.com/fluent/28/000000/windows-10.png"/>
-
 [Windows - v2.6.2](https://github.com/Usbac/quich/releases/download/v2.6.2/quich-windows.exe)
-
-<img src="https://img.icons8.com/color/28/000000/linux.png"/>
 
 [Linux - v2.6.2](https://github.com/Usbac/quich/releases/download/v2.6.2/quich-linux)
 
