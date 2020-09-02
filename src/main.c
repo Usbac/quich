@@ -194,7 +194,6 @@ static int processLine(void)
 
     len = strlen(buffer);
     operation = malloc(len + 1);
-    memset(operation, 0, len + 1);
     strncpy_(operation, buffer, len);
 
     if (!strcmp(operation, CLEAR_COMMAND)) {
@@ -225,20 +224,11 @@ static int interactive(void)
 }
 
 
-static void addValue(const char *key, double value)
+static void addPredefValues(void)
 {
-    char *aux = malloc_(BUFFER);
-    snprintf(aux, BUFFER, NUMBER_FORMAT, value);
-    addVariable(key, aux);
-    free(aux);
-}
-
-
-static void addPredefinedValues(void)
-{
-    addValue("PI", M_PI);
-    addValue("E", M_E);
-    addValue("G", G);
+    addVariable("PI", M_PI);
+    addVariable("E", M_E);
+    addVariable("G", G);
 }
 
 
@@ -248,7 +238,7 @@ int main(int argc, char* argv[])
         return 0;
     }
 
-    addPredefinedValues();
+    addPredefValues();
     if (interactive_mode || flags_quantity >= argc - 1) {
         return interactive();
     }

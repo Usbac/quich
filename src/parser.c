@@ -167,15 +167,14 @@ static double getVariableValue(const char *key)
 {
     struct variable *node = variables_first;
     struct list *tokens, *output;
-    char *result = NULL;
-    double result_number;
+    double result = 0;
 
     initList(&tokens);
     initList(&output);
 
     while (node != NULL) {
         if (!strcmp(key, node->key)) {
-            result = getResult(node->value, tokens, output);
+            result = node->value;
             break;
         }
 
@@ -185,10 +184,7 @@ static double getVariableValue(const char *key)
     freeList(tokens);
     freeList(output);
 
-    result_number = strToDouble(result);
-    free(result);
-
-    return result_number;
+    return result;
 }
 
 
@@ -208,7 +204,7 @@ static double getOpResult(const char *operator,
 
     variable_defined = !strcmp(operator, "=");
     if (variable_defined) {
-        addVariable(a, b);
+        addVariable(a, getValue(b));
         return 0;
     }
 
@@ -428,13 +424,14 @@ static double getPostfixResult(const struct list *postfix)
 }
 
 
-static void replaceVariable(const char *key, const char *val)
+static void replaceVariable(const char *key, double val)
 {
     struct variable *node = variables_first;
 
     while (node != NULL) {
         if (!strcmp(key, node->key)) {
-            strncpy_(node->value, val, strlen(val) + 1);
+            node->value = val;
+            break;
         }
 
         node = node->next;
@@ -442,14 +439,9 @@ static void replaceVariable(const char *key, const char *val)
 }
 
 
-void addVariable(const char *key, const char *val)
+void addVariable(const char *key, double val)
 {
     struct variable *node;
-
-    /* Ignore if key and value are the same */
-    if (!strcmp(key, val)) {
-        return;
-    }
 
     if (isVariable(key)) {
         replaceVariable(key, val);
@@ -458,9 +450,8 @@ void addVariable(const char *key, const char *val)
 
     node = malloc_(sizeof(struct variable));
     node->key = malloc_(BUFFER);
-    node->value = malloc_(BUFFER);
     strncpy_(node->key, key, strlen(key) + 1);
-    strncpy_(node->value, val, strlen(val) + 1);
+    node->value = val;
 
     node->next = variables_first;
     variables_first = node;
@@ -528,7 +519,6 @@ void freeVariables(void)
     while ((node = variables_first) != NULL) {
         variables_first = variables_first->next;
         free(node->key);
-        free(node->value);
         free(node);
     }
 
