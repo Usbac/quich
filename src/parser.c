@@ -165,26 +165,17 @@ static void infixToPostfix(struct list *tokens,
 
 static double getVariableValue(const char *key)
 {
-    struct variable *node = variables_first;
-    struct list *tokens, *output;
-    double result = 0;
+    struct variable *var = variables_first;
 
-    initList(&tokens);
-    initList(&output);
-
-    while (node != NULL) {
-        if (!strcmp(key, node->key)) {
-            result = node->value;
-            break;
+    while (var != NULL) {
+        if (!strcmp(key, var->key)) {
+            return var->value;
         }
 
-        node = node->next;
+        var = var->next;
     }
 
-    freeList(tokens);
-    freeList(output);
-
-    return result;
+    return 0;
 }
 
 
@@ -426,35 +417,35 @@ static double getPostfixResult(const struct list *postfix)
 
 static void replaceVariable(const char *key, double val)
 {
-    struct variable *node = variables_first;
+    struct variable *var = variables_first;
 
-    while (node != NULL) {
-        if (!strcmp(key, node->key)) {
-            node->value = val;
+    while (var != NULL) {
+        if (!strcmp(key, var->key)) {
+            var->value = val;
             break;
         }
 
-        node = node->next;
+        var = var->next;
     }
 }
 
 
 void addVariable(const char *key, double val)
 {
-    struct variable *node;
+    struct variable *var;
 
     if (isVariable(key)) {
         replaceVariable(key, val);
         return;
     }
 
-    node = malloc_(sizeof(struct variable));
-    node->key = malloc_(BUFFER);
-    strncpy_(node->key, key, strlen(key) + 1);
-    node->value = val;
+    var = malloc_(sizeof(struct variable));
+    var->key = malloc_(BUFFER);
+    strncpy_(var->key, key, strlen(key) + 1);
+    var->value = val;
 
-    node->next = variables_first;
-    variables_first = node;
+    var->next = variables_first;
+    variables_first = var;
 }
 
 
@@ -514,12 +505,12 @@ void printWarnings(const struct list *list)
 
 void freeVariables(void)
 {
-    struct variable *node;
+    struct variable *var;
 
-    while ((node = variables_first) != NULL) {
+    while ((var = variables_first) != NULL) {
         variables_first = variables_first->next;
-        free(node->key);
-        free(node);
+        free(var->key);
+        free(var);
     }
 
     free(variables_first);

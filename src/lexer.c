@@ -298,18 +298,18 @@ bool isValid(const char *str)
 
 bool isVariable(const char *str)
 {
-    if (variables_first == NULL || str == NULL) {
+    struct variable *var = variables_first;
+
+    if (str == NULL) {
         return 0;
     }
 
-    struct variable *node = variables_first;
-
-    while (node != NULL) {
-        if (!strcmp(str, node->key)) {
+    while (var != NULL) {
+        if (!strcmp(str, var->key)) {
             return 1;
         }
 
-        node = node->next;
+        var = var->next;
     }
 
     return 0;
