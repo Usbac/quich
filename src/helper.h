@@ -4,6 +4,8 @@
 
 #include <stdbool.h>
 
+#define BUFFER 32
+
 /**
  * The functions defined here are general helper functions
  * that aren't related to any specific module of this software.

@@ -2,22 +2,18 @@
 #include <string.h>
 #include <stdlib.h>
 #include "helper.h"
+#include "variable.h"
 #include "lexer.h"
 
 /**
- * Current token being used
+ * Current token being used.
  */
 char *current_token;
 
 /**
- * Type of the current token being used
+ * Type of the current token being used.
  */
 enum TOKEN_TYPE current_type;
-
-/**
- * Pointer to the variables list
- */
-struct variable *variables_first;
 
 
 static enum TOKEN_TYPE getType(const char ch)
@@ -46,6 +42,33 @@ static enum TOKEN_TYPE getType(const char ch)
 static bool isIgnorableC(const char ch)
 {
     return ch == ' ' || ch == ',';
+}
+
+
+static bool isNumber(const char *str)
+{
+    size_t len = strlen(str);
+    size_t i;
+
+    for (i = 0; i < len; i++) {
+        /* Signed number */
+        if (i == 0 && (str[i] == '-' || str[i] == '+')) {
+            continue;
+        }
+
+        /* Exponent number */
+        if (i != 0 && i+1 < len && str[i] == 'e' &&
+            (str[i+1] == '+' || str[i+1] == '-')) {
+            i++;
+            continue;
+        }
+
+        if (str[i] != '.' && (str[i] < '0' || str[i] > '9')) {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 
@@ -257,33 +280,6 @@ bool isDataUnit(const char *str)
 }
 
 
-bool isNumber(const char *str)
-{
-    size_t len = strlen(str);
-    size_t i;
-
-    for (i = 0; i < len; i++) {
-        /* Signed number */
-        if (i == 0 && (str[i] == '-' || str[i] == '+')) {
-            continue;
-        }
-
-        /* Exponent number */
-        if (i != 0 && i+1 < len && str[i] == 'e' &&
-            (str[i+1] == '+' || str[i+1] == '-')) {
-            i++;
-            continue;
-        }
-
-        if (str[i] != '.' && (str[i] < '0' || str[i] > '9')) {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-
 bool isValid(const char *str)
 {
     return isOperator(str) ||
@@ -293,24 +289,4 @@ bool isValid(const char *str)
         isVariable(str) ||
         !strcmp(str, "(") ||
         !strcmp(str, ")");
-}
-
-
-bool isVariable(const char *str)
-{
-    struct variable *var = variables_first;
-
-    if (str == NULL) {
-        return false;
-    }
-
-    while (var != NULL) {
-        if (!strcmp(str, var->key)) {
-            return true;
-        }
-
-        var = var->next;
-    }
-
-    return false;
 }

@@ -3,7 +3,6 @@
 
 #include <stdbool.h>
 
-#define BUFFER 32
 #define NUMBER_FORMAT "%.15g"
 
 enum TOKEN_TYPE {
@@ -24,15 +23,6 @@ struct list {
     struct token *last;
 };
 
-struct variable {
-    char *key;
-    double value;
-    struct variable *next;
-};
-
-extern char *current_token;
-extern enum TOKEN_TYPE current_type;
-extern struct variable *variables_first;
 
 /**
  * Creates a list based on the given string
@@ -101,15 +91,6 @@ bool isTrigonometric(const char *str);
 bool isDataUnit(const char *str);
 
 /**
- * Returns true if the given string represents a number,
- * false otherwise.
- * @param str the string.
- * @return true if the given string represents a number,
- * false otherwise.
- */
-bool isNumber(const char *str);
-
-/**
  * Returns true if the given string is a valid value
  * (function, operator or number), false otherwise.
  * @param str the string.
@@ -117,14 +98,5 @@ bool isNumber(const char *str);
  * false otherwise.
  */
 bool isValid(const char *str);
-
-/**
- * Returns true if the given string is an existing variable,
- * false otherwise.
- * @param str the string.
- * @return Returns true if the given string is an existing variable,
- * false otherwise.
- */
-bool isVariable(const char *str);
 
 #endif /* LEXER_H_ */

@@ -19,14 +19,6 @@
 extern int precision;
 extern int result_precision;
 extern bool degree;
-extern bool division_warning;
-
-/**
- * Adds a variable.
- * @param key the variable key.
- * @param val the variable value.
- */
-void addVariable(const char *key, double val);
 
 /**
  * Returns the result of the given infix operation.
@@ -44,10 +36,5 @@ char *getResult(const char *func,
  * @param list the list.
  */
 void printWarnings(const struct list *list);
-
-/**
- * Frees the variable list.
- */
-void freeVariables(void);
 
 #endif /* PARSER_H_ */

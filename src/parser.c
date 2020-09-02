@@ -6,6 +6,7 @@
 #include <time.h>
 #include "helper.h"
 #include "lexer.h"
+#include "variable.h"
 #include "parser.h"
 
 /**
@@ -160,22 +161,6 @@ static void infixToPostfix(struct list *tokens,
     while (operators->last != NULL) {
         moveToken(&output, &operators);
     }
-}
-
-
-static double getVariableValue(const char *key)
-{
-    struct variable *var = variables_first;
-
-    while (var != NULL) {
-        if (!strcmp(key, var->key)) {
-            return var->value;
-        }
-
-        var = var->next;
-    }
-
-    return 0;
 }
 
 
@@ -415,40 +400,6 @@ static double getPostfixResult(const struct list *postfix)
 }
 
 
-static void replaceVariable(const char *key, double val)
-{
-    struct variable *var = variables_first;
-
-    while (var != NULL) {
-        if (!strcmp(key, var->key)) {
-            var->value = val;
-            break;
-        }
-
-        var = var->next;
-    }
-}
-
-
-void addVariable(const char *key, double val)
-{
-    struct variable *var;
-
-    if (isVariable(key)) {
-        replaceVariable(key, val);
-        return;
-    }
-
-    var = malloc_(sizeof(struct variable));
-    var->key = malloc_(BUFFER);
-    strncpy_(var->key, key, strlen(key) + 1);
-    var->value = val;
-
-    var->next = variables_first;
-    variables_first = var;
-}
-
-
 char *getResult(const char *func,
                 struct list *tokens,
                 struct list *output)
@@ -500,18 +451,4 @@ void printWarnings(const struct list *list)
     if (warnings_quantity > 0) {
         printf(INACCURATE_RESULT_MSG);
     }
-}
-
-
-void freeVariables(void)
-{
-    struct variable *var;
-
-    while ((var = variables_first) != NULL) {
-        variables_first = variables_first->next;
-        free(var->key);
-        free(var);
-    }
-
-    free(variables_first);
 }

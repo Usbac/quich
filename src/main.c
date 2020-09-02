@@ -6,6 +6,7 @@
 #include "helper.h"
 #include "lexer.h"
 #include "parser.h"
+#include "variable.h"
 #include "main.h"
 
 /**
@@ -217,7 +218,6 @@ static int interactive(void)
     int result;
     printf(INIT_MSG);
     while ((result = processLine()));
-    freeVariables();
 
     return result;
 }
@@ -239,10 +239,11 @@ int main(int argc, char* argv[])
 
     addPredefValues();
     if (interactive_mode || flags_quantity >= argc - 1) {
-        return interactive();
+        interactive();
+    } else {
+        printAll(argv[1]);
     }
 
-    printAll(argv[1]);
     freeVariables();
 
     return 0;
