@@ -52,11 +52,11 @@ static bool isIgnorableC(const char ch)
 static bool isSigned(struct list *list, const char *str, const int i)
 {
     if (str[i] != '+' && str[i] != '-') {
-        return 0;
+        return false;
     }
 
     if (i-1 < 0) {
-        return 1;
+        return true;
     }
 
     return
@@ -276,11 +276,11 @@ bool isNumber(const char *str)
         }
 
         if (str[i] != '.' && (str[i] < '0' || str[i] > '9')) {
-            return 0;
+            return false;
         }
     }
 
-    return 1;
+    return true;
 }
 
 
@@ -298,19 +298,19 @@ bool isValid(const char *str)
 
 bool isVariable(const char *str)
 {
-    if (variables_first == NULL || str == NULL) {
-        return 0;
+    struct variable *var = variables_first;
+
+    if (str == NULL) {
+        return false;
     }
 
-    struct variable *node = variables_first;
-
-    while (node != NULL) {
-        if (!strcmp(str, node->key)) {
-            return 1;
+    while (var != NULL) {
+        if (!strcmp(str, var->key)) {
+            return true;
         }
 
-        node = node->next;
+        var = var->next;
     }
 
-    return 0;
+    return false;
 }

@@ -13,7 +13,7 @@
  * Just a safer malloc function.
  * @param size the memory to allocate.
  */
-void *malloc_(const size_t size);
+void *malloc_(size_t size);
 
 /**
  * Just a safer strncpy function.
@@ -22,7 +22,7 @@ void *malloc_(const size_t size);
  * @param n the number of characters to copy
  * @return the number of characters to copy.
  */
-int strncpy_(char *dest, const char *src, const size_t n);
+int strncpy_(char *dest, const char *src, size_t n);
 
 /**
  * Returns the number rounded to the given digits.
@@ -30,7 +30,7 @@ int strncpy_(char *dest, const char *src, const size_t n);
  * @param digits the digits to round after the decimal point.
  * @return the number rounded.
  */
-double round_(double n, const size_t digits);
+double round_(double n, size_t digits);
 
 /**
  * Returns the double value of the giving string.
@@ -68,7 +68,7 @@ void getLine(const char *str, char *buffer, size_t size);
  * @param begin true for adding to the beginning, false
  * for adding to the end.
  */
-void addChar(char **str, const char ch, int begin);
+void addChar(char **str, char ch, bool begin);
 
 /**
  * Returns true if the given string is empty,

@@ -1,7 +1,7 @@
 #ifndef MAIN_H_
 #define MAIN_H_
 #define OPERATION_BUFFER 512
-#define VERSION_MSG "QUICH v2.6.2\n"
+#define VERSION_MSG "QUICH v3.0.0\n"
 #define INPUT_LINE "> "
 #define DEFINITION_MSG "(definition)\n"
 #define STATEMENT_SEPARATOR ";"
@@ -38,7 +38,7 @@
     "floor  Round down.\n" \
     "ceil   Round up.\n\n" \
     "AVAILABLE:\n\n" \
-    "Constants 'PI' (3.14...), 'E' (2.71...) and 'G' (earth gravity / 9.80...).\n" \
+    "Constants 'PI' (3.14...), 'E' (2.71...) and 'G' (9.80...).\n" \
     "Units of measurement for data storage 'mb', 'gb', 'tb' and 'pt' (returned in kb).\n\n"
 
 #endif /* MAIN_H_ */

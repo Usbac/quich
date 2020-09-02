@@ -37,7 +37,7 @@ bool trigonometric_warning = false;
 /**
  * The current operation is defining a variable or not.
  */
-int variable_defined = 0;
+bool variable_defined = false;
 
 
 static void push(struct list **list, const struct token *node)
@@ -165,30 +165,17 @@ static void infixToPostfix(struct list *tokens,
 
 static double getVariableValue(const char *key)
 {
-    struct variable *node = variables_first;
-    struct list *tokens, *output;
-    char *result = NULL;
-    double result_number;
+    struct variable *var = variables_first;
 
-    initList(&tokens);
-    initList(&output);
-
-    while (node != NULL) {
-        if (!strcmp(key, node->key)) {
-            result = getResult(node->value, tokens, output);
-            break;
+    while (var != NULL) {
+        if (!strcmp(key, var->key)) {
+            return var->value;
         }
 
-        node = node->next;
+        var = var->next;
     }
 
-    freeList(tokens);
-    freeList(output);
-
-    result_number = strToDouble(result);
-    free(result);
-
-    return result_number;
+    return 0;
 }
 
 
@@ -204,11 +191,11 @@ static double getOpResult(const char *operator,
                           const char *a,
                           const char *b)
 {
-    double x = 0, y = 0;
+    double x, y;
 
     variable_defined = !strcmp(operator, "=");
     if (variable_defined) {
-        addVariable(a, b);
+        addVariable(a, getValue(b));
         return 0;
     }
 
@@ -361,7 +348,7 @@ static void pushResult(struct list *list, const struct token *node)
 {
     struct token *new;
     char *x = NULL, *y = NULL;
-    double result = 0;
+    double result;
 
     if (list == NULL || list->last == NULL) {
         return;
@@ -428,42 +415,37 @@ static double getPostfixResult(const struct list *postfix)
 }
 
 
-static void replaceVariable(const char *key, const char *val)
+static void replaceVariable(const char *key, double val)
 {
-    struct variable *node = variables_first;
+    struct variable *var = variables_first;
 
-    while (node != NULL) {
-        if (!strcmp(key, node->key)) {
-            strncpy_(node->value, val, strlen(val) + 1);
+    while (var != NULL) {
+        if (!strcmp(key, var->key)) {
+            var->value = val;
+            break;
         }
 
-        node = node->next;
+        var = var->next;
     }
 }
 
 
-void addVariable(const char *key, const char *val)
+void addVariable(const char *key, double val)
 {
-    struct variable *node;
-
-    /* Ignore if key and value are the same */
-    if (!strcmp(key, val)) {
-        return;
-    }
+    struct variable *var;
 
     if (isVariable(key)) {
         replaceVariable(key, val);
         return;
     }
 
-    node = malloc_(sizeof(struct variable));
-    node->key = malloc_(BUFFER);
-    node->value = malloc_(BUFFER);
-    strncpy_(node->key, key, strlen(key) + 1);
-    strncpy_(node->value, val, strlen(val) + 1);
+    var = malloc_(sizeof(struct variable));
+    var->key = malloc_(BUFFER);
+    strncpy_(var->key, key, strlen(key) + 1);
+    var->value = val;
 
-    node->next = variables_first;
-    variables_first = node;
+    var->next = variables_first;
+    variables_first = var;
 }
 
 
@@ -474,7 +456,7 @@ char *getResult(const char *func,
     struct list *operators;
     char *result = malloc_(BUFFER);
     result[0] = '\0';
-    variable_defined = 0;
+    variable_defined = false;
     initList(&operators);
 
     tokenize(tokens, func);
@@ -523,13 +505,12 @@ void printWarnings(const struct list *list)
 
 void freeVariables(void)
 {
-    struct variable *node;
+    struct variable *var;
 
-    while ((node = variables_first) != NULL) {
+    while ((var = variables_first) != NULL) {
         variables_first = variables_first->next;
-        free(node->key);
-        free(node->value);
-        free(node);
+        free(var->key);
+        free(var);
     }
 
     free(variables_first);

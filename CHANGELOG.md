@@ -1,5 +1,13 @@
 # Release Notes
 
+## v3.0.0 (2020-09-02)
+
+### Changed
+
+- Variables work by value instead of by reference.
+
+- Minor performance improvements.
+
 ## v2.6.2 (2020-08-05)
 
 ### Fixed

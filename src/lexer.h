@@ -26,7 +26,7 @@ struct list {
 
 struct variable {
     char *key;
-    char *value;
+    double value;
     struct variable *next;
 };
 

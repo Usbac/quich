@@ -9,9 +9,9 @@
 <h4 align="center">Just an advanced terminal calculator.</h4>
 
 <p align="center">
-<img src="https://img.shields.io/badge/stability-stable-green.svg">
-<img src="https://img.shields.io/badge/version-2.6.2-blue.svg">
-<img src="https://img.shields.io/badge/license-MIT-orange.svg">
+    <img src="https://img.shields.io/badge/stability-stable-green.svg">
+    <img src="https://img.shields.io/badge/version-3.0.0-blue.svg">
+    <img src="https://img.shields.io/badge/license-MIT-orange.svg">
 </p>
 
 Quich is a small, easy to use, fast and useful calculator for your terminal with numerous features. Written in [ANSI C](https://en.wikipedia.org/wiki/ANSI_C).
@@ -24,15 +24,15 @@ You can enter in `interactive mode` by calling Quich without an operation.
 
 `-d` `--degree` Manage the given angles in degrees
 
-`-f` `--format` The format to display the result.
+`-f` `--format` `[%s]` The format to display the result
 
 `-h` `--help` Get help and information
 
 `-i` `--interactive` Force interactive mode
 
-`-p` `--precision` The number of decimals to be used for the internal numbers
+`-p` `--precision` `[%i]` The number of decimals to be used for the internal numbers
 
-`-r` `--round` The number of decimals to round the result
+`-r` `--round` `[%i]` The number of decimals to round the result
 
 `-t` `--thousands` Display the result with thousands separators
 
@@ -64,9 +64,7 @@ Syntax: `func(operand)`
 
 ### Variables
 
-For defining a variable just write an equal operator between its name and value. Like this `a=4+20`.
-
-_Variables work by reference, meaning that if `a` is equal to `b`, changing the value of `b` will also change the value of `a`._
+For defining a variable just write an equal operator between its name and its value. Like this: `a=4+20`.
 
 ### Available
 
@@ -94,9 +92,9 @@ Now you will be able to access Quich with the `calc` command.
 
 You can download the bundles too.
 
-[Windows - v2.6.2](https://github.com/Usbac/quich/releases/download/v2.6.2/quich-windows.exe)
+[Windows - v3.0.0](https://github.com/Usbac/quich/releases/download/v3.0.0/quich-windows.exe)
 
-[Linux - v2.6.2](https://github.com/Usbac/quich/releases/download/v2.6.2/quich-linux)
+[Linux - v3.0.0](https://github.com/Usbac/quich/releases/download/v3.0.0/quich-linux)
 
 ## Examples
 
@@ -130,8 +128,8 @@ $ quich 12345 -f '%.1g'
 ```
 ```console
 $ quich 5+PI -vvv
-Tokens > '5' '+' '3.14159265358979'
-Posfix > 5 3.14159265358979 +
+Tokens > '5' '+' 'PI'
+Posfix > 5 PI +
 Result > 8.14159265358979
 ```
 

@@ -114,7 +114,7 @@ static void printHelp(void)
 }
 
 
-static int mapArgs(int argc, char *argv[])
+static bool mapArgs(int argc, char *argv[])
 {
     int i;
 
@@ -140,13 +140,13 @@ static int mapArgs(int argc, char *argv[])
         /* Version */
         if (!strcmp(argv[i], "-v") || !strcmp(argv[i], "--version")) {
             printf(VERSION_MSG);
-            return 1;
+            return true;
         }
 
         /* Help */
         if (!strcmp(argv[i], "-h") || !strcmp(argv[i], "--help")) {
             printHelp();
-            return 1;
+            return true;
         }
 
         /* Thousands separator */
@@ -157,7 +157,7 @@ static int mapArgs(int argc, char *argv[])
 
         /* The flags below work with values */
         if (i+1 >= argc) {
-            return 0;
+            return false;
         }
 
         /* Result format */
@@ -177,14 +177,13 @@ static int mapArgs(int argc, char *argv[])
             result_precision = (int)strToDouble(argv[++i]);
             flags_quantity += 2;
         }
-
     }
 
-    return 0;
+    return false;
 }
 
 
-static int processLine(void)
+static bool processLine(void)
 {
     char buffer[OPERATION_BUFFER];
     char *operation;
@@ -194,23 +193,22 @@ static int processLine(void)
 
     len = strlen(buffer);
     operation = malloc(len + 1);
-    memset(operation, 0, len + 1);
     strncpy_(operation, buffer, len);
 
     if (!strcmp(operation, CLEAR_COMMAND)) {
         clearScreen();
-        return 1;
+        return true;
     }
 
     if (!strcmp(operation, EXIT_COMMAND)) {
         printf(BYE_MSG);
         free(operation);
-        return 0;
+        return false;
     }
 
     printAll(operation);
     free(operation);
-    return 1;
+    return true;
 }
 
 
@@ -225,20 +223,11 @@ static int interactive(void)
 }
 
 
-static void addValue(const char *key, double value)
+static void addPredefValues(void)
 {
-    char *aux = malloc_(BUFFER);
-    snprintf(aux, BUFFER, NUMBER_FORMAT, value);
-    addVariable(key, aux);
-    free(aux);
-}
-
-
-static void addPredefinedValues(void)
-{
-    addValue("PI", M_PI);
-    addValue("E", M_E);
-    addValue("G", G);
+    addVariable("PI", M_PI);
+    addVariable("E", M_E);
+    addVariable("G", G);
 }
 
 
@@ -248,7 +237,7 @@ int main(int argc, char* argv[])
         return 0;
     }
 
-    addPredefinedValues();
+    addPredefValues();
     if (interactive_mode || flags_quantity >= argc - 1) {
         return interactive();
     }

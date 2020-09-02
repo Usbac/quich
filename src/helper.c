@@ -6,7 +6,7 @@
 #include "helper.h"
 
 
-void *malloc_(const size_t size)
+void *malloc_(size_t size)
 {
     void *alloc_mem = malloc(size);
 
@@ -19,7 +19,7 @@ void *malloc_(const size_t size)
 }
 
 
-int strncpy_(char *dest, const char *src, const size_t n)
+int strncpy_(char *dest, const char *src, size_t n)
 {
     snprintf(dest, n, "%s", src);
 
@@ -27,7 +27,7 @@ int strncpy_(char *dest, const char *src, const size_t n)
 }
 
 
-double round_(double n, const size_t digits)
+double round_(double n, size_t digits)
 {
     double decimals = pow(10, digits);
     n *= decimals;
@@ -125,7 +125,7 @@ void getLine(const char *str, char *buffer, size_t size)
 }
 
 
-void addChar(char **str, const char ch, int begin)
+void addChar(char **str, char ch, bool begin)
 {
     size_t len = strlen(*str) + 1;
     char *tmp = malloc_(len + 1);

@@ -26,7 +26,7 @@ extern bool division_warning;
  * @param key the variable key.
  * @param val the variable value.
  */
-void addVariable(const char *key, const char *val);
+void addVariable(const char *key, double val);
 
 /**
  * Returns the result of the given infix operation.
