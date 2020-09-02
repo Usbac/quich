@@ -37,7 +37,7 @@ bool trigonometric_warning = false;
 /**
  * The current operation is defining a variable or not.
  */
-int variable_defined = 0;
+bool variable_defined = false;
 
 
 static void push(struct list **list, const struct token *node)
@@ -456,7 +456,7 @@ char *getResult(const char *func,
     struct list *operators;
     char *result = malloc_(BUFFER);
     result[0] = '\0';
-    variable_defined = 0;
+    variable_defined = false;
     initList(&operators);
 
     tokenize(tokens, func);
