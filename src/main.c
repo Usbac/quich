@@ -114,7 +114,7 @@ static void printHelp(void)
 }
 
 
-static int mapArgs(int argc, char *argv[])
+static bool mapArgs(int argc, char *argv[])
 {
     int i;
 
@@ -140,13 +140,13 @@ static int mapArgs(int argc, char *argv[])
         /* Version */
         if (!strcmp(argv[i], "-v") || !strcmp(argv[i], "--version")) {
             printf(VERSION_MSG);
-            return 1;
+            return true;
         }
 
         /* Help */
         if (!strcmp(argv[i], "-h") || !strcmp(argv[i], "--help")) {
             printHelp();
-            return 1;
+            return true;
         }
 
         /* Thousands separator */
@@ -157,7 +157,7 @@ static int mapArgs(int argc, char *argv[])
 
         /* The flags below work with values */
         if (i+1 >= argc) {
-            return 0;
+            return false;
         }
 
         /* Result format */
@@ -177,14 +177,13 @@ static int mapArgs(int argc, char *argv[])
             result_precision = (int)strToDouble(argv[++i]);
             flags_quantity += 2;
         }
-
     }
 
-    return 0;
+    return false;
 }
 
 
-static int processLine(void)
+static bool processLine(void)
 {
     char buffer[OPERATION_BUFFER];
     char *operation;
@@ -198,18 +197,18 @@ static int processLine(void)
 
     if (!strcmp(operation, CLEAR_COMMAND)) {
         clearScreen();
-        return 1;
+        return true;
     }
 
     if (!strcmp(operation, EXIT_COMMAND)) {
         printf(BYE_MSG);
         free(operation);
-        return 0;
+        return false;
     }
 
     printAll(operation);
     free(operation);
-    return 1;
+    return true;
 }
 
 
