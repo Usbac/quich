@@ -200,7 +200,7 @@ static double getOpResult(const char *operator,
                           const char *a,
                           const char *b)
 {
-    double x = 0, y = 0;
+    double x, y;
 
     variable_defined = !strcmp(operator, "=");
     if (variable_defined) {
@@ -357,7 +357,7 @@ static void pushResult(struct list *list, const struct token *node)
 {
     struct token *new;
     char *x = NULL, *y = NULL;
-    double result = 0;
+    double result;
 
     if (list == NULL || list->last == NULL) {
         return;
