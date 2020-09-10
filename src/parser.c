@@ -3,7 +3,6 @@
 #include <string.h>
 #include <stdbool.h>
 #include <math.h>
-#include <time.h>
 #include "helper.h"
 #include "lexer.h"
 #include "variable.h"
@@ -52,6 +51,7 @@ static void push(struct list **list, const struct token *node)
 
     new->next = NULL;
     new->prev = NULL;
+    new->opcode = node->opcode;
     new->value = malloc_(value_len);
     strncpy_(new->value, node->value, value_len);
 
@@ -81,6 +81,7 @@ static void moveToken(struct list **dest, struct list **src)
     cpy = calloc(3, sizeof(struct token));
     cpy->prev = (*dest)->last;
     cpy->next = NULL;
+    cpy->opcode = (*src)->last->opcode;
     cpy->value = malloc_(value_len);
     strncpy_(cpy->value, (*src)->last->value, value_len);
 
@@ -125,7 +126,7 @@ static void migrateUntilParenthesis(struct list *output,
 static int hasHigherEqualPrec(struct token *first, struct token *second)
 {
     return first != NULL && second != NULL &&
-        getPrec(first->value) >= getPrec(second->value);
+        getPrec(first->opcode) >= getPrec(second->opcode);
 }
 
 
@@ -139,13 +140,13 @@ static void infixToPostfix(struct list *tokens,
     trigonometric_warning = false;
 
     while (node != NULL) {
-        if (!strcmp(node->value, "(")) {
+        if (node->opcode == OP_Open_parenthesis) {
             push(&operators, node);
-        } else if (!strcmp(node->value, ")")) {
+        } else if (node->opcode == OP_Closed_parenthesis) {
             migrateUntilParenthesis(output, operators);
-        } else if (isFunction(node->value)) {
+        } else if (isFunction(node->opcode)) {
             push(&operators, node);
-        } else if (isOperator(node->value)) {
+        } else if (isOperator(node->opcode)) {
             while (hasHigherEqualPrec(node, operators->last)) {
                 moveToken(&output, &operators);
             }
@@ -172,13 +173,13 @@ static double getValue(const char *str)
 }
 
 
-static double getOpResult(const char *operator,
+static double getOpResult(enum OPCODE op,
                           const char *a,
                           const char *b)
 {
     double x, y;
 
-    variable_defined = !strcmp(operator, "=");
+    variable_defined = op == OP_Equal;
     if (variable_defined) {
         addVariable(a, getValue(b));
         return 0;
@@ -192,19 +193,19 @@ static double getOpResult(const char *operator,
         y = round_(y, precision);
     }
 
-    if (!strcmp(operator, "+")) {
+    if (op == OP_Plus) {
         return x + y;
     }
 
-    if (!strcmp(operator, "-")) {
+    if (op == OP_Minus) {
         return x - y;
     }
 
-    if (!strcmp(operator, "*")) {
+    if (op == OP_Multi) {
         return x * y;
     }
 
-    if (!strcmp(operator, "/")) {
+    if (op == OP_Div) {
         if (y == 0) {
             division_warning = true;
             return 0;
@@ -213,92 +214,91 @@ static double getOpResult(const char *operator,
         return x / y;
     }
 
-    if (!strcmp(operator, "^")) {
+    if (op == OP_Pow) {
         return pow(x, y);
     }
 
-    if (!strcmp(operator, "!")) {
+    if (op == OP_Fact) {
         return fact((int)y);
     }
 
-    if (!strcmp(operator, "sqrt")) {
+    if (op == OP_Sqrt) {
         return sqrt(y);
     }
 
-    if (!strcmp(operator, "abs")) {
+    if (op == OP_Abs) {
         return fabs(y);
     }
 
-    if (!strcmp(operator, "log")) {
+    if (op == OP_Log) {
         return log(y);
     }
 
-    if (!strcmp(operator, "floor")) {
+    if (op == OP_Floor) {
         return floor(y);
     }
 
-    if (!strcmp(operator, "ceil")) {
+    if (op == OP_Ceil) {
         return ceil(y);
     }
 
-    if (!strcmp(operator, "round")) {
+    if (op == OP_Round) {
         return round(y);
     }
 
-    if (!strcmp(operator, "rand")) {
-        srand(time(NULL));
-        return (double) abs(rand() * 100) / RAND_MAX;
+    if (op == OP_Rand) {
+        return getRand();
     }
 
-    if (!strcmp(operator, "mb")) {
+    if (op == OP_Mb) {
         return y * ONE_MB;
     }
 
-    if (!strcmp(operator, "gb")) {
+    if (op == OP_Gb) {
         return y * ONE_GB;
     }
 
-    if (!strcmp(operator, "tb")) {
+    if (op == OP_Tb) {
         return y * ONE_TB;
     }
 
-    if (!strcmp(operator, "pb")) {
+    if (op == OP_Pb) {
         return y * ONE_PT;
     }
 
-    if (degree && isTrigonometric(operator)) {
+    if (degree && isTrigonometric(op)) {
         y = y / 180 * M_PI;
     }
 
-    if (!strcmp(operator, "sin")) {
+    if (op == OP_Sin) {
         return sin(y);
     }
 
-    if (!strcmp(operator, "cos")) {
+    if (op == OP_Cos) {
         return cos(y);
     }
 
-    if (!strcmp(operator, "tan")) {
+    if (op == OP_Tan) {
         return tan(y);
     }
 
-    if ((!strcmp(operator, "asin") ||
-        !strcmp(operator, "acos") ||
-        !strcmp(operator, "atan")) &&
+    if ((op == OP_Asin ||
+        op == OP_Acos ||
+        op == OP_Atan) &&
         (y < -1 || y > 1)) {
         trigonometric_warning = true;
         return 0;
     }
 
-    if (!strcmp(operator, "asin")) {
+    if (op == OP_Asin) {
         return asin(y);
     }
 
-    if (!strcmp(operator, "acos")) {
+    if (op == OP_Acos) {
         return acos(y);
     }
 
-    if (!strcmp(operator, "atan")) {
+    if (op == OP_Atan) {
         return atan(y);
     }
 
@@ -341,12 +341,12 @@ static void pushResult(struct list *list, const struct token *node)
 
     y = pop(list);
 
-    if (!isFunction(node->value) &&
-        !isDataUnit(node->value)) {
+    if (!isFunction(node->opcode) &&
+        !isDataUnit(node->opcode)) {
         x = pop(list);
     }
 
-    result = getOpResult(node->value, x, y);
+    result = getOpResult(node->opcode, x, y);
     if (precision >= 0) {
         result = round_(result, precision);
     }
@@ -375,9 +375,9 @@ static double getPostfixResult(const struct list *postfix)
     initList(&result_list);
 
     while (node != NULL) {
-        if (isOperator(node->value) ||
-            isFunction(node->value) ||
-            isDataUnit(node->value)) {
+        if (isOperator(node->opcode) ||
+            isFunction(node->opcode) ||
+            isDataUnit(node->opcode)) {
             pushResult(result_list, node);
         } else {
             push(&result_list, node);
@@ -430,7 +430,7 @@ void printWarnings(const struct list *list)
     size_t warnings_quantity = 0;
 
     while (node != NULL) {
-        if (!isValid(node->value)) {
+        if (!isValid(node)) {
             printf(TOKEN_WARNING_MSG, node->value);
             warnings_quantity++;
         }

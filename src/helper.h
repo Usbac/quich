@@ -27,6 +27,13 @@ void *malloc_(size_t size);
 int strncpy_(char *dest, const char *src, size_t n);
 
 /**
+ * Returns a random number between 0 and 1.
+ * This function follows the PRNG.
+ * @return the random number.
+ */
+double getRand(void);
+
+/**
  * Returns the number rounded to the given digits.
  * @param n the number.
  * @param digits the digits to round after the decimal point.

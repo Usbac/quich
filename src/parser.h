@@ -5,6 +5,8 @@
 #define TRIGONOMETRIC_WARNING_MSG "\nWarning: Invalid trigonometric value."
 #define INACCURATE_RESULT_MSG "\nResult may not be correct!\n"
 
+#define NUMBER_FORMAT "%.15g"
+
 /* Math values */
 #define M_PI acos(-1)
 #define M_E 2.71828182845904523536

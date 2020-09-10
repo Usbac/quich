@@ -3,8 +3,6 @@
 
 #include <stdbool.h>
 
-#define NUMBER_FORMAT "%.15g"
-
 enum TOKEN_TYPE {
     Operand,
     Operator,
@@ -12,8 +10,39 @@ enum TOKEN_TYPE {
     None
 };
 
+enum OPCODE {
+    OP_Plus,
+    OP_Minus,
+    OP_Multi,
+    OP_Div,
+    OP_Equal,
+    OP_Pow,
+    OP_Fact,
+    OP_Sqrt,
+    OP_Abs,
+    OP_Log,
+    OP_Floor,
+    OP_Ceil,
+    OP_Round,
+    OP_Rand,
+    OP_Mb,
+    OP_Gb,
+    OP_Tb,
+    OP_Pb,
+    OP_Sin,
+    OP_Cos,
+    OP_Tan,
+    OP_Asin,
+    OP_Acos,
+    OP_Atan,
+    OP_Closed_parenthesis,
+    OP_Open_parenthesis,
+    OP_None,
+};
+
 struct token {
     char *value;
+    enum OPCODE opcode;
     struct token *prev;
     struct token *next;
 };
@@ -47,56 +76,56 @@ void initList(struct list **list);
 /**
  * Returns the precedence of the given operator.
  * Operators with a lower precedence are evaluated first.
- * @param str the operator.
+ * @param opcode the opcode.
  * @return the precedence of the given operator.
  */
-int getPrec(const char *str);
+int getPrec(enum OPCODE opcode);
 
 /**
- * Returns true if the given string represents an operator,
+ * Returns true if the given opcode represents an operator,
  * false otherwise.
- * @param str the string.
- * @return true if the given string represents an operator,
+ * @param opcode the opcode.
+ * @return true if the given opcode represents an operator,
  * false otherwise.
  */
-bool isOperator(const char *str);
+bool isOperator(enum OPCODE opcode);
 
 /**
- * Returns true if the given string represents a function,
+ * Returns true if the given opcode represents a function,
  * false otherwise.
- * @param str the string.
- * @return true if the given string represents a function,
+ * @param opcode the opcode.
+ * @return true if the given opcode represents a function,
  * false otherwise.
  */
-bool isFunction(const char *str);
+bool isFunction(enum OPCODE opcode);
 
 /**
- * Returns true if the given string represents a trigonometric function,
+ * Returns true if the given opcode represents a trigonometric function,
  * false otherwise.
- * @param str the string.
- * @return true if the given string represents a trigonometric function,
+ * @param opcode the opcode.
+ * @return true if the given opcode represents a trigonometric function,
  * false otherwise.
  */
-bool isTrigonometric(const char *str);
+bool isTrigonometric(enum OPCODE opcode);
 
 /**
- * Returns true if the given string represents an
+ * Returns true if the given opcode represents an
  * unit of measurement for data storage (megabyte to petabyte),
  * false otherwise.
- * @param str the string.
- * @return true if the given string represents an
+ * @param opcode the opcode.
+ * @return true if the given opcode represents an
  * unit of measurement for data storage,
  * false otherwise.
  */
-bool isDataUnit(const char *str);
+bool isDataUnit(enum OPCODE opcode);
 
 /**
- * Returns true if the given string is a valid value
+ * Returns true if the given token is a valid value
  * (function, operator or number), false otherwise.
- * @param str the string.
- * @return Returns true if the given value is a valid value,
+ * @param node the token.
+ * @return Returns true if the given node is a valid value,
  * false otherwise.
  */
-bool isValid(const char *str);
+bool isValid(struct token *node);
 
 #endif /* LEXER_H_ */

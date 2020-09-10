@@ -42,7 +42,7 @@ static void printVerbose(struct list *tokens, struct list *output)
     /* Tokens */
     printf("Tokens > ");
     while (node != NULL) {
-        printf(isValid(node->value) ? "'%s' " : "'%s'? ", node->value);
+        printf(isValid(node) ? "'%s' " : "'%s'? ", node->value);
         node = node->next;
     }
 
@@ -109,12 +109,6 @@ static void printAll(char *func)
 }
 
 
-static void printHelp(void)
-{
-    printf(HELP_MSG);
-}
-
-
 static bool mapArgs(int argc, char *argv[])
 {
     int i;
@@ -146,7 +140,7 @@ static bool mapArgs(int argc, char *argv[])
 
         /* Help */
         if (!strcmp(argv[i], "-h") || !strcmp(argv[i], "--help")) {
-            printHelp();
+            printf(HELP_MSG);
             return true;
         }
 

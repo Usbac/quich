@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <math.h>
+#include <time.h>
 #include "helper.h"
 
 
@@ -24,6 +25,13 @@ int strncpy_(char *dest, const char *src, size_t n)
     snprintf(dest, n, "%s", src);
 
     return n;
+}
+
+
+double getRand(void)
+{
+    srand(time(NULL));
+    return (double) abs(rand() * 100) / RAND_MAX;
 }
 
 

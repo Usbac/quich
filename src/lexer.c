@@ -88,15 +88,6 @@ static bool isSigned(struct list *list, const char *str, const int i)
 }
 
 
-static void getTokenVal(char **dest, const char *token)
-{
-    size_t token_len = strlen(token) + 1;
-
-    *dest = malloc_(token_len);
-    strncpy_(*dest, token, token_len);
-}
-
-
 static void prependList(struct list *list, struct token *node)
 {
     if (list->last == NULL) {
@@ -110,25 +101,82 @@ static void prependList(struct list *list, struct token *node)
 }
 
 
+static enum OPCODE getOpcode(const char *str)
+{
+    if (!strcmp(str, "+")) {
+        return OP_Plus;
+    } else if (!strcmp(str, "-")) {
+        return OP_Minus;
+    } else if (!strcmp(str, "*")) {
+        return OP_Multi;
+    } else if (!strcmp(str, "/")) {
+        return OP_Div;
+    } else if (!strcmp(str, "=")) {
+        return OP_Equal;
+    } else if (!strcmp(str, "^")) {
+        return OP_Pow;
+    } else if (!strcmp(str, "!")) {
+        return OP_Fact;
+    } else if (!strcmp(str, "sqrt")) {
+        return OP_Sqrt;
+    } else if (!strcmp(str, "abs")) {
+        return OP_Abs;
+    } else if (!strcmp(str, "log")) {
+        return OP_Log;
+    } else if (!strcmp(str, "floor")) {
+        return OP_Floor;
+    } else if (!strcmp(str, "ceil")) {
+        return OP_Ceil;
+    } else if (!strcmp(str, "round")) {
+        return OP_Round;
+    } else if (!strcmp(str, "rand")) {
+        return OP_Rand;
+    } else if (!strcmp(str, "mb")) {
+        return OP_Mb;
+    } else if (!strcmp(str, "gb")) {
+        return OP_Gb;
+    } else if (!strcmp(str, "tb")) {
+        return OP_Tb;
+    } else if (!strcmp(str, "pb")) {
+        return OP_Pb;
+    } else if (!strcmp(str, "sin")) {
+        return OP_Sin;
+    } else if (!strcmp(str, "cos")) {
+        return OP_Cos;
+    } else if (!strcmp(str, "tan")) {
+        return OP_Tan;
+    } else if (!strcmp(str, "asin")) {
+        return OP_Asin;
+    } else if (!strcmp(str, "acos")) {
+        return OP_Acos;
+    } else if (!strcmp(str, "atan")) {
+        return OP_Atan;
+    } else if (!strcmp(str, "(")) {
+        return OP_Open_parenthesis;
+    } else if (!strcmp(str, ")")) {
+        return OP_Closed_parenthesis;
+    }
+
+    return OP_None;
+}
+
+
 static void addToken(struct list *list, const char *token)
 {
     size_t len;
     struct token *new;
-    char *token_val;
 
     if (isEmpty(token)) {
         return;
     }
 
-    getTokenVal(&token_val, token);
-
-    len = strlen(token_val) + 1;
+    len = strlen(token) + 1;
 
     new = calloc(3, sizeof(struct token));
+    new->opcode = getOpcode(token);
     new->next = NULL;
     new->value = malloc_(len);
-    strncpy_(new->value, token_val, len);
-    free(token_val);
+    strncpy_(new->value, token, len);
 
     /* Set zero as argument if no argument is provided */
     if (list->last != NULL && !strcmp(list->last->value, "(") &&
@@ -216,28 +264,28 @@ void initList(struct list **list)
 }
 
 
-int getPrec(const char *str)
+int getPrec(enum OPCODE opcode)
 {
-    if (!strcmp(str, "=")) {
+    if (opcode == OP_Equal) {
         return 5;
     }
 
-    if (!strcmp(str, "(") ||
-        !strcmp(str, ")")) {
+    if (opcode == OP_Open_parenthesis ||
+        opcode == OP_Closed_parenthesis) {
         return 4;
     }
 
-    if (!strcmp(str, "+") ||
-        !strcmp(str, "-")) {
+    if (opcode == OP_Plus ||
+        opcode == OP_Minus) {
         return 3;
     }
 
-    if (!strcmp(str, "*") ||
-        !strcmp(str, "/")) {
+    if (opcode == OP_Multi ||
+        opcode == OP_Div) {
         return 2;
     }
 
-    if (!strcmp(str, "^")) {
+    if (opcode == OP_Pow) {
         return 1;
     }
 
@@ -245,48 +293,49 @@ int getPrec(const char *str)
 }
 
 
-bool isOperator(const char *str)
-{
-    return !strcmp(str, "+") || !strcmp(str, "-") ||
-        !strcmp(str, "*") || !strcmp(str, "/") ||
-        !strcmp(str, "^") || !strcmp(str, "=");
-}
-
-
-bool isFunction(const char *str)
-{
-    return isTrigonometric(str) ||
-        (!strcmp(str, "sqrt") || !strcmp(str, "log") ||
-        !strcmp(str, "floor") || !strcmp(str, "ceil") ||
-        !strcmp(str, "round") || !strcmp(str, "abs") ||
-        !strcmp(str, "rand") || !strcmp(str, "!"));
-}
-
-
-bool isTrigonometric(const char *str)
+bool isOperator(enum OPCODE opcode)
 {
     return
-        !strcmp(str, "sin") || !strcmp(str, "cos") ||
-        !strcmp(str, "tan") || !strcmp(str, "asin") ||
-        !strcmp(str, "acos") || !strcmp(str, "atan");
+        opcode == OP_Plus || opcode == OP_Minus ||
+        opcode == OP_Multi || opcode == OP_Div ||
+        opcode == OP_Pow || opcode == OP_Equal;
 }
 
 
-bool isDataUnit(const char *str)
+bool isFunction(enum OPCODE opcode)
+{
+    return isTrigonometric(opcode) ||
+        opcode == OP_Sqrt || opcode == OP_Log ||
+        opcode == OP_Floor || opcode == OP_Ceil ||
+        opcode == OP_Round || opcode == OP_Abs ||
+        opcode == OP_Rand || opcode == OP_Fact;
+}
+
+
+bool isTrigonometric(enum OPCODE opcode)
 {
     return
-        !strcmp(str, "mb") || !strcmp(str, "gb") ||
-        !strcmp(str, "tb") || !strcmp(str, "pb");
+        opcode == OP_Sin || opcode == OP_Cos ||
+        opcode == OP_Tan || opcode == OP_Asin ||
+        opcode == OP_Acos || opcode == OP_Atan;
 }
 
 
-bool isValid(const char *str)
+bool isDataUnit(enum OPCODE opcode)
 {
-    return isOperator(str) ||
-        isFunction(str) ||
-        isNumber(str) ||
-        isDataUnit(str) ||
-        isVariable(str) ||
-        !strcmp(str, "(") ||
-        !strcmp(str, ")");
+    return
+        opcode == OP_Mb || opcode == OP_Gb ||
+        opcode == OP_Tb || opcode == OP_Pb;
+}
+
+
+bool isValid(struct token *node)
+{
+    return isOperator(node->opcode) ||
+        isFunction(node->opcode) ||
+        isDataUnit(node->opcode) ||
+        node->opcode == OP_Open_parenthesis ||
+        node->opcode == OP_Closed_parenthesis ||
+        isVariable(node->value) ||
+        isNumber(node->value);
 }
