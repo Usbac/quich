@@ -8,6 +8,6 @@ add_executable(quich
         src/parser.c src/parser.h
         src/helper.c src/helper.h
         src/variable.c src/variable.h
-        src/main.c src/main.h)
+        src/quich.c src/quich.h)
 
 target_link_libraries(quich m)

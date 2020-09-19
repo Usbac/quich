@@ -19,7 +19,7 @@ enum TOKEN_TYPE current_type;
 static enum TOKEN_TYPE getType(const char ch)
 {
     if ((ch >= '0' && ch <= '9') || ch == '.') {
-        return Operand;
+        return T_Operand;
     }
 
     if (ch == '(' || ch == ')' ||
@@ -27,15 +27,15 @@ static enum TOKEN_TYPE getType(const char ch)
         ch == '/' || ch == '*' ||
         ch == '^' || ch == '!' ||
         ch == '=') {
-        return Operator;
+        return T_Operator;
     }
 
     if ((ch >= 'a' && ch <= 'z') ||
         (ch >= 'A' && ch <= 'Z')) {
-        return Word;
+        return T_Word;
     }
 
-    return None;
+    return T_None;
 }
 
 
@@ -83,8 +83,8 @@ static bool isSigned(struct list *list, const char *str, const int i)
     }
 
     return
-        (getType(str[i-1]) == Operator && str[i-1] != ')' && str[i-1] != '!') &&
-        (list->last == NULL || !isNumber(list->last->value));
+            (getType(str[i-1]) == T_Operator && str[i - 1] != ')' && str[i - 1] != '!') &&
+            (list->last == NULL || !isNumber(list->last->value));
 }
 
 
@@ -196,13 +196,13 @@ static void processChar(struct list *list,
         return;
     }
 
-    if (current_type == None) {
+    if (current_type == T_None) {
         current_type = getType(str[i]);
     }
 
     /* Add token */
     if (getType(str[i]) != current_type ||
-        current_type == Operator) {
+        current_type == T_Operator) {
         addToken(list, current_token);
 
         free(current_token);
@@ -213,7 +213,7 @@ static void processChar(struct list *list,
 
     /* Allow signed numbers */
     if (isSigned(list, str, i)) {
-        current_type = Operand;
+        current_type = T_Operand;
         free(current_token);
         current_token = malloc_(2);
         current_token[0] = str[i];
@@ -230,7 +230,7 @@ void tokenize(struct list *list, const char *func)
 {
     size_t i;
 
-    current_type = None;
+    current_type = T_None;
     current_token = malloc_(1);
     current_token[0] = '\0';
 

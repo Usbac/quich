@@ -4,10 +4,10 @@
 #include <stdbool.h>
 
 enum TOKEN_TYPE {
-    Operand,
-    Operator,
-    Word,
-    None
+    T_Operand,
+    T_Operator,
+    T_Word,
+    T_None
 };
 
 enum OPCODE {

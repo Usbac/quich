@@ -1,6 +1,6 @@
 CC=gcc
 CFLAGS=-lm -std=c99 -pedantic -Wall -Wextra -Wmissing-prototypes -Wstrict-prototypes -Wold-style-definition
-FILES=src/main.c src/helper.c src/parser.c src/lexer.c src/variable.c
+FILES=src/quich.c src/helper.c src/parser.c src/lexer.c src/variable.c
 PREFIX=/usr/local
 ifndef NAME
     NAME=quich

@@ -1,5 +1,5 @@
-#ifndef MAIN_H_
-#define MAIN_H_
+#ifndef QUICH_H_
+#define QUICH_H_
 #define OPERATION_BUFFER 512
 #define VERSION_MSG "QUICH v3.0.0\n"
 #define INPUT_LINE "> "
@@ -41,4 +41,4 @@
     "Constants 'PI' (3.14...), 'E' (2.71...) and 'G' (9.80...).\n" \
     "Units of measurement for data storage 'mb', 'gb', 'tb' and 'pt' (returned in kb).\n\n"
 
-#endif /* MAIN_H_ */
+#endif /* QUICH_H_ */

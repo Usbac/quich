@@ -7,7 +7,7 @@
 #include "lexer.h"
 #include "parser.h"
 #include "variable.h"
-#include "main.h"
+#include "quich.h"
 
 /**
  * Verbose mode or not.
@@ -109,6 +109,10 @@ static void printAll(char *func)
 }
 
 
+/**
+ * Returns true if the program flow must be stopped,
+ * false otherwise.
+ */
 static bool mapArgs(int argc, char *argv[])
 {
     int i;
