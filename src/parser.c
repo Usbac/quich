@@ -43,7 +43,7 @@ bool variable_defined = false;
 static void push(struct list **list, const struct token *node)
 {
     size_t value_len = strlen(node->value) + 1;
-    struct token *new = calloc(3, sizeof(struct token));
+    struct token *new = malloc_(sizeof(struct token));
 
     if (isEmpty(node->value)) {
         return;
@@ -78,7 +78,7 @@ static void moveToken(struct list **dest, struct list **src)
         free(tmp);
     }
 
-    cpy = calloc(3, sizeof(struct token));
+    cpy = malloc_(sizeof(struct token));
     cpy->prev = (*dest)->last;
     cpy->next = NULL;
     cpy->opcode = (*src)->last->opcode;
@@ -110,7 +110,8 @@ static void migrateUntilParenthesis(struct list *output,
 {
     struct token *tmp;
 
-    while (operators->last != NULL && strcmp(operators->last->value, "(")) {
+    while (operators->last != NULL &&
+        strcmp(operators->last->value, "(") != 0) {
         moveToken(&output, &operators);
     }
 

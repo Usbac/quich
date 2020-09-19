@@ -172,7 +172,7 @@ static void addToken(struct list *list, const char *token)
 
     len = strlen(token) + 1;
 
-    new = calloc(3, sizeof(struct token));
+    new = malloc_(sizeof(struct token));
     new->opcode = getOpcode(token);
     new->next = NULL;
     new->value = malloc_(len);
