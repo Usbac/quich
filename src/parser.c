@@ -37,7 +37,7 @@ bool trigonometric_warning = false;
 /**
  * The current operation is defining a variable or not.
  */
-bool variable_defined = false;
+bool inside_def = false;
 
 
 static void push(struct list **list, const struct token *node)
@@ -180,8 +180,8 @@ static double getOpResult(enum OPCODE op,
 {
     double x, y;
 
-    variable_defined = op == OP_Equal;
-    if (variable_defined) {
+    inside_def = op == OP_Equal;
+    if (inside_def) {
         addVariable(a, getValue(b));
         return 0;
     }
@@ -268,7 +268,7 @@ static double getOpResult(enum OPCODE op,
     }
 
     if (degree && isTrigonometric(op)) {
-        y = y / 180 * M_PI;
+        y = y / 180 * MATH_PI;
     }
 
     if (op == OP_Sin) {
@@ -407,8 +407,7 @@ char *getResult(const char *func,
 {
     struct list *operators;
     char *result = malloc_(BUFFER);
-    result[0] = '\0';
-    variable_defined = false;
+    inside_def = false;
     initList(&operators);
 
     tokenize(tokens, func);
@@ -416,7 +415,7 @@ char *getResult(const char *func,
     snprintf(result, BUFFER, NUMBER_FORMAT, getPostfixResult(output));
     freeList(operators);
 
-    if (variable_defined) {
+    if (inside_def) {
         free(result);
         return NULL;
     }

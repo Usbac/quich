@@ -8,7 +8,7 @@
 #define CLEAR_COMMAND "clear"
 #define EXIT_COMMAND "exit"
 #define INIT_MSG "Running "VERSION_MSG \
-    "Type '"CLEAR_COMMAND"' to clear the screen. \n" \
+    "Type '"CLEAR_COMMAND"' to clear the screen.\n" \
     "Type '"EXIT_COMMAND"' to exit the program.\n"
 #define BYE_MSG "Bye...\n"
 #define HELP_MSG "QUICH: Just an advanced terminal calculator\n\n" \

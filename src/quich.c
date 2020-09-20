@@ -185,28 +185,29 @@ static bool mapArgs(int argc, char *argv[])
 static bool processLine(void)
 {
     char buffer[OPERATION_BUFFER];
-    char *operation;
+    char *op;
     size_t len;
 
     getLine(INPUT_LINE, buffer, sizeof(buffer));
 
-    len = strlen(buffer);
-    operation = malloc(len + 1);
-    strncpy_(operation, buffer, len);
+    len = strlen(buffer) + 1;
+    op = malloc(len);
+    /* length-1 to ignore newline character at the end */
+    strncpy_(op, buffer, len - 1);
 
-    if (!strcmp(operation, CLEAR_COMMAND)) {
+    if (!strcmp(op, CLEAR_COMMAND)) {
         clearScreen();
         return true;
     }
 
-    if (!strcmp(operation, EXIT_COMMAND)) {
+    if (!strcmp(op, EXIT_COMMAND)) {
         printf(BYE_MSG);
-        free(operation);
+        free(op);
         return false;
     }
 
-    printAll(operation);
-    free(operation);
+    printAll(op);
+    free(op);
     return true;
 }
 
@@ -223,9 +224,9 @@ static int interactive(void)
 
 static void addPredefValues(void)
 {
-    addVariable("PI", M_PI);
-    addVariable("E", M_E);
-    addVariable("G", G);
+    addVariable("PI", MATH_PI);
+    addVariable("E", MATH_E);
+    addVariable("G", MATH_G);
 }
 
 
