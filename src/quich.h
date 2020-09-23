@@ -4,7 +4,6 @@
 #define VERSION_MSG "QUICH v3.0.0\n"
 #define INPUT_LINE "> "
 #define DEFINITION_MSG "(definition)\n"
-#define STATEMENT_SEPARATOR ";"
 #define CLEAR_COMMAND "clear"
 #define EXIT_COMMAND "exit"
 #define INIT_MSG "Running "VERSION_MSG \

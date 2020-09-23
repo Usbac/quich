@@ -44,7 +44,7 @@ static void assertEqual(const char *expected, char *op)
     char *statement;
 
     strcpy(cpy, op);
-    statement = strtok(cpy, ";");
+    statement = strtok(cpy, STATEMENT_SEPARATOR);
 
     while (statement != NULL) {
         int result = testOperation(expected, statement);
@@ -58,7 +58,7 @@ static void assertEqual(const char *expected, char *op)
             status = true;
         }
 
-        statement = strtok(NULL, ";");
+        statement = strtok(NULL, STATEMENT_SEPARATOR);
     }
 }
 

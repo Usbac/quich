@@ -4,6 +4,7 @@
 #define ZERO_DIVISION_WARNING_MSG "\nWarning: Division by zero/undefined."
 #define TRIGONOMETRIC_WARNING_MSG "\nWarning: Invalid trigonometric value."
 #define INACCURATE_RESULT_MSG "\nResult may not be correct!\n"
+#define STATEMENT_SEPARATOR ";"
 #define NUMBER_FORMAT "%.15g"
 
 /* Math values */
