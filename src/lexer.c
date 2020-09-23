@@ -83,8 +83,8 @@ static bool isSigned(struct list *list, const char *str, const int i)
     }
 
     return
-            (getType(str[i-1]) == T_Operator && str[i - 1] != ')' && str[i - 1] != '!') &&
-            (list->last == NULL || !isNumber(list->last->value));
+        (getType(str[i-1]) == T_Operator && str[i - 1] != ')' && str[i - 1] != '!') &&
+        (list->last == NULL || !isNumber(list->last->value));
 }
 
 
