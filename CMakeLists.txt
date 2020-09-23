@@ -11,3 +11,12 @@ add_executable(quich
         src/quich.c src/quich.h)
 
 target_link_libraries(quich m)
+
+add_executable(quich_test
+        src/lexer.c src/lexer.h
+        src/parser.c src/parser.h
+        src/helper.c src/helper.h
+        src/variable.c src/variable.h
+        tests/main.c)
+
+target_link_libraries(quich_test m)
