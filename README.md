@@ -13,6 +13,9 @@
     <img src="https://img.shields.io/badge/stable-3.0.0-blue.svg">
     <img src="https://img.shields.io/badge/license-MIT-orange.svg">
 </p>
+<p align="center">
+    <a href="https://repology.org/project/quich/versions"><img src="https://repology.org/badge/vertical-allrepos/quich.svg" alt="Packaging status"></a>
+</p>
 
 Quich is a small, easy to use, fast and useful calculator for your terminal with numerous features. Written in [ANSI C](https://en.wikipedia.org/wiki/ANSI_C).
 
