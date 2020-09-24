@@ -57,7 +57,7 @@ Syntax: `func(operand)`
 
 * `asin`, `acos`, `atan` Arc sine, Arc cosine and Arc tangent trigonometric functions
 
-* `rand` Random number between 0 and 1.
+* `rand` Random number between 0 and 1
 
 * `round` Round to the nearest integer value
 
@@ -77,7 +77,13 @@ The units of measurement for data storage `mb`, `gb`, `tb` and `pt` (they return
 
 ## Install
 
-Move to your Quich folder and run the following command:
+You can download the bundles here.
+
+[Windows - v3.0.0](https://github.com/Usbac/quich/releases/download/v3.0.0/quich-windows.exe)
+
+[Linux - v3.0.0](https://github.com/Usbac/quich/releases/download/v3.0.0/quich-linux)
+
+Or move to your Quich folder and run the following command:
 
 `make && sudo make install`
 
@@ -90,14 +96,6 @@ You can specify the Quich name when installing it with the `NAME` makefile varia
 `sudo make install NAME=calc`
 
 Now you will be able to access Quich with the `calc` command.
-
-## Bundles
-
-You can download the bundles too.
-
-[Windows - v3.0.0](https://github.com/Usbac/quich/releases/download/v3.0.0/quich-windows.exe)
-
-[Linux - v3.0.0](https://github.com/Usbac/quich/releases/download/v3.0.0/quich-linux)
 
 ## Testing
 
