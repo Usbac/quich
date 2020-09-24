@@ -8,7 +8,7 @@
 #include "../src/parser.h"
 #include "../src/variable.h"
 
-bool status = false;
+size_t failed = 0;
 
 
 /**
@@ -16,25 +16,20 @@ bool status = false;
  * 0 failure.
  * 1 success.
  */
-static int testOperation(const char *expected, const char *op)
+static char *getOpResult(const char *op)
 {
     struct list *tokens, *output;
     char *result;
-    int success = -1;
 
     initList(&tokens);
     initList(&output);
 
     result = getResult(op, tokens, output);
-    if (result != NULL) {
-        success = !strcmp(expected, result);
-    }
 
-    free(result);
     freeList(tokens);
     freeList(output);
 
-    return success;
+    return result;
 }
 
 
@@ -47,23 +42,27 @@ static void assertEqual(const char *expected, char *op)
     statement = strtok(cpy, STATEMENT_SEPARATOR);
 
     while (statement != NULL) {
-        int result = testOperation(expected, statement);
-        if (result != -1) {
-            printf("%s -> %s\n",
-                result == 1 ? "success" : "failure",
-                op);
+        char *result = getOpResult(statement);
+        bool success = result == NULL || !strcmp(expected, result);
+
+        if (result != NULL) {
+            printf("%s -> %s\n", success ? "success" : "failure", op);
+
+            if (!success) {
+                printf("  Expected '%s' got '%s'.\n", expected, result);
+                failed++;
+            }
         }
 
-        if (result == 0) {
-            status = true;
-        }
-
+        free(result);
         statement = strtok(NULL, STATEMENT_SEPARATOR);
     }
+
+    free(cpy);
 }
 
 
-static void init(void)
+static void setUp(void)
 {
     addVariable("PI", MATH_PI);
     addVariable("E", MATH_E);
@@ -71,9 +70,16 @@ static void init(void)
 }
 
 
+static void tearDown(void)
+{
+    freeVariables();
+}
+
+
 int main(int argc, char* argv[])
 {
-    init();
+    setUp();
+    assertEqual("9", "9");
     assertEqual("5", "a=1;4+a");
     assertEqual("21", "a=20;a+1");
     assertEqual("10.8377655357568", "5+(cos(2)-2)^2");
@@ -89,6 +95,13 @@ int main(int argc, char* argv[])
     assertEqual("0.12", "0.123456");
     degree = 1;
     assertEqual("1", "sin(90)");
+    tearDown();
 
-    return status;
+    if (failed >= 1) {
+        printf("\nFailed tests: %zu.\n", failed);
+        return 1;
+    }
+
+    printf("\nAll tests have succeeded.\n");
+    return 0;
 }
