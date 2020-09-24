@@ -9,9 +9,12 @@
 <h4 align="center">Just an advanced terminal calculator.</h4>
 
 <p align="center">
-    <img src="https://img.shields.io/badge/stability-stable-green.svg">
-    <img src="https://img.shields.io/badge/version-3.0.0-blue.svg">
+    <img src="https://travis-ci.org/Usbac/quich.svg?branch=master">
+    <img src="https://img.shields.io/badge/stable-3.0.0-blue.svg">
     <img src="https://img.shields.io/badge/license-MIT-orange.svg">
+</p>
+<p align="center">
+    <a href="https://repology.org/project/quich/versions"><img src="https://repology.org/badge/vertical-allrepos/quich.svg" alt="Packaging status"></a>
 </p>
 
 Quich is a small, easy to use, fast and useful calculator for your terminal with numerous features. Written in [ANSI C](https://en.wikipedia.org/wiki/ANSI_C).
@@ -76,7 +79,7 @@ The units of measurement for data storage `mb`, `gb`, `tb` and `pt` (they return
 
 Move to your Quich folder and run the following command:
 
-`make; sudo make install`
+`make && sudo make install`
 
 Now you should be able to access Quich by running `quich` in your terminal.
 
@@ -95,6 +98,12 @@ You can download the bundles too.
 [Windows - v3.0.0](https://github.com/Usbac/quich/releases/download/v3.0.0/quich-windows.exe)
 
 [Linux - v3.0.0](https://github.com/Usbac/quich/releases/download/v3.0.0/quich-linux)
+
+## Testing
+
+Move to your Quich folder and run the following command:
+
+`make test && ./quich_test`
 
 ## Examples
 
