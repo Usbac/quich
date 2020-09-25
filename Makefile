@@ -19,4 +19,4 @@ test:
 	$(CC) -o quich_test $(FILES) tests/main.c -lm
 
 clean:
-	rm $(NAME)
+	$(RM) $(NAME)
