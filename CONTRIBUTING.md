@@ -1,4 +1,4 @@
-Any kind of contribution will be highly appreciated. This can be done by submitting a issue or a pull request to the Quich repository.
+Any kind of contribution will be highly appreciated. This can be done by submitting an issue or a pull request to the Quich repository.
 
 Contributing for the first time to an open source project can make you feel a little insecure, but don't worry, any misunderstanding or mistake will be understood.
 
@@ -19,7 +19,7 @@ Any behavior that can be qualified as harassment won't be tolerated.
 * Fork the repository on GitHub.
 * Create a feature branch based on the master branch (or in the respective version branch that you will update).
 * Make your changes and be sure that your commit messages are easy to understand.
-* Update the version tag, tests or documentation if you think it's neccesary.
+* Update the version tag, tests or documentation if you think it's necessary.
 * Submit the pull request to the respective branch.
 
 ### Issue
