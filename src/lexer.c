@@ -222,7 +222,7 @@ static void processChar(struct list *list,
         return;
     }
 
-    addChar(&current_token, str[i], 0);
+    appendChar(&current_token, str[i]);
 }
 
 

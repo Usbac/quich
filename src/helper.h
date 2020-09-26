@@ -71,13 +71,11 @@ long int fact(long int n);
 void getLine(const char *str, char *buffer, size_t size);
 
 /**
- * Adds a char to the given string
+ * Appends a char to the given string
  * @param str the string.
  * @param ch the char to append to the string.
- * @param begin true for adding to the beginning, false
- * for adding to the end.
  */
-void addChar(char **str, char ch, bool begin);
+void appendChar(char **str, char ch);
 
 /**
  * Returns true if the given string is empty,

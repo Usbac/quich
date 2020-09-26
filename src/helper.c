@@ -7,6 +7,21 @@
 #include "helper.h"
 
 
+static void prependChar(char **str, char ch)
+{
+    size_t len = strlen(*str) + 1;
+    char *tmp = malloc_(len + 1);
+    strncpy_(tmp, *str, len);
+
+    free(*str);
+    *str = malloc_(len + 1);
+    *str[0] = '\0';
+    snprintf(*str, len + 2, "%c%s", ch, tmp);
+
+    free(tmp);
+}
+
+
 void *malloc_(size_t size)
 {
     void *alloc_mem = malloc(size);
@@ -84,11 +99,11 @@ void addThousandsSep(char *str)
 
     for (i = dot_index - 1; i >= 0; i--) {
         if (i >= 0 && char_n > 0 && char_n % 3 == 0) {
-            addChar(&tmp, ',', 1);
+            prependChar(&tmp, ',');
             new_len++;
         }
 
-        addChar(&tmp, str[i], 1);
+        prependChar(&tmp, str[i]);
         char_n++;
     }
 
@@ -133,23 +148,11 @@ void getLine(const char *str, char *buffer, size_t size)
 }
 
 
-void addChar(char **str, char ch, bool begin)
+void appendChar(char **str, char ch)
 {
-    size_t len = strlen(*str) + 1;
-    char *tmp = malloc_(len + 1);
-    strncpy_(tmp, *str, len);
-
-    free(*str);
-    *str = malloc_(len + 1);
-    *str[0] = '\0';
-
-    if (begin) {
-        snprintf(*str, len + 2, "%c%s", ch, tmp);
-    } else {
-        snprintf(*str, len + 2, "%s%c", tmp, ch);
-    }
-
-    free(tmp);
+    const size_t len = strlen(*str);
+    *str = realloc(*str, len + 2);
+    snprintf((*str) + len, 2, "%c", ch);
 }
 
 
