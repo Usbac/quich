@@ -18,6 +18,13 @@
 void *malloc_(size_t size);
 
 /**
+ * Returns a copy of the given string.
+ * @param src the source string.
+ * @return a copy of the given string.
+ */
+char *strDup(const char *src);
+
+/**
  * Just a safer strncpy function.
  * @param dest the destination string.
  * @param src the source string.

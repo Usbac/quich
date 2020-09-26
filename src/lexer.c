@@ -163,20 +163,16 @@ static enum OPCODE getOpcode(const char *str)
 
 static void addToken(struct list *list, const char *token)
 {
-    size_t len;
     struct token *new;
 
     if (isEmpty(token)) {
         return;
     }
 
-    len = strlen(token) + 1;
-
     new = malloc_(sizeof(struct token));
     new->opcode = getOpcode(token);
     new->next = NULL;
-    new->value = malloc_(len);
-    strncpy_(new->value, token, len);
+    new->value = strDup(token);
 
     /* Set zero as argument if no argument is provided */
     if (list->last != NULL && !strcmp(list->last->value, "(") &&

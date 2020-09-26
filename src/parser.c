@@ -42,7 +42,6 @@ bool inside_def = false;
 
 static void push(struct list **list, const struct token *node)
 {
-    size_t value_len = strlen(node->value) + 1;
     struct token *new = malloc_(sizeof(struct token));
 
     if (isEmpty(node->value)) {
@@ -52,8 +51,7 @@ static void push(struct list **list, const struct token *node)
     new->next = NULL;
     new->prev = NULL;
     new->opcode = node->opcode;
-    new->value = malloc_(value_len);
-    strncpy_(new->value, node->value, value_len);
+    new->value = strDup(node->value);
 
     if ((*list)->last == NULL) {
         (*list)->last = new;
@@ -68,7 +66,6 @@ static void push(struct list **list, const struct token *node)
 
 static void moveToken(struct list **dest, struct list **src)
 {
-    size_t value_len = strlen((*src)->last->value) + 1;
     struct token *cpy, *tmp;
 
     if (!strcmp((*src)->last->value, "(")) {
@@ -82,8 +79,7 @@ static void moveToken(struct list **dest, struct list **src)
     cpy->prev = (*dest)->last;
     cpy->next = NULL;
     cpy->opcode = (*src)->last->opcode;
-    cpy->value = malloc_(value_len);
-    strncpy_(cpy->value, (*src)->last->value, value_len);
+    cpy->value = strDup((*src)->last->value);
 
     if ((*dest)->last != NULL) {
         (*dest)->last->next = cpy;
@@ -310,17 +306,13 @@ static double getOpResult(enum OPCODE op,
 static char *pop(struct list *list)
 {
     struct token *tmp;
-    size_t len;
     char *str;
 
     if (list->last == NULL) {
         return 0;
     }
 
-    len = strlen(list->last->value) + 1;
-
-    str = malloc_(len);
-    strncpy_(str, list->last->value, len);
+    str = strDup(list->last->value);
     tmp = list->last;
     list->last = list->last->prev;
     free(tmp->value);

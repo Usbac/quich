@@ -57,8 +57,7 @@ void addVariable(const char *key, double val)
     }
 
     var = malloc_(sizeof(struct variable));
-    var->key = malloc_(BUFFER);
-    strncpy_(var->key, key, strlen(key) + 1);
+    var->key = strDup(key);
     var->value = val;
 
     var->next = variables_first;

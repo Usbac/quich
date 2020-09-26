@@ -10,8 +10,7 @@
 static void prependChar(char **str, char ch)
 {
     size_t len = strlen(*str) + 1;
-    char *tmp = malloc_(len + 1);
-    strncpy_(tmp, *str, len);
+    char *tmp = strDup(*str);
 
     free(*str);
     *str = malloc_(len + 1);
@@ -32,6 +31,23 @@ void *malloc_(size_t size)
     }
 
     return alloc_mem;
+}
+
+
+char *strDup(const char *src)
+{
+    char *new;
+    size_t len;
+
+    if (src == NULL) {
+        return NULL;
+    }
+
+    len = strlen(src) + 1;
+    new = malloc_(len);
+    snprintf(new, len, "%s", src);
+
+    return new;
 }
 
 
