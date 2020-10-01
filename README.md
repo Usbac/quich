@@ -17,9 +17,9 @@
     <a href="https://repology.org/project/quich/versions"><img src="https://repology.org/badge/vertical-allrepos/quich.svg" alt="Packaging status"></a>
 </p>
 
-Quich is a small, easy to use, fast and useful calculator for your terminal with numerous features. Written in [ANSI C](https://en.wikipedia.org/wiki/ANSI_C).
+Quich is a compact, fast, powerful and useful calculator for your terminal with numerous features, supporting Windows and Linux Systems, written in [ANSI C](https://en.wikipedia.org/wiki/ANSI_C).
 
-You can enter in `interactive mode` by calling Quich without an operation.
+You can enter in `interactive mode` by calling Quich in command prompt/terminal without an operation.
 
 ## Usage
 
