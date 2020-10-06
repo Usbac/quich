@@ -88,19 +88,6 @@ static bool isSigned(struct list *list, const char *str, const int i)
 }
 
 
-static void prependList(struct list *list, struct token *node)
-{
-    if (list->last == NULL) {
-        list->last = node;
-        list->first = list->last;
-        return;
-    }
-
-    list->last->next = node;
-    list->last = node;
-}
-
-
 static enum OPCODE getOpcode(const char *str)
 {
     if (!strcmp(str, "+")) {
@@ -171,8 +158,8 @@ static void addToken(struct list *list, const char *token)
 
     new = malloc_(sizeof(struct token));
     new->opcode = getOpcode(token);
-    new->next = NULL;
     new->value = strDup(token);
+    new->next = NULL;
 
     /* Set zero as argument if no argument is provided */
     if (list->last != NULL && !strcmp(list->last->value, "(") &&
@@ -180,7 +167,14 @@ static void addToken(struct list *list, const char *token)
         addToken(list, "0");
     }
 
-    prependList(list, new);
+    if (list->last == NULL) {
+        list->last = new;
+        list->first = list->last;
+        return;
+    }
+
+    list->last->next = new;
+    list->last = new;
 }
 
 
