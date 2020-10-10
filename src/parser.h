@@ -1,17 +1,15 @@
 #ifndef PARSER_H_
 #define PARSER_H_
-#define TOKEN_WARNING_MSG "\nWarning: Invalid token '%s'"
-#define ZERO_DIVISION_WARNING_MSG "\nWarning: Division by zero/undefined."
-#define TRIGONOMETRIC_WARNING_MSG "\nWarning: Invalid trigonometric value."
-#define INACCURATE_RESULT_MSG "\nResult may not be correct!\n"
-#define STATEMENT_SEPARATOR ";"
+#define WARNING_TOKEN "\nWarning: Invalid token '%s'"
+#define WARNING_ZERO_DIV "\nWarning: Division by zero/undefined."
+#define WARNING_TRIGONOMETRIC "\nWarning: Invalid trigonometric value."
+#define MSG_INACCURATE_RESULT "\nResult may not be correct!\n"
+#define STMT_SEPARATOR ";"
 #define NUMBER_FORMAT "%.15g"
-
 /* Math values */
 #define MATH_PI acos(-1)
 #define MATH_E 2.71828182845904523536
 #define MATH_G 9.80665
-
 /* Units of measurement for data storage (in kb) */
 #define ONE_MB 1024
 #define ONE_GB 1024 * 1024

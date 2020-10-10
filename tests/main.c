@@ -39,7 +39,7 @@ static void assertEqual(const char *expected, char *op)
     char *statement;
 
     strcpy(cpy, op);
-    statement = strtok(cpy, STATEMENT_SEPARATOR);
+    statement = strtok(cpy, STMT_SEPARATOR);
 
     while (statement != NULL) {
         char *result = getOpResult(statement);
@@ -55,7 +55,7 @@ static void assertEqual(const char *expected, char *op)
         }
 
         free(result);
-        statement = strtok(NULL, STATEMENT_SEPARATOR);
+        statement = strtok(NULL, STMT_SEPARATOR);
     }
 
     free(cpy);

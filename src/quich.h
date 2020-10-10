@@ -1,16 +1,16 @@
 #ifndef QUICH_H_
 #define QUICH_H_
 #define OPERATION_BUFFER 512
-#define VERSION_MSG "QUICH v3.0.0\n"
+#define MSG_VERSION "QUICH v3.0.0\n"
+#define MSG_DEFINITION "(definition)\n"
 #define INPUT_LINE "> "
-#define DEFINITION_MSG "(definition)\n"
 #define CLEAR_COMMAND "clear"
 #define EXIT_COMMAND "exit"
-#define INIT_MSG "Running "VERSION_MSG \
+#define MSG_INIT "Running "MSG_VERSION \
     "Type '"CLEAR_COMMAND"' to clear the screen.\n" \
     "Type '"EXIT_COMMAND"' to exit the program.\n"
-#define BYE_MSG "Bye...\n"
-#define HELP_MSG "QUICH: Just an advanced terminal calculator\n\n" \
+#define MSG_BYE "Bye...\n"
+#define MSG_HELP "QUICH: Just an advanced terminal calculator\n\n" \
     "USAGE: operation [options...]\n\n" \
     "OPTIONS:\n\n" \
     "-d --degree          Manage the given angles in degrees.\n" \

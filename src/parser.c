@@ -423,7 +423,7 @@ void printWarnings(const struct list *list)
 
     while (node != NULL) {
         if (!isValid(node)) {
-            printf(TOKEN_WARNING_MSG, node->value);
+            printf(WARNING_TOKEN, node->value);
             warnings_quantity++;
         }
 
@@ -431,16 +431,16 @@ void printWarnings(const struct list *list)
     }
 
     if (division_warning) {
-        printf(ZERO_DIVISION_WARNING_MSG);
+        printf(WARNING_ZERO_DIV);
         warnings_quantity++;
     }
 
     if (trigonometric_warning) {
-        printf(TRIGONOMETRIC_WARNING_MSG);
+        printf(WARNING_TRIGONOMETRIC);
         warnings_quantity++;
     }
 
     if (warnings_quantity > 0) {
-        printf(INACCURATE_RESULT_MSG);
+        printf(MSG_INACCURATE_RESULT);
     }
 }

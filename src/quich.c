@@ -85,7 +85,7 @@ static void printResult(char *func)
         printf("%s\n", result);
         free(result);
     } else if (verbose) {
-        printf(DEFINITION_MSG);
+        printf(MSG_DEFINITION);
     }
 
     printWarnings(output);
@@ -96,11 +96,11 @@ static void printResult(char *func)
 
 static void printAll(char *func)
 {
-    char *statement = strtok(func, STATEMENT_SEPARATOR);
+    char *statement = strtok(func, STMT_SEPARATOR);
 
     while (statement != NULL) {
         printResult(statement);
-        statement = strtok(NULL, STATEMENT_SEPARATOR);
+        statement = strtok(NULL, STMT_SEPARATOR);
 
         if (statement != NULL && verbose) {
             printf("\n");
@@ -138,13 +138,13 @@ static bool mapArgs(int argc, char *argv[])
 
         /* Version */
         if (!strcmp(argv[i], "-v") || !strcmp(argv[i], "--version")) {
-            printf(VERSION_MSG);
+            printf(MSG_VERSION);
             return true;
         }
 
         /* Help */
         if (!strcmp(argv[i], "-h") || !strcmp(argv[i], "--help")) {
-            printf(HELP_MSG);
+            printf(MSG_HELP);
             return true;
         }
 
@@ -201,7 +201,7 @@ static bool processLine(void)
     }
 
     if (!strcmp(op, EXIT_COMMAND)) {
-        printf(BYE_MSG);
+        printf(MSG_BYE);
         free(op);
         return false;
     }
@@ -215,7 +215,7 @@ static bool processLine(void)
 static int interactive(void)
 {
     int result;
-    printf(INIT_MSG);
+    printf(MSG_INIT);
     while ((result = processLine()));
 
     return result;
