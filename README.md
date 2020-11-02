@@ -13,9 +13,6 @@
     <img src="https://img.shields.io/badge/stable-3.0.0-blue.svg">
     <img src="https://img.shields.io/badge/license-MIT-orange.svg">
 </p>
-<p align="center">
-    <a href="https://repology.org/project/quich/versions"><img src="https://repology.org/badge/vertical-allrepos/quich.svg" alt="Packaging status"></a>
-</p>
 
 Quich is a compact, fast, powerful and useful calculator for your terminal with numerous features, supporting Windows and Linux Systems, written in [ANSI C](https://en.wikipedia.org/wiki/ANSI_C).
 
@@ -76,6 +73,8 @@ Values `PI`, `E` and `G` (earth gravity).
 The units of measurement for data storage `mb`, `gb`, `tb` and `pt` (they return the result in kb).
 
 ## Install
+
+<a href="https://repology.org/project/quich/versions"><img src="https://repology.org/badge/vertical-allrepos/quich.svg" alt="Packaging status"></a>
 
 You can download the bundles here.
 
