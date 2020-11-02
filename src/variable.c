@@ -5,8 +5,7 @@
 #include "variable.h"
 
 /**
- * Pointer to the first variable
- * of the variables list.
+ * Pointer to the first variable of the variables list.
  */
 static struct variable *variables_first;
 

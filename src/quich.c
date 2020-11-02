@@ -27,7 +27,7 @@ bool interactive_mode = false;
 /**
  * Using thousands separator or not.
  */
-bool thousands_separator = false;
+bool thousands_sep = false;
 
 /**
  * Format to display the results.
@@ -77,7 +77,7 @@ static void printResult(char *func)
         printVerbose(tokens, output);
     }
 
-    if (thousands_separator) {
+    if (thousands_sep) {
         addThousandsSep(result);
     }
 
@@ -96,13 +96,13 @@ static void printResult(char *func)
 
 static void printAll(char *func)
 {
-    char *statement = strtok(func, STMT_SEPARATOR);
+    char *statements = strtok(func, STMT_SEPARATOR);
 
-    while (statement != NULL) {
-        printResult(statement);
-        statement = strtok(NULL, STMT_SEPARATOR);
+    while (statements != NULL) {
+        printResult(statements);
+        statements = strtok(NULL, STMT_SEPARATOR);
 
-        if (statement != NULL && verbose) {
+        if (statements != NULL && verbose) {
             printf("\n");
         }
     }
@@ -150,7 +150,7 @@ static bool mapArgs(int argc, char *argv[])
 
         /* Thousands separator */
         if (!strcmp(argv[i], "-t") || !strcmp(argv[i], "--thousands")) {
-            thousands_separator = true;
+            thousands_sep = true;
             flags_quantity++;
         }
 
@@ -197,6 +197,7 @@ static bool processLine(void)
 
     if (!strcmp(op, CLEAR_COMMAND)) {
         clearScreen();
+        free(op);
         return true;
     }
 
