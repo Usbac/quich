@@ -13,7 +13,7 @@ quich: $(FILES)
 
 install: quich
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
-	cp $< $(DESTDIR)$(PREFIX)/bin/$(NAME)
+	cp $(NAME) $(DESTDIR)$(PREFIX)/bin/$(NAME)
 
 test:
 	$(CC) -o quich_test $(FILES) tests/main.c -lm
