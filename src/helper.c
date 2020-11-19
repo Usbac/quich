@@ -9,13 +9,13 @@
 
 static void prependChar(char **str, char ch)
 {
-    size_t len = strlen(*str) + 1;
+    size_t len = strlen(*str) + 2;
     char *tmp = strDup(*str);
 
     free(*str);
-    *str = malloc_(len + 1);
+    *str = malloc_(len);
     *str[0] = '\0';
-    snprintf(*str, len + 2, "%c%s", ch, tmp);
+    snprintf(*str, len, "%c%s", ch, tmp);
 
     free(tmp);
 }
