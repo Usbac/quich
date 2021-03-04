@@ -228,6 +228,7 @@ static void addPredefValues(void)
     addVariable("PI", MATH_PI);
     addVariable("E", MATH_E);
     addVariable("G", MATH_G);
+    addVariable("GR", MATH_GR);
 }
 
 

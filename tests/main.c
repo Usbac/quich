@@ -67,6 +67,7 @@ static void setUp(void)
     addVariable("PI", MATH_PI);
     addVariable("E", MATH_E);
     addVariable("G", MATH_G);
+    addVariable("GR", MATH_GR);
 }
 
 
@@ -84,6 +85,7 @@ int main(int argc, char* argv[])
     assertEqual("21", "a=20;a+1");
     assertEqual("10.8377655357568", "5+(cos(2)-2)^2");
     assertEqual("8.14159265358979", "5+PI");
+    assertEqual("7.61803398874989", "6+GR");
     assertEqual("25", "a=12;b=a;a+b+1");
     assertEqual("0.282777605186477", "sin(1)+cos(2)+tan(3)");
     assertEqual("51", "abs(-53 + 2)");
