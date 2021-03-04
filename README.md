@@ -68,7 +68,7 @@ For defining a variable just write an equal operator between its name and its va
 
 ### Available
 
-Values `PI`, `E` and `G` (earth gravity).
+Values `PI`, `E`, `GR` (Golden Ratio) and `G` (earth gravity).
 
 The units of measurement for data storage `mb`, `gb`, `tb` and `pt` (they return the result in kb).
 

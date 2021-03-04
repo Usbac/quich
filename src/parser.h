@@ -9,6 +9,7 @@
 /* Math values */
 #define MATH_PI acos(-1)
 #define MATH_E 2.71828182845904523536
+#define MATH_GR 1.6180339887498948482
 #define MATH_G 9.80665
 /* Units of measurement for data storage (in kb) */
 #define ONE_MB 1024
