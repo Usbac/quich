@@ -1,5 +1,11 @@
 # Release Notes
 
+## v3.1.0 (2021-03-04)
+
+### Added
+
+- `GR` constant.
+
 ## v3.0.0 (2020-09-02)
 
 ### Changed
