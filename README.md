@@ -10,7 +10,7 @@
 
 <p align="center">
     <img src="https://travis-ci.org/Usbac/quich.svg?branch=master">
-    <img src="https://img.shields.io/badge/stable-3.1.1-blue.svg">
+    <img src="https://img.shields.io/badge/stable-3.2.0-blue.svg">
     <img src="https://img.shields.io/badge/license-MIT-orange.svg">
 </p>
 

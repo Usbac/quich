@@ -29,10 +29,14 @@ bool degree = false;
 bool division_warning = false;
 
 /**
- * Warning about an invalid value for
- * a trigonometric function.
+ * Warning about an invalid value for a trigonometric function.
  */
 bool trigonometric_warning = false;
+
+/**
+ * Warning about wrong number of parenthesis.
+ */
+bool parenthesis_warning = false;
 
 /**
  * The current operation is defining a variable or not.
@@ -141,11 +145,9 @@ static void infixToPostfix(struct list *tokens,
     trigonometric_warning = false;
 
     while (node != NULL) {
-        if (node->opcode == OP_Open_parenthesis) {
-            push(&operators, node);
-        } else if (node->opcode == OP_Closed_parenthesis) {
+        if (node->opcode == OP_Closed_parenthesis) {
             migrateUntilParenthesis(output, operators);
-        } else if (isFunction(node->opcode)) {
+        } else if (node->opcode == OP_Open_parenthesis || isFunction(node->opcode)) {
             push(&operators, node);
         } else if (isOperator(node->opcode)) {
             while (hasHigherEqualPrec(node, operators->last)) {
@@ -397,6 +399,25 @@ static double getPostfixResult(const struct list *postfix)
 }
 
 
+static void validateParenthesis(struct list *tokens)
+{
+    struct token *node = tokens->first;
+    int scope = 0;
+
+    while (node != NULL) {
+        if (node->opcode == OP_Open_parenthesis) {
+            scope++;
+        } else if (node->opcode == OP_Closed_parenthesis) {
+            scope--;
+        }
+
+        node = node->next;
+    }
+
+    parenthesis_warning = scope != 0;
+}
+
+
 char *getResult(const char *func,
                 struct list *tokens,
                 struct list *output)
@@ -404,9 +425,12 @@ char *getResult(const char *func,
     struct list *operators;
     char *result = malloc_(BUFFER);
     inside_def = false;
+    parenthesis_warning = false;
+
     initList(&operators);
 
     tokenize(tokens, func);
+    validateParenthesis(tokens);
     infixToPostfix(tokens, output, operators);
     snprintf(result, BUFFER, NUMBER_FORMAT, getPostfixResult(output));
     freeList(operators);
@@ -441,6 +465,11 @@ void printWarnings(const struct list *list)
 
     if (trigonometric_warning) {
         printf(WARNING_TRIGONOMETRIC);
+        warnings_quantity++;
+    }
+
+    if (parenthesis_warning) {
+        printf(WARNING_PARENTHESIS);
         warnings_quantity++;
     }
 

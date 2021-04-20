@@ -1,8 +1,11 @@
 #ifndef PARSER_H_
 #define PARSER_H_
-#define WARNING_TOKEN "\nWarning: Invalid token '%s'"
-#define WARNING_ZERO_DIV "\nWarning: Division by zero/undefined."
-#define WARNING_TRIGONOMETRIC "\nWarning: Invalid trigonometric value."
+
+#define WARNING_PREFIX "\nWarning: "
+#define WARNING_TOKEN WARNING_PREFIX"Invalid token '%s'"
+#define WARNING_ZERO_DIV WARNING_PREFIX"Division by zero/undefined."
+#define WARNING_TRIGONOMETRIC WARNING_PREFIX"Invalid trigonometric value."
+#define WARNING_PARENTHESIS WARNING_PREFIX"Invalid number of parenthesis."
 #define MSG_INACCURATE_RESULT "\nResult may not be correct!\n"
 #define STMT_SEPARATOR ";"
 #define NUMBER_FORMAT "%.15g"

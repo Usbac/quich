@@ -1,5 +1,11 @@
 # Release Notes
 
+## v3.2.0 (2021-04-20)
+
+### Added
+
+- Warning message for wrong number of parenthesis.
+
 ## v3.1.1 (2021-04-20)
 
 ### Fixed

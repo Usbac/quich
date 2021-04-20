@@ -1,4 +1,5 @@
 quich
 quich_test
 .idea
+.vscode
 cmake-build-debug
