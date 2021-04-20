@@ -1,5 +1,11 @@
 # Release Notes
 
+## v3.1.1 (2021-04-20)
+
+### Fixed
+
+- Memory leaks.
+
 ## v3.1.0 (2021-03-04)
 
 ### Added

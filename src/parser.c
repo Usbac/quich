@@ -112,6 +112,10 @@ static void migrateUntilParenthesis(struct list *output,
     }
 
     if (operators->last != NULL && !strcmp(operators->last->value, "(")) {
+        if (operators->first == operators->last) {
+            operators->first = NULL;
+        }
+
         tmp = operators->last;
         operators->last = operators->last->prev;
         free(tmp->value);
