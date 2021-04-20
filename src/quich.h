@@ -1,7 +1,7 @@
 #ifndef QUICH_H_
 #define QUICH_H_
 #define OPERATION_BUFFER 512
-#define MSG_VERSION "QUICH v3.1.0\n"
+#define MSG_VERSION "QUICH v3.1.1\n"
 #define MSG_DEFINITION "(definition)\n"
 #define INPUT_LINE "> "
 #define CLEAR_COMMAND "clear"
