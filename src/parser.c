@@ -144,7 +144,7 @@ static void infixToPostfix(struct list *tokens,
     division_warning = false;
     trigonometric_warning = false;
 
-    while (node != NULL) {
+    while (node != NULL && !parenthesis_warning) {
         if (node->opcode == OP_Closed_parenthesis) {
             migrateUntilParenthesis(output, operators);
         } else if (node->opcode == OP_Open_parenthesis || isFunction(node->opcode)) {
