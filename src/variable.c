@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "helper.h"
-#include "lexer.h"
 #include "variable.h"
 
 /**

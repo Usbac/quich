@@ -176,9 +176,7 @@ static double getValue(const char *str)
 }
 
 
-static double getOpResult(enum OPCODE op,
-                          const char *a,
-                          const char *b)
+static double getOpResult(enum OPCODE op, const char *a, const char *b)
 {
     double x, y;
 
@@ -418,9 +416,7 @@ static void validateParenthesis(struct list *tokens)
 }
 
 
-char *getResult(const char *func,
-                struct list *tokens,
-                struct list *output)
+char *getResult(const char *func, struct list *tokens, struct list *output)
 {
     struct list *operators;
     char *result = malloc_(BUFFER);
