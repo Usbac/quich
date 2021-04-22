@@ -1,6 +1,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include "helper.h"
 #include "variable.h"
 #include "lexer.h"
@@ -45,25 +46,33 @@ static bool isIgnorableC(const char ch)
 }
 
 
+static bool isSign(const char ch)
+{
+    return ch == '-' || ch == '+';
+}
+
+
 static bool isNumber(const char *str)
 {
     size_t len = strlen(str);
-    size_t i;
+    size_t i = 0;
 
-    for (i = 0; i < len; i++) {
-        /* Signed number */
-        if (i == 0 && (str[i] == '-' || str[i] == '+')) {
-            continue;
+    if (isSign(str[i])) {
+        if (i == len - 1) {
+            return false;
         }
 
+        i++;
+    }
+
+    for (; i < len; i++) {
         /* Exponent number */
-        if (i != 0 && i+1 < len && str[i] == 'e' &&
-            (str[i+1] == '+' || str[i+1] == '-')) {
+        if (i != 0 && i+1 < len && str[i] == 'e' && isSign(str[i+1])) {
             i++;
             continue;
         }
 
-        if (str[i] != '.' && (str[i] < '0' || str[i] > '9')) {
+        if (str[i] != '.' && !isdigit(str[i])) {
             return false;
         }
     }
@@ -83,7 +92,7 @@ static bool isSigned(struct list *list, const char *str, const int i)
     }
 
     return
-        (getType(str[i-1]) == T_Operator && str[i - 1] != ')' && str[i - 1] != '!') &&
+        (getType(str[i-1]) == T_Operator && str[i-1] != ')' && str[i - 1] != '!') &&
         (list->last == NULL || !isNumber(list->last->value));
 }
 

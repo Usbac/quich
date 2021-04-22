@@ -82,6 +82,8 @@ int main(int argc, char* argv[])
     setUp();
     assertEqual("9", "9");
     assertEqual("5", "(3+2)");
+    assertEqual("4", "(3+2)-1");
+    assertEqual("7", "5--2");
     assertEqual("5", "a=1;4+a");
     assertEqual("21", "a=20;a+1");
     assertEqual("10.8377655357568", "5+(cos(2)-2)^2");
