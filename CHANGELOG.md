@@ -1,5 +1,13 @@
 # Release Notes
 
+## v3.2.1 (2021-04-21)
+
+### Fixed
+
+- Bug in lexer related with signed numbers.
+
+- Segmentation fault in operations with an invalid number of opening/closing parentheses.
+
 ## v3.2.0 (2021-04-20)
 
 ### Added
