@@ -14,9 +14,9 @@
     <img src="https://img.shields.io/badge/license-MIT-orange.svg">
 </p>
 
-Quich is a compact, fast, powerful and useful calculator for your terminal with numerous features, supporting Windows and Linux Systems, written in [ANSI C](https://en.wikipedia.org/wiki/ANSI_C).
+Quich is a compact, fast, powerful and useful calculator for your terminal with numerous features, supporting Linux, Mac and Windows, written in [ANSI C](https://en.wikipedia.org/wiki/ANSI_C).
 
-You can enter in `interactive mode` by calling Quich in command prompt/terminal without an operation.
+You can enter in `interactive mode` by calling Quich in your terminal without an operation.
 
 ## Usage
 
@@ -78,9 +78,7 @@ The units of measurement for data storage `mb`, `gb`, `tb` and `pt` (they return
 
 You can download the bundles here.
 
-[Windows - v3.0.0](https://github.com/Usbac/quich/releases/download/v3.0.0/quich-windows.exe)
-
-[Linux - v3.0.0](https://github.com/Usbac/quich/releases/download/v3.0.0/quich-linux)
+[Linux - v3.2.1](https://github.com/Usbac/quich/releases/download/v3.2.1/quich-linux)
 
 Or move to your Quich folder and run the following command:
 
