@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <math.h>
+#include "../lib/linenoise.h"
 #include "helper.h"
 #include "lexer.h"
 #include "parser.h"
@@ -182,44 +183,19 @@ static bool mapArgs(int argc, char *argv[])
 }
 
 
-static bool processLine(void)
+static void interactive(void)
 {
-    char buffer[OPERATION_BUFFER];
-    char *op;
-    size_t len;
-
-    getLine(INPUT_LINE, buffer, sizeof(buffer));
-
-    len = strlen(buffer) + 1;
-    op = malloc(len);
-    /* length-1 to ignore newline character at the end */
-    strncpy_(op, buffer, len - 1);
-
-    if (!strcmp(op, CLEAR_COMMAND)) {
-        clearScreen();
-        free(op);
-        return true;
-    }
-
-    if (!strcmp(op, EXIT_COMMAND)) {
-        printf(MSG_BYE);
-        free(op);
-        return false;
-    }
-
-    printAll(op);
-    free(op);
-    return true;
-}
-
-
-static int interactive(void)
-{
-    int result;
+    char *line = NULL;
     printf(MSG_INIT);
-    while ((result = processLine()));
 
-    return result;
+    while ((line = linenoise("> ")) != NULL && strcmp(line, EXIT_COMMAND) != 0) {
+        linenoiseHistoryAdd(line);
+        printAll(line);
+        linenoiseFree(line);
+    }
+
+    linenoiseFree(line);
+    printf(MSG_BYE);
 }
 
 

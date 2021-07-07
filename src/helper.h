@@ -70,14 +70,6 @@ void addThousandsSep(char *str);
 long int fact(long int n);
 
 /**
- * Reads a line from the stdin.
- * @param str the string to display when reading the input.
- * @param buffer the string where the input will be stored.
- * @param size the input size to store.
- */
-void getLine(const char *str, char *buffer, size_t size);
-
-/**
  * Appends a char to the given string
  * @param str the string.
  * @param ch the char to append to the string.
@@ -92,11 +84,6 @@ void appendChar(char **str, char ch);
  * false otherwise.
  */
 bool isEmpty(const char *str);
-
-/**
- * Calls the function to clear the screen.
- */
-void clearScreen(void);
 
 #if defined(_WIN32) || defined(WIN32)
 /**

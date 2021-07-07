@@ -200,8 +200,7 @@ static void processChar(struct list *list,
     }
 
     /* Add token */
-    if (getType(str[i]) != current_type ||
-        current_type == T_Operator) {
+    if (getType(str[i]) != current_type || current_type == T_Operator) {
         addToken(list, current_token);
 
         free(current_token);
@@ -235,6 +234,10 @@ void tokenize(struct list *list, const char *func)
 
     for (i = 0; i <= strlen(func); i++) {
         processChar(list, func, i);
+    }
+
+    if (strlen(current_token) > 0) {
+        addToken(list, current_token);
     }
 
     free(current_token);

@@ -1,13 +1,9 @@
 #ifndef QUICH_H_
 #define QUICH_H_
-#define OPERATION_BUFFER 512
-#define MSG_VERSION "QUICH v3.2.1\n"
+#define MSG_VERSION "QUICH v4.0.0\n"
 #define MSG_DEFINITION "(definition)\n"
-#define INPUT_LINE "> "
-#define CLEAR_COMMAND "clear"
 #define EXIT_COMMAND "exit"
 #define MSG_INIT "Running "MSG_VERSION \
-    "Type '"CLEAR_COMMAND"' to clear the screen.\n" \
     "Type '"EXIT_COMMAND"' to exit the program.\n"
 #define MSG_BYE "Bye...\n"
 #define MSG_HELP "QUICH: Just an advanced terminal calculator\n\n" \

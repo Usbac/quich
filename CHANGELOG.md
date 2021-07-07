@@ -1,5 +1,15 @@
 # Release Notes
 
+## v4.0.0 (2021-07-07)
+
+### Changed
+
+- REPL functionality.
+
+### Fixed
+
+- Operations validation.
+
 ## v3.2.1 (2021-04-21)
 
 ### Fixed

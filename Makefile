@@ -1,7 +1,7 @@
 CC=gcc
-CFLAGS=-lm -std=c99 -pedantic -Wall -Wextra -Wmissing-prototypes -Wstrict-prototypes -Wold-style-definition
+CFLAGS=-lm -std=c99 -g -pedantic -Wall -Wextra -Wmissing-prototypes -Wstrict-prototypes -Wold-style-definition
 LDFLAGS=
-FILES=src/helper.c src/parser.c src/lexer.c src/variable.c
+FILES=src/helper.c src/parser.c src/lexer.c src/variable.c lib/linenoise.c
 PREFIX=/usr/local
 ifndef NAME
     NAME=quich

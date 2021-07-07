@@ -4,6 +4,7 @@ project(quich)
 set(CMAKE_CXX_STANDARD 11)
 
 add_executable(quich
+        lib/linenoise.c lib/linenoise.h
         src/lexer.c src/lexer.h
         src/parser.c src/parser.h
         src/helper.c src/helper.h
@@ -13,6 +14,7 @@ add_executable(quich
 target_link_libraries(quich m)
 
 add_executable(quich_test
+        lib/linenoise.c lib/linenoise.h
         src/lexer.c src/lexer.h
         src/parser.c src/parser.h
         src/helper.c src/helper.h

@@ -142,28 +142,6 @@ long int fact(long int n)
 }
 
 
-void getLine(const char *str, char *buffer, size_t size)
-{
-    size_t len;
-
-    if (str != NULL) {
-        printf("%s", str);
-    }
-
-    if (fgets(buffer, size, stdin) == NULL) {
-        printf("\r");
-        exit(0);
-    }
-
-    len = strlen(buffer);
-    if (len <= 0 || buffer[len - 1] == '\n') {
-        return;
-    }
-
-    while (getchar() != '\n');
-}
-
-
 void appendChar(char **str, char ch)
 {
     const size_t len = strlen(*str);
@@ -175,16 +153,4 @@ void appendChar(char **str, char ch)
 bool isEmpty(const char *str)
 {
     return str == NULL || !strcmp(str, "");
-}
-
-
-void clearScreen(void)
-{
-    #if defined(__linux__) || defined(__unix__) || defined(__APPLE__)
-        system("clear");
-    #endif
-
-    #if defined(_WIN32) || defined(_WIN64)
-        system("cls");
-    #endif
 }
