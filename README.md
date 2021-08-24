@@ -76,9 +76,7 @@ The units of measurement for data storage `mb`, `gb`, `tb` and `pt` (they return
 
 <a href="https://repology.org/project/quich/versions"><img src="https://repology.org/badge/vertical-allrepos/quich.svg" alt="Packaging status"></a>
 
-You can download the bundles here.
-
-[Linux - v3.2.1](https://github.com/Usbac/quich/releases/download/v3.2.1/quich-linux)
+You can download the bundles [here](https://github.com/Usbac/quich/releases/tag/v4.0.0).
 
 Or move to your Quich folder and run the following command:
 
