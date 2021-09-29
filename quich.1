@@ -1,0 +1,103 @@
+.\" Manpage for quich.
+
+.TH QUICH 1 2021-09-23 "1.0" quich
+
+.SH NAME
+quich \- Just an advanced terminal calculator.
+
+.SH SYNOPSIS
+.B quich
+[\fBOPTIONS\fR]
+
+.SH DESCRIPTION
+.B Quich
+is a compact, fast, powerful and useful calculator for your terminal with numerous features, supporting Linux, Mac and Windows, written in ANSI C.
+You can enter in interactive mode by calling Quich in your terminal without an operation.
+
+.SS Functions
+.B Syntax:
+\fIfunc(operand)\fR
+.TP
+.BR sqrt
+Square root
+.TP
+.BR abs
+Absolute value (positive)
+.TP
+.BR log
+Natural logarithm
+.TP
+.BR sin ", " cos ", " tan
+Sine, Cosine and Tangent trigonometric functions
+.TP
+.BR asin ", " acos ", " atan
+Arc sine, Arc cosine and Arc tangent trigonometric functions
+.TP
+.BR rand
+Random number between 0 and 1
+.TP
+.BR round
+Round to the nearest integer value
+.TP
+.BR floor
+Round down
+.TP
+.BR ceil
+Round up
+
+.SH OPTIONS
+.TP
+.BR \-d ", " \-\-degree
+Manage the given angles in degrees
+.TP
+.BR \-f ", " \-\-format\ \fI[%s]\fR
+The format to display the result
+.TP
+.BR \-h ", " \-\-help
+Get help and information
+.TP
+.BR \-i ", " \-\-interactive
+Force interactive mode
+.TP
+.BR \-p ", " \-\-precision\ \fI[%i]\fR
+The number of decimals to be used for the internal numbers
+.TP
+.BR \-r ", " \-\-round\ \fI[%i]\fR
+The number of decimals to round the result
+.TP
+.BR \-t ", " \-\-thousands
+Display the result with thousands separators
+.TP
+.BR \-vvv ", " \-\-verbose
+Display the result with details
+.TP
+.BR \-v ", " \-\-version
+Show the application version
+
+.SH EXAMPLES
+
+    quich 5+3
+    8
+
+    quich "a=20;a+1"
+    21
+
+    quich "5+(cos( 2 )-2)^2"
+    10.8377655357568
+
+    quich "5+(cos( 2 )-2)^2" -p 2
+    10.86
+
+    quich 1234567+1 -t
+    1,234,568
+
+    quich 1gb+1mb
+    1049600
+
+    quich 12345 -f '%.1g'
+    1e+04
+
+    quich 5+PI -vvv
+    Tokens > '5' '+' 'PI'
+    Posfix > 5 PI +
+    Result > 8.14159265358979
