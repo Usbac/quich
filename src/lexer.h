@@ -10,12 +10,15 @@ enum TOKEN_TYPE {
     T_None
 };
 
+// A change to this enum should be coupled with a change to getPrec in lexer.c
 enum OPCODE {
+    OP_Equal,
+    OP_Open_parenthesis,
+    OP_Closed_parenthesis,
     OP_Plus,
     OP_Minus,
     OP_Multi,
     OP_Div,
-    OP_Equal,
     OP_Pow,
     OP_Fact,
     OP_Sqrt,
@@ -35,8 +38,6 @@ enum OPCODE {
     OP_Asin,
     OP_Acos,
     OP_Atan,
-    OP_Closed_parenthesis,
-    OP_Open_parenthesis,
     OP_None,
 };
 

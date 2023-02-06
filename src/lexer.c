@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
 #include <stdlib.h>
@@ -268,29 +269,10 @@ void initList(struct list **list)
 
 int getPrec(enum OPCODE opcode)
 {
-    if (opcode == OP_Equal) {
-        return 5;
+    int prec[8] = {5, 4, 4, 3, 3, 2, 2, 1};
+    if (opcode < sizeof(prec)) {
+	    return prec[opcode];
     }
-
-    if (opcode == OP_Open_parenthesis ||
-        opcode == OP_Closed_parenthesis) {
-        return 4;
-    }
-
-    if (opcode == OP_Plus ||
-        opcode == OP_Minus) {
-        return 3;
-    }
-
-    if (opcode == OP_Multi ||
-        opcode == OP_Div) {
-        return 2;
-    }
-
-    if (opcode == OP_Pow) {
-        return 1;
-    }
-
     return 0;
 }
 
