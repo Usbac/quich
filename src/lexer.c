@@ -1,4 +1,5 @@
 #include <stdbool.h>
+#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -268,8 +269,8 @@ void initList(struct list **list)
 
 int getPrec(enum OPCODE opcode)
 {
-    int prec[8] = {5, 4, 4, 3, 3, 2, 2, 1};
-    if (opcode < sizeof(prec)) {
+    int prec[] = {5, 4, 4, 3, 3, 2, 2, 1};
+    if (opcode < sizeof(prec) / sizeof(int)) {
 	    return prec[opcode];
     }
     return 0;
