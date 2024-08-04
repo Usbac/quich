@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <math.h>
-#include "../lib/linenoise.h"
+#include <linenoise.h>
 #include "helper.h"
 #include "lexer.h"
 #include "parser.h"
